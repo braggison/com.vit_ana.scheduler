@@ -4,20 +4,21 @@ import com.example.slabiak.appointmentscheduler.entity.*;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface NotificationService {
 
     void newNotification(String title, String message, String url, User user);
 
-    void markAsRead(int notificationId, int userId);
+    void markAsRead(UUID notificationId, UUID userId);
 
-    void markAllAsRead(int userId);
+    void markAllAsRead(UUID userId);
 
-    Notification getNotificationById(int notificationId);
+    Notification getNotificationById(UUID notificationId);
 
-    List<Notification> getAll(int userId);
+    List<Notification> getAll(UUID userId);
 
-    List<Notification> getUnreadNotifications(int userId);
+    List<Notification> getUnreadNotifications(UUID userId);
 
     void newAppointmentFinishedNotification(Appointment appointment, boolean sendEmail);
 

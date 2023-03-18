@@ -4,6 +4,9 @@ import com.example.slabiak.appointmentscheduler.entity.Notification;
 import com.example.slabiak.appointmentscheduler.security.CustomUserDetails;
 import com.example.slabiak.appointmentscheduler.service.NotificationService;
 import com.example.slabiak.appointmentscheduler.service.UserService;
+
+import java.util.UUID;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +34,7 @@ public class NotificationController {
     }
 
     @GetMapping("/{notificationId}")
-    public String showNotification(@PathVariable("notificationId") int notificationId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String showNotification(@PathVariable("notificationId") UUID notificationId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         Notification notification = notificationService.getNotificationById(notificationId);
         notificationService.markAsRead(notificationId, currentUser.getId());
         return "redirect:" + notification.getUrl();

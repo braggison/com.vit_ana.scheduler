@@ -1,29 +1,30 @@
 package com.example.slabiak.appointmentscheduler.service;
 
-import com.example.slabiak.appointmentscheduler.entity.Work;
-
 import java.util.List;
+import java.util.UUID;
+
+import com.example.slabiak.appointmentscheduler.entity.Work;
 
 public interface WorkService {
     void createNewWork(Work work);
 
-    Work getWorkById(int workId);
+    Work getWorkById(UUID workId);
 
     List<Work> getAllWorks();
 
-    List<Work> getWorksByProviderId(int providerId);
+    List<Work> getWorksByProviderId(UUID providerId);
 
     List<Work> getRetailCustomerWorks();
 
     List<Work> getCorporateCustomerWorks();
 
-    List<Work> getWorksForRetailCustomerByProviderId(int providerId);
+    List<Work> getWorksForRetailCustomerByProviderId(UUID providerId);
 
-    List<Work> getWorksForCorporateCustomerByProviderId(int providerId);
+    List<Work> getWorksForCorporateCustomerByProviderId(UUID providerId);
 
     void updateWork(Work work);
 
-    void deleteWorkById(int workId);
+    void deleteWorkById(UUID workId);
 
-    boolean isWorkForCustomer(int workId, int customerId);
+    boolean isWorkForCustomer(UUID workId, UUID customerId);
 }

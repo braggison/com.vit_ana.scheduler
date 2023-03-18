@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -40,7 +41,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     @Override
-    public void markAsRead(int notificationId, int userId) {
+    public void markAsRead(UUID notificationId, UUID userId) {
         Notification notification = notificationRepository.getOne(notificationId);
         if (notification.getUser().getId() == userId) {
             notification.setRead(true);
@@ -51,7 +52,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void markAllAsRead(int userId) {
+    public void markAllAsRead(UUID userId) {
         List<Notification> notifications = notificationRepository.getAllUnreadNotifications(userId);
         for (Notification notification : notifications) {
             notification.setRead(true);
@@ -60,17 +61,17 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification getNotificationById(int notificationId) {
+    public Notification getNotificationById(UUID notificationId) {
         return notificationRepository.getOne(notificationId);
     }
 
     @Override
-    public List<Notification> getAll(int userId) {
+    public List<Notification> getAll(UUID userId) {
         return userService.getUserById(userId).getNotifications();
     }
 
     @Override
-    public List<Notification> getUnreadNotifications(int userId) {
+    public List<Notification> getUnreadNotifications(UUID userId) {
         return notificationRepository.getAllUnreadNotifications(userId);
     }
 

@@ -4,6 +4,8 @@ package com.example.slabiak.appointmentscheduler.model;
 import com.example.slabiak.appointmentscheduler.validation.CurrentPasswordMatches;
 import com.example.slabiak.appointmentscheduler.validation.FieldsMatches;
 
+import java.util.UUID;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,7 +16,7 @@ public class ChangePasswordForm {
 
 
     @NotNull
-    private int id;
+    private UUID id;
 
     @Size(min = 5, max = 10, message = "Password should have 5-15 letters")
     @NotBlank()
@@ -26,15 +28,15 @@ public class ChangePasswordForm {
 
     private String currentPassword;
 
-    public ChangePasswordForm(int id) {
+    public ChangePasswordForm(UUID id) {
         this.id = id;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

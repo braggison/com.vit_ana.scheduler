@@ -2,6 +2,9 @@ package com.example.slabiak.appointmentscheduler.controller;
 
 import com.example.slabiak.appointmentscheduler.entity.Work;
 import com.example.slabiak.appointmentscheduler.service.WorkService;
+
+import java.util.UUID;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +26,7 @@ public class WorkController {
     }
 
     @GetMapping("/{workId}")
-    public String showFormForUpdateWork(@PathVariable("workId") int workId, Model model) {
+    public String showFormForUpdateWork(@PathVariable("workId") UUID workId, Model model) {
         model.addAttribute("work", workService.getWorkById(workId));
         return "works/createOrUpdateWorkForm";
     }
@@ -45,7 +48,7 @@ public class WorkController {
     }
 
     @PostMapping("/delete")
-    public String deleteWork(@RequestParam("workId") int workId) {
+    public String deleteWork(@RequestParam("workId") UUID workId) {
         workService.deleteWorkById(workId);
         return "redirect:/works/all";
     }

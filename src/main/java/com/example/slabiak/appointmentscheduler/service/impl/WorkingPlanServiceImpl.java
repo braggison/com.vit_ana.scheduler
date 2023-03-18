@@ -5,6 +5,9 @@ import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
 import com.example.slabiak.appointmentscheduler.model.TimePeroid;
 import com.example.slabiak.appointmentscheduler.security.CustomUserDetails;
 import com.example.slabiak.appointmentscheduler.service.WorkingPlanService;
+
+import java.util.UUID;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -33,7 +36,7 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
     }
 
     @Override
-    public void addBreakToWorkingPlan(TimePeroid breakToAdd, int planId, String dayOfWeek) {
+    public void addBreakToWorkingPlan(TimePeroid breakToAdd, UUID planId, String dayOfWeek) {
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         WorkingPlan workingPlan = workingPlanRepository.getOne(planId);
         if (workingPlan.getProvider().getId().equals(currentUser.getId())) {
@@ -44,7 +47,7 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
     }
 
     @Override
-    public void deleteBreakFromWorkingPlan(TimePeroid breakToDelete, int planId, String dayOfWeek) {
+    public void deleteBreakFromWorkingPlan(TimePeroid breakToDelete, UUID planId, String dayOfWeek) {
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         WorkingPlan workingPlan = workingPlanRepository.getOne(planId);
         if (workingPlan.getProvider().getId().equals(currentUser.getId())) {
@@ -57,7 +60,7 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
 
     @Override
     @PreAuthorize("#providerId == principal.id")
-    public WorkingPlan getWorkingPlanByProviderId(int providerId) {
+    public WorkingPlan getWorkingPlanByProviderId(UUID providerId) {
         return workingPlanRepository.getWorkingPlanByProviderId(providerId);
     }
 

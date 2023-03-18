@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/appointments")
@@ -48,7 +49,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/{id}")
-    public String showAppointmentDetail(@PathVariable("id") int appointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String showAppointmentDetail(@PathVariable("id") UUID appointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         Appointment appointment = appointmentService.getAppointmentByIdWithAuthorization(appointmentId);
         model.addAttribute("appointment", appointment);
         model.addAttribute("chatMessage", new ChatMessage());
@@ -69,7 +70,7 @@ public class AppointmentController {
 
 
     @PostMapping("/reject")
-    public String processAppointmentRejectionRequest(@RequestParam("appointmentId") int appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser, Model model) {
+    public String processAppointmentRejectionRequest(@RequestParam("appointmentId") UUID appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser, Model model) {
         boolean result = appointmentService.requestAppointmentRejection(appointmentId, currentUser.getId());
         model.addAttribute(result);
         model.addAttribute("type", "request");
@@ -85,7 +86,7 @@ public class AppointmentController {
     }
 
     @PostMapping("/acceptRejection")
-    public String acceptAppointmentRejectionRequest(@RequestParam("appointmentId") int appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser, Model model) {
+    public String acceptAppointmentRejectionRequest(@RequestParam("appointmentId") UUID appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser, Model model) {
         boolean result = appointmentService.acceptRejection(appointmentId, currentUser.getId());
         model.addAttribute(result);
         model.addAttribute("type", "accept");
@@ -101,8 +102,8 @@ public class AppointmentController {
     }
 
     @PostMapping("/messages/new")
-    public String addNewChatMessage(@ModelAttribute("chatMessage") ChatMessage chatMessage, @RequestParam("appointmentId") int appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
-        int authorId = currentUser.getId();
+    public String addNewChatMessage(@ModelAttribute("chatMessage") ChatMessage chatMessage, @RequestParam("appointmentId") UUID appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        UUID authorId = currentUser.getId();
         appointmentService.addMessageToAppointmentChat(appointmentId, authorId, chatMessage);
         return "redirect:/appointments/" + appointmentId;
     }
@@ -118,7 +119,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/new/{providerId}")
-    public String selectService(@PathVariable("providerId") int providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String selectService(@PathVariable("providerId") UUID providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         if (currentUser.hasRole("ROLE_CUSTOMER_RETAIL")) {
             model.addAttribute("works", workService.getWorksForRetailCustomerByProviderId(providerId));
         } else if (currentUser.hasRole("ROLE_CUSTOMER_CORPORATE")) {
@@ -129,7 +130,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/new/{providerId}/{workId}")
-    public String selectDate(@PathVariable("workId") int workId, @PathVariable("providerId") int providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String selectDate(@PathVariable("workId") UUID workId, @PathVariable("providerId") UUID providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         if (workService.isWorkForCustomer(workId, currentUser.getId())) {
             model.addAttribute(providerId);
             model.addAttribute("workId", workId);
@@ -141,7 +142,7 @@ public class AppointmentController {
     }
 
     @GetMapping("/new/{providerId}/{workId}/{dateTime}")
-    public String showNewAppointmentSummary(@PathVariable("workId") int workId, @PathVariable("providerId") int providerId, @PathVariable("dateTime") String start, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String showNewAppointmentSummary(@PathVariable("workId") UUID workId, @PathVariable("providerId") UUID providerId, @PathVariable("dateTime") String start, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         if (appointmentService.isAvailable(workId, providerId, currentUser.getId(), LocalDateTime.parse(start))) {
             model.addAttribute("work", workService.getWorkById(workId));
             model.addAttribute("provider", userService.getProviderById(providerId).getFirstName() + " " + userService.getProviderById(providerId).getLastName());
@@ -155,13 +156,13 @@ public class AppointmentController {
     }
 
     @PostMapping("/new")
-    public String bookAppointment(@RequestParam("workId") int workId, @RequestParam("providerId") int providerId, @RequestParam("start") String start, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String bookAppointment(@RequestParam("workId") UUID workId, @RequestParam("providerId") UUID providerId, @RequestParam("start") String start, @AuthenticationPrincipal CustomUserDetails currentUser) {
         appointmentService.createNewAppointment(workId, providerId, currentUser.getId(), LocalDateTime.parse(start));
         return "redirect:/appointments/all";
     }
 
     @PostMapping("/cancel")
-    public String cancelAppointment(@RequestParam("appointmentId") int appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String cancelAppointment(@RequestParam("appointmentId") UUID appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         appointmentService.cancelUserAppointmentById(appointmentId, currentUser.getId());
         return "redirect:/appointments/all";
     }

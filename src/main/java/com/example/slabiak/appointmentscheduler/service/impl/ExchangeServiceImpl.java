@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
@@ -28,19 +29,19 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public boolean checkIfEligibleForExchange(int userId, int appointmentId) {
+    public boolean checkIfEligibleForExchange(UUID userId, UUID appointmentId) {
         Appointment appointment = appointmentRepository.getOne(appointmentId);
         return appointment.getStart().minusHours(24).isAfter(LocalDateTime.now()) && appointment.getStatus().equals(AppointmentStatus.SCHEDULED) && appointment.getCustomer().getId() == userId;
     }
 
     @Override
-    public List<Appointment> getEligibleAppointmentsForExchange(int appointmentId) {
+    public List<Appointment> getEligibleAppointmentsForExchange(UUID appointmentId) {
         Appointment appointmentToExchange = appointmentRepository.getOne(appointmentId);
         return appointmentRepository.getEligibleAppointmentsForExchange(LocalDateTime.now().plusHours(24), appointmentToExchange.getCustomer().getId(), appointmentToExchange.getProvider().getId(), appointmentToExchange.getWork().getId());
     }
 
     @Override
-    public boolean checkIfExchangeIsPossible(int oldAppointmentId, int newAppointmentId, int userId) {
+    public boolean checkIfExchangeIsPossible(UUID oldAppointmentId, UUID newAppointmentId, UUID userId) {
         Appointment oldAppointment = appointmentRepository.getOne(oldAppointmentId);
         Appointment newAppointment = appointmentRepository.getOne(newAppointmentId);
         if (oldAppointment.getCustomer().getId() == userId) {
@@ -55,7 +56,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public boolean acceptExchange(int exchangeId, int userId) {
+    public boolean acceptExchange(UUID exchangeId, UUID userId) {
         ExchangeRequest exchangeRequest = exchangeRequestRepository.getOne(exchangeId);
         Appointment requestor = exchangeRequest.getRequestor();
         Appointment requested = exchangeRequest.getRequested();
@@ -72,7 +73,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public boolean rejectExchange(int exchangeId, int userId) {
+    public boolean rejectExchange(UUID exchangeId, UUID userId) {
         ExchangeRequest exchangeRequest = exchangeRequestRepository.getOne(exchangeId);
         Appointment requestor = exchangeRequest.getRequestor();
         exchangeRequest.setStatus(ExchangeStatus.REJECTED);
@@ -84,7 +85,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     }
 
     @Override
-    public boolean requestExchange(int oldAppointmentId, int newAppointmentId, int userId) {
+    public boolean requestExchange(UUID oldAppointmentId, UUID newAppointmentId, UUID userId) {
         if (checkIfExchangeIsPossible(oldAppointmentId, newAppointmentId, userId)) {
             Appointment oldAppointment = appointmentRepository.getOne(oldAppointmentId);
             Appointment newAppointment = appointmentRepository.getOne(newAppointmentId);

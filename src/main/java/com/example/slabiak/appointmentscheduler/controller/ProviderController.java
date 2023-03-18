@@ -21,6 +21,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 
@@ -48,7 +50,7 @@ public class ProviderController {
     }
 
     @GetMapping("/{id}")
-    public String showProviderDetails(@PathVariable("id") int providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String showProviderDetails(@PathVariable("id") UUID providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         if (currentUser.getId() == providerId || currentUser.hasRole("ROLE_ADMIN")) {
             if (!model.containsAttribute("user")) {
                 model.addAttribute("user", new UserForm(userService.getProviderById(providerId)));
@@ -101,7 +103,7 @@ public class ProviderController {
     }
 
     @PostMapping("/delete")
-    public String processDeleteProviderRequest(@RequestParam("providerId") int providerId) {
+    public String processDeleteProviderRequest(@RequestParam("providerId") UUID providerId) {
         userService.deleteUserById(providerId);
         return "redirect:/providers/all";
     }
@@ -120,13 +122,13 @@ public class ProviderController {
     }
 
     @PostMapping("/availability/breakes/add")
-    public String processProviderAddBreak(@ModelAttribute("breakModel") TimePeroid breakToAdd, @RequestParam("planId") int planId, @RequestParam("dayOfWeek") String dayOfWeek) {
+    public String processProviderAddBreak(@ModelAttribute("breakModel") TimePeroid breakToAdd, @RequestParam("planId") UUID planId, @RequestParam("dayOfWeek") String dayOfWeek) {
         workingPlanService.addBreakToWorkingPlan(breakToAdd, planId, dayOfWeek);
         return "redirect:/providers/availability";
     }
 
     @PostMapping("/availability/breakes/delete")
-    public String processProviderDeleteBreak(@ModelAttribute("breakModel") TimePeroid breakToDelete, @RequestParam("planId") int planId, @RequestParam("dayOfWeek") String dayOfWeek) {
+    public String processProviderDeleteBreak(@ModelAttribute("breakModel") TimePeroid breakToDelete, @RequestParam("planId") UUID planId, @RequestParam("dayOfWeek") String dayOfWeek) {
         workingPlanService.deleteBreakFromWorkingPlan(breakToDelete, planId, dayOfWeek);
         return "redirect:/providers/availability";
     }

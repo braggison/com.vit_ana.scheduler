@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/exchange")
@@ -24,7 +25,7 @@ public class ExchangeController {
     }
 
     @GetMapping("/{oldAppointmentId}")
-    public String showEligibleAppointmentsToExchange(@PathVariable("oldAppointmentId") int oldAppointmentId, Model model) {
+    public String showEligibleAppointmentsToExchange(@PathVariable("oldAppointmentId") UUID oldAppointmentId, Model model) {
         List<Appointment> eligibleAppointments = exchangeService.getEligibleAppointmentsForExchange(oldAppointmentId);
         model.addAttribute("appointmentId", oldAppointmentId);
         model.addAttribute("numberOfEligibleAppointments", eligibleAppointments.size());
@@ -33,7 +34,7 @@ public class ExchangeController {
     }
 
     @GetMapping("/{oldAppointmentId}/{newAppointmentId}")
-    public String showExchangeSummaryScreen(@PathVariable("oldAppointmentId") int oldAppointmentId, @PathVariable("newAppointmentId") int newAppointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String showExchangeSummaryScreen(@PathVariable("oldAppointmentId") UUID oldAppointmentId, @PathVariable("newAppointmentId") UUID newAppointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         if (exchangeService.checkIfExchangeIsPossible(oldAppointmentId, newAppointmentId, currentUser.getId())) {
             model.addAttribute("oldAppointment", appointmentService.getAppointmentByIdWithAuthorization(oldAppointmentId));
             model.addAttribute("newAppointment", appointmentService.getAppointmentById(newAppointmentId));
@@ -45,7 +46,7 @@ public class ExchangeController {
     }
 
     @PostMapping()
-    public String processExchangeRequest(@RequestParam("oldAppointmentId") int oldAppointmentId, @RequestParam("newAppointmentId") int newAppointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String processExchangeRequest(@RequestParam("oldAppointmentId") UUID oldAppointmentId, @RequestParam("newAppointmentId") UUID newAppointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         boolean result = exchangeService.requestExchange(oldAppointmentId, newAppointmentId, currentUser.getId());
         if (result) {
             model.addAttribute("message", "Exchange request sucsessfully sent!");
@@ -56,13 +57,13 @@ public class ExchangeController {
     }
 
     @PostMapping("/accept")
-    public String processExchangeAcceptation(@RequestParam("exchangeId") int exchangeId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String processExchangeAcceptation(@RequestParam("exchangeId") UUID exchangeId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         exchangeService.acceptExchange(exchangeId, currentUser.getId());
         return "redirect:/appointments/all";
     }
 
     @PostMapping("/reject")
-    public String processExchangeRejection(@RequestParam("exchangeId") int exchangeId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String processExchangeRejection(@RequestParam("exchangeId") UUID exchangeId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         exchangeService.rejectExchange(exchangeId, currentUser.getId());
         return "redirect:/appointments/all";
     }

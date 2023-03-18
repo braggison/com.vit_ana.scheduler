@@ -8,9 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @NoRepositoryBean
-public interface CommonUserRepository<T extends User> extends JpaRepository<T, Integer> {
+public interface CommonUserRepository<T extends User> extends JpaRepository<T, UUID> {
 
     Optional<T> findByUserName(String userName);
 

@@ -1,5 +1,14 @@
 package com.example.slabiak.appointmentscheduler.model;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import com.example.slabiak.appointmentscheduler.entity.Work;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.entity.user.customer.CorporateCustomer;
@@ -7,17 +16,18 @@ import com.example.slabiak.appointmentscheduler.entity.user.customer.RetailCusto
 import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
 import com.example.slabiak.appointmentscheduler.validation.FieldsMatches;
 import com.example.slabiak.appointmentscheduler.validation.UniqueUsername;
-import com.example.slabiak.appointmentscheduler.validation.groups.*;
-
-import javax.validation.constraints.*;
-import java.util.List;
+import com.example.slabiak.appointmentscheduler.validation.groups.CreateCorporateCustomer;
+import com.example.slabiak.appointmentscheduler.validation.groups.CreateProvider;
+import com.example.slabiak.appointmentscheduler.validation.groups.CreateUser;
+import com.example.slabiak.appointmentscheduler.validation.groups.UpdateCorporateCustomer;
+import com.example.slabiak.appointmentscheduler.validation.groups.UpdateProvider;
+import com.example.slabiak.appointmentscheduler.validation.groups.UpdateUser;
 
 @FieldsMatches(field = "password", matchingField = "matchingPassword", groups = {CreateUser.class})
 public class UserForm {
 
     @NotNull(groups = {UpdateUser.class})
-    @Min(value = 1, groups = {UpdateUser.class})
-    private int id;
+    private UUID id;
 
     @UniqueUsername(groups = {CreateUser.class})
     @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "Username should have 5-15 letters")
@@ -104,11 +114,11 @@ public class UserForm {
         this.setVatNumber(corporateCustomer.getVatNumber());
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

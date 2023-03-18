@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
@@ -53,12 +54,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Invoice getInvoiceByAppointmentId(int appointmentId) {
+    public Invoice getInvoiceByAppointmentId(UUID appointmentId) {
         return invoiceRepository.findByAppointmentId(appointmentId);
     }
 
     @Override
-    public Invoice getInvoiceById(int invoiceId) {
+    public Invoice getInvoiceById(UUID invoiceId) {
         return invoiceRepository.findById(invoiceId)
                 .orElseThrow(RuntimeException::new);
     }
@@ -70,7 +71,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public File generatePdfForInvoice(int invoiceId) {
+    public File generatePdfForInvoice(UUID invoiceId) {
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Invoice invoice = invoiceRepository.getOne(invoiceId);
         if (!isUserAllowedToDownloadInvoice(currentUser, invoice)) {
@@ -81,7 +82,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public boolean isUserAllowedToDownloadInvoice(CustomUserDetails user, Invoice invoice) {
-        int userId = user.getId();
+        UUID userId = user.getId();
         if (user.hasRole("ROLE_ADMIN")) {
             return true;
         }
@@ -95,7 +96,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public void changeInvoiceStatusToPaid(int invoiceId) {
+    public void changeInvoiceStatusToPaid(UUID invoiceId) {
         Invoice invoice = invoiceRepository.getOne(invoiceId);
         invoice.setStatus("paid");
         invoiceRepository.save(invoice);

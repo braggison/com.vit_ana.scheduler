@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequestMapping("/api")
@@ -30,7 +31,7 @@ public class AjaxController {
 
 
     @GetMapping("/user/{userId}/appointments")
-    public List<Appointment> getAppointmentsForUser(@PathVariable("userId") int userId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public List<Appointment> getAppointmentsForUser(@PathVariable("userId") UUID userId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         if (currentUser.hasRole("ROLE_CUSTOMER")) {
             return appointmentService.getAppointmentByCustomerId(userId);
         } else if (currentUser.hasRole("ROLE_PROVIDER"))
@@ -41,7 +42,7 @@ public class AjaxController {
     }
 
     @GetMapping("/availableHours/{providerId}/{workId}/{date}")
-    public List<AppointmentRegisterForm> getAvailableHours(@PathVariable("providerId") int providerId, @PathVariable("workId") int workId, @PathVariable("date") String date, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public List<AppointmentRegisterForm> getAvailableHours(@PathVariable("providerId") UUID providerId, @PathVariable("workId") UUID workId, @PathVariable("date") String date, @AuthenticationPrincipal CustomUserDetails currentUser) {
         LocalDate localDate = LocalDate.parse(date);
         return appointmentService.getAvailableHours(providerId, currentUser.getId(), workId, localDate)
                 .stream()

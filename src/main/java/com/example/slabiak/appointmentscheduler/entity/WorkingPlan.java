@@ -11,6 +11,7 @@ import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.UUID;
 
 @TypeDefs(@TypeDef(name = "json", typeClass = JsonStringType.class))
 @Entity
@@ -19,7 +20,7 @@ public class WorkingPlan {
 
     @Id
     @Column(name = "id_provider")
-    private int id;
+    private UUID id;
 
     @MapsId
     @OneToOne
@@ -58,11 +59,11 @@ public class WorkingPlan {
     public WorkingPlan() {
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

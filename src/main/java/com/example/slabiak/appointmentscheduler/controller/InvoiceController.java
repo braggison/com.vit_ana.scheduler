@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -38,7 +39,7 @@ public class InvoiceController {
     }
 
     @PostMapping("/paid/{invoiceId}")
-    public String changeStatusToPaid(@PathVariable("invoiceId") int invoiceId) {
+    public String changeStatusToPaid(@PathVariable("invoiceId") UUID invoiceId) {
         invoiceService.changeInvoiceStatusToPaid(invoiceId);
         return "redirect:/invoices/all";
     }
@@ -50,7 +51,7 @@ public class InvoiceController {
     }
 
     @GetMapping("/download/{invoiceId}")
-    public ResponseEntity<InputStreamResource> downloadInvoice(@PathVariable("invoiceId") int invoiceId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public ResponseEntity<InputStreamResource> downloadInvoice(@PathVariable("invoiceId") UUID invoiceId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         try {
             File invoicePdf = invoiceService.generatePdfForInvoice(invoiceId);
             HttpHeaders respHeaders = new HttpHeaders();

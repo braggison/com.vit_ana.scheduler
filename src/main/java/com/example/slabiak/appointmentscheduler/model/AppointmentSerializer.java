@@ -22,7 +22,7 @@ public class AppointmentSerializer extends StdSerializer<Appointment> {
     @Override
     public void serialize(Appointment appointment, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeNumberField("id", appointment.getId());
+        gen.writeStringField("id", appointment.getId().toString());
         gen.writeStringField("title", appointment.getWork().getName());
         gen.writeNumberField("start", appointment.getStart().toInstant(ZoneOffset.UTC).toEpochMilli());
         gen.writeNumberField("end", appointment.getEnd().toInstant(ZoneOffset.UTC).toEpochMilli());

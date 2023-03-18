@@ -4,6 +4,7 @@ import com.example.slabiak.appointmentscheduler.entity.Appointment;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 public interface JwtTokenService {
     String generateAppointmentRejectionToken(Appointment appointment);
@@ -12,11 +13,11 @@ public interface JwtTokenService {
 
     boolean validateToken(String token);
 
-    int getAppointmentIdFromToken(String token);
+    UUID getAppointmentIdFromToken(String token);
 
-    int getCustomerIdFromToken(String token);
+    UUID getCustomerIdFromToken(String token);
 
-    int getProviderIdFromToken(String token);
+    UUID getProviderIdFromToken(String token);
 
     ////
     Date convertLocalDateTimeToDate(LocalDateTime localDateTime);

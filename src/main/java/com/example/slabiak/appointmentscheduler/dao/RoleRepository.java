@@ -1,8 +1,11 @@
 package com.example.slabiak.appointmentscheduler.dao;
 
-import com.example.slabiak.appointmentscheduler.entity.user.Role;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleRepository extends JpaRepository<Role, Integer> {
+import com.example.slabiak.appointmentscheduler.entity.user.Role;
+
+public interface RoleRepository extends JpaRepository<Role, UUID> {
     Role findByName(String roleName);
 }

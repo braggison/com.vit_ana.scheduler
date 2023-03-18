@@ -3,12 +3,13 @@ package com.example.slabiak.appointmentscheduler.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class AppointmentRegisterForm {
 
-    private int workId;
-    private int providerId;
-    private int customerId;
+    private UUID workId;
+    private UUID providerId;
+    private UUID customerId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime start;
@@ -19,26 +20,26 @@ public class AppointmentRegisterForm {
     public AppointmentRegisterForm() {
     }
 
-    public AppointmentRegisterForm(int workId, int providerId, LocalDateTime start, LocalDateTime end) {
+    public AppointmentRegisterForm(UUID workId, UUID providerId, LocalDateTime start, LocalDateTime end) {
         this.workId = workId;
         this.providerId = providerId;
         this.start = start;
         this.end = end;
     }
 
-    public int getWorkId() {
+    public UUID getWorkId() {
         return workId;
     }
 
-    public void setWorkId(int workId) {
+    public void setWorkId(UUID workId) {
         this.workId = workId;
     }
 
-    public int getProviderId() {
+    public UUID getProviderId() {
         return providerId;
     }
 
-    public void setProviderId(int providerId) {
+    public void setProviderId(UUID providerId) {
         this.providerId = providerId;
     }
 
@@ -58,11 +59,11 @@ public class AppointmentRegisterForm {
         this.end = end;
     }
 
-    public int getCustomerId() {
+    public UUID getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(UUID customerId) {
         this.customerId = customerId;
     }
 }

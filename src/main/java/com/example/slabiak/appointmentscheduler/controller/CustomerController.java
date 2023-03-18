@@ -18,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 @Controller
@@ -39,7 +41,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public String showCustomerDetails(@PathVariable int id, Model model) {
+    public String showCustomerDetails(@PathVariable UUID id, Model model) {
         Customer customer = userService.getCustomerById(id);
         if (customer.hasRole("ROLE_CUSTOMER_CORPORATE")) {
             if (!model.containsAttribute("user")) {
@@ -140,7 +142,7 @@ public class CustomerController {
     }
 
     @PostMapping("/delete")
-    public String processDeleteCustomerRequest(@RequestParam("customerId") int customerId) {
+    public String processDeleteCustomerRequest(@RequestParam("customerId") UUID customerId) {
         userService.deleteUserById(customerId);
         return "redirect:/customers/all";
     }

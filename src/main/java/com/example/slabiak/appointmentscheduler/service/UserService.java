@@ -1,6 +1,10 @@
 package com.example.slabiak.appointmentscheduler.service;
 
 
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
 import com.example.slabiak.appointmentscheduler.entity.Work;
 import com.example.slabiak.appointmentscheduler.entity.user.Role;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
@@ -11,16 +15,13 @@ import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
 import com.example.slabiak.appointmentscheduler.model.ChangePasswordForm;
 import com.example.slabiak.appointmentscheduler.model.UserForm;
 
-import java.util.Collection;
-import java.util.List;
-
 public interface UserService {
     /*
      * User
      * */
     boolean userExists(String userName);
 
-    User getUserById(int userId);
+    User getUserById(UUID userId);
 
     User getUserByUsername(String userName);
 
@@ -28,14 +29,14 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    void deleteUserById(int userId);
+    void deleteUserById(UUID userId);
 
     void updateUserPassword(ChangePasswordForm passwordChangeForm);
 
     /*
      * Provider
      * */
-    Provider getProviderById(int providerId);
+    Provider getProviderById(UUID providerId);
 
     List<Provider> getProvidersWithRetailWorks();
 
@@ -54,14 +55,14 @@ public interface UserService {
     /*
      * Customer
      * */
-    Customer getCustomerById(int customerId);
+    Customer getCustomerById(UUID customerId);
 
     List<Customer> getAllCustomers();
 
     /*
      * RetailCustomer
      * */
-    RetailCustomer getRetailCustomerById(int retailCustomerId);
+    RetailCustomer getRetailCustomerById(UUID retailCustomerId);
 
     void saveNewRetailCustomer(UserForm userForm);
 
@@ -72,7 +73,7 @@ public interface UserService {
     /*
      * CorporateCustomer
      * */
-    CorporateCustomer getCorporateCustomerById(int corporateCustomerId);
+    CorporateCustomer getCorporateCustomerById(UUID corporateCustomerId);
 
     List<RetailCustomer> getAllRetailCustomers();
 

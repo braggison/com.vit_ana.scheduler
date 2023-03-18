@@ -1,7 +1,10 @@
 package com.example.slabiak.appointmentscheduler.dao;
 
-import com.example.slabiak.appointmentscheduler.entity.ExchangeRequest;
+import java.util.UUID;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ExchangeRequestRepository extends JpaRepository<ExchangeRequest, Integer> {
+import com.example.slabiak.appointmentscheduler.entity.ExchangeRequest;
+
+public interface ExchangeRequestRepository extends JpaRepository<ExchangeRequest, UUID> {
 }

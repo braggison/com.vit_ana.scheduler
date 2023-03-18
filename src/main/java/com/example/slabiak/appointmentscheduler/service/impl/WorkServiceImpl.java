@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WorkServiceImpl implements WorkService {
@@ -42,7 +43,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public Work getWorkById(int workId) {
+    public Work getWorkById(UUID workId) {
         return workRepository.findById(workId).orElseThrow(WorkNotFoundException::new);
     }
 
@@ -53,12 +54,12 @@ public class WorkServiceImpl implements WorkService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteWorkById(int workId) {
+    public void deleteWorkById(UUID workId) {
         workRepository.deleteById(workId);
     }
 
     @Override
-    public boolean isWorkForCustomer(int workId, int customerId) {
+    public boolean isWorkForCustomer(UUID workId, UUID customerId) {
         Customer customer = userService.getCustomerById(customerId);
         Work work = getWorkById(workId);
         if (customer.hasRole("ROLE_CUSTOMER_RETAIL") && !work.getTargetCustomer().equals("retail")) {
@@ -67,7 +68,7 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<Work> getWorksByProviderId(int providerId) {
+    public List<Work> getWorksByProviderId(UUID providerId) {
         return workRepository.findByProviderId(providerId);
     }
 
@@ -82,12 +83,12 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
-    public List<Work> getWorksForRetailCustomerByProviderId(int providerId) {
+    public List<Work> getWorksForRetailCustomerByProviderId(UUID providerId) {
         return workRepository.findByTargetCustomerAndProviderId("retail", providerId);
     }
 
     @Override
-    public List<Work> getWorksForCorporateCustomerByProviderId(int providerId) {
+    public List<Work> getWorksForCorporateCustomerByProviderId(UUID providerId) {
         return workRepository.findByTargetCustomerAndProviderId("corporate", providerId);
     }
 

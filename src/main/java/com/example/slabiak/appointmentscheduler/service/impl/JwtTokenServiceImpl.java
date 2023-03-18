@@ -1,20 +1,23 @@
 package com.example.slabiak.appointmentscheduler.service.impl;
 
-import com.example.slabiak.appointmentscheduler.entity.Appointment;
-import com.example.slabiak.appointmentscheduler.service.JwtTokenService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.example.slabiak.appointmentscheduler.entity.Appointment;
+import com.example.slabiak.appointmentscheduler.service.JwtTokenService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
@@ -60,30 +63,30 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public int getAppointmentIdFromToken(String token) {
+    public UUID getAppointmentIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
-        return (int) claims.get("appointmentId");
+        return UUID.fromString((String) claims.get("appointmentId"));
     }
 
     @Override
-    public int getCustomerIdFromToken(String token) {
+    public UUID getCustomerIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
-        return (int) claims.get("customerId");
+        return UUID.fromString(claims.get("customerId", String.class));
     }
 
     @Override
-    public int getProviderIdFromToken(String token) {
+    public UUID getProviderIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
-        return (int) claims.get("providerId");
+        return UUID.fromString(claims.get("providerId", String.class));
     }
 
     @Override

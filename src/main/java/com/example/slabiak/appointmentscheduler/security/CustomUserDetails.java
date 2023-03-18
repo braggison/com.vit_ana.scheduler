@@ -1,14 +1,16 @@
 package com.example.slabiak.appointmentscheduler.security;
 
-import com.example.slabiak.appointmentscheduler.entity.user.User;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import com.example.slabiak.appointmentscheduler.entity.user.User;
 
 public class CustomUserDetails implements UserDetails {
 
@@ -16,11 +18,11 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     private String email;
-    private Integer id;
+    private UUID id;
     private String firstName;
     private String lastName;
 
-    public CustomUserDetails(Integer id, String firstName, String lastName, String userName, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public CustomUserDetails(UUID id, String firstName, String lastName, String userName, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -84,7 +86,7 @@ public class CustomUserDetails implements UserDetails {
         return email;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 

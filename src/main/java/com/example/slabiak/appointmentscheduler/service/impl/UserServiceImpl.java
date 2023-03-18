@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -54,26 +55,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("#userId == principal.id")
-    public User getUserById(int userId) {
+    public User getUserById(UUID userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
     @PreAuthorize("#customerId == principal.id or hasRole('ADMIN')")
-    public Customer getCustomerById(int customerId) {
+    public Customer getCustomerById(UUID customerId) {
         return customerRepository.getOne(customerId);
     }
 
     @Override
-    public Provider getProviderById(int providerId) {
+    public Provider getProviderById(UUID providerId) {
         return providerRepository.findById(providerId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
     @Override
     @PreAuthorize("#retailCustomerId == principal.id or hasRole('ADMIN')")
-    public RetailCustomer getRetailCustomerById(int retailCustomerId) {
+    public RetailCustomer getRetailCustomerById(UUID retailCustomerId) {
         return retailCustomerRepository.findById(retailCustomerId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
 
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("#corporateCustomerId == principal.id or hasRole('ADMIN')")
-    public CorporateCustomer getCorporateCustomerById(int corporateCustomerId) {
+    public CorporateCustomer getCorporateCustomerById(UUID corporateCustomerId) {
         return corporateCustomerRepository.findById(corporateCustomerId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @PreAuthorize("hasRole('ADMIN')")
-    public void deleteUserById(int userId) {
+    public void deleteUserById(UUID userId) {
         userRepository.deleteById(userId);
     }
 

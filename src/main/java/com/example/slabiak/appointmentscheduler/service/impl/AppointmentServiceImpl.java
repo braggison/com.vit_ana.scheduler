@@ -1,8 +1,24 @@
 package com.example.slabiak.appointmentscheduler.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+
 import com.example.slabiak.appointmentscheduler.dao.AppointmentRepository;
 import com.example.slabiak.appointmentscheduler.dao.ChatMessageRepository;
-import com.example.slabiak.appointmentscheduler.entity.*;
+import com.example.slabiak.appointmentscheduler.entity.Appointment;
+import com.example.slabiak.appointmentscheduler.entity.AppointmentStatus;
+import com.example.slabiak.appointmentscheduler.entity.ChatMessage;
+import com.example.slabiak.appointmentscheduler.entity.Work;
+import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
 import com.example.slabiak.appointmentscheduler.exception.AppointmentNotFoundException;
@@ -12,16 +28,6 @@ import com.example.slabiak.appointmentscheduler.service.AppointmentService;
 import com.example.slabiak.appointmentscheduler.service.NotificationService;
 import com.example.slabiak.appointmentscheduler.service.UserService;
 import com.example.slabiak.appointmentscheduler.service.WorkService;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -50,12 +56,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     @PostAuthorize("returnObject.provider.id == principal.id or returnObject.customer.id == principal.id or hasRole('ADMIN') ")
-    public Appointment getAppointmentByIdWithAuthorization(int id) {
+    public Appointment getAppointmentByIdWithAuthorization(UUID id) {
         return getAppointmentById(id);
     }
 
     @Override
-    public Appointment getAppointmentById(int id) {
+    public Appointment getAppointmentById(UUID id) {
         return appointmentRepository.findById(id)
                 .orElseThrow(AppointmentNotFoundException::new);
     }
@@ -67,34 +73,34 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void deleteAppointmentById(int id) {
+    public void deleteAppointmentById(UUID id) {
         appointmentRepository.deleteById(id);
     }
 
     @Override
     @PreAuthorize("#customerId == principal.id")
-    public List<Appointment> getAppointmentByCustomerId(int customerId) {
+    public List<Appointment> getAppointmentByCustomerId(UUID customerId) {
         return appointmentRepository.findByCustomerId(customerId);
     }
 
     @Override
     @PreAuthorize("#providerId == principal.id")
-    public List<Appointment> getAppointmentByProviderId(int providerId) {
+    public List<Appointment> getAppointmentByProviderId(UUID providerId) {
         return appointmentRepository.findByProviderId(providerId);
     }
 
     @Override
-    public List<Appointment> getAppointmentsByProviderAtDay(int providerId, LocalDate day) {
+    public List<Appointment> getAppointmentsByProviderAtDay(UUID providerId, LocalDate day) {
         return appointmentRepository.findByProviderIdWithStartInPeroid(providerId, day.atStartOfDay(), day.atStartOfDay().plusDays(1));
     }
 
     @Override
-    public List<Appointment> getAppointmentsByCustomerAtDay(int providerId, LocalDate day) {
+    public List<Appointment> getAppointmentsByCustomerAtDay(UUID providerId, LocalDate day) {
         return appointmentRepository.findByCustomerIdWithStartInPeroid(providerId, day.atStartOfDay(), day.atStartOfDay().plusDays(1));
     }
 
     @Override
-    public List<TimePeroid> getAvailableHours(int providerId, int customerId, int workId, LocalDate date) {
+    public List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, LocalDate date) {
         Provider p = userService.getProviderById(providerId);
         WorkingPlan workingPlan = p.getWorkingPlan();
         DayPlan selectedDay = workingPlan.getDay(date.getDayOfWeek().toString().toLowerCase());
@@ -110,7 +116,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void createNewAppointment(int workId, int providerId, int customerId, LocalDateTime start) {
+    public void createNewAppointment(UUID workId, UUID providerId, UUID customerId, LocalDateTime start) {
         if (isAvailable(workId, providerId, customerId, start)) {
             Appointment appointment = new Appointment();
             appointment.setStatus(AppointmentStatus.SCHEDULED);
@@ -129,7 +135,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void addMessageToAppointmentChat(int appointmentId, int authorId, ChatMessage chatMessage) {
+    public void addMessageToAppointmentChat(UUID appointmentId, UUID authorId, ChatMessage chatMessage) {
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
         if (appointment.getProvider().getId() == authorId || appointment.getCustomer().getId() == authorId) {
             chatMessage.setAuthor(userService.getUserById(authorId));
@@ -181,12 +187,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getCanceledAppointmentsByCustomerIdForCurrentMonth(int customerId) {
+    public List<Appointment> getCanceledAppointmentsByCustomerIdForCurrentMonth(UUID customerId) {
         return appointmentRepository.findByCustomerIdCanceledAfterDate(customerId, LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay());
     }
 
     @Override
-    public void updateUserAppointmentsStatuses(int userId) {
+    public void updateUserAppointmentsStatuses(UUID userId) {
         for (Appointment appointment : appointmentRepository.findScheduledByUserIdWithEndBeforeDate(LocalDateTime.now(), userId)) {
             appointment.setStatus(AppointmentStatus.FINISHED);
             updateAppointment(appointment);
@@ -227,7 +233,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void cancelUserAppointmentById(int appointmentId, int userId) {
+    public void cancelUserAppointmentById(UUID appointmentId, UUID userId) {
         Appointment appointment = appointmentRepository.getOne(appointmentId);
         if (appointment.getCustomer().getId() == userId || appointment.getProvider().getId() == userId) {
             appointment.setStatus(AppointmentStatus.CANCELED);
@@ -249,7 +255,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
-    public boolean isCustomerAllowedToRejectAppointment(int userId, int appointmentId) {
+    public boolean isCustomerAllowedToRejectAppointment(UUID userId, UUID appointmentId) {
         User user = userService.getUserById(userId);
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
 
@@ -257,7 +263,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean requestAppointmentRejection(int appointmentId, int customerId) {
+    public boolean requestAppointmentRejection(UUID appointmentId, UUID customerId) {
         if (isCustomerAllowedToRejectAppointment(customerId, appointmentId)) {
             Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
             appointment.setStatus(AppointmentStatus.REJECTION_REQUESTED);
@@ -274,8 +280,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public boolean requestAppointmentRejection(String token) {
         if (jwtTokenService.validateToken(token)) {
-            int appointmentId = jwtTokenService.getAppointmentIdFromToken(token);
-            int customerId = jwtTokenService.getCustomerIdFromToken(token);
+            UUID appointmentId = jwtTokenService.getAppointmentIdFromToken(token);
+            UUID customerId = jwtTokenService.getCustomerIdFromToken(token);
             return requestAppointmentRejection(appointmentId, customerId);
         }
         return false;
@@ -283,7 +289,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
-    public boolean isProviderAllowedToAcceptRejection(int providerId, int appointmentId) {
+    public boolean isProviderAllowedToAcceptRejection(UUID providerId, UUID appointmentId) {
         User user = userService.getUserById(providerId);
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
 
@@ -291,7 +297,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean acceptRejection(int appointmentId, int customerId) {
+    public boolean acceptRejection(UUID appointmentId, UUID customerId) {
         if (isProviderAllowedToAcceptRejection(customerId, appointmentId)) {
             Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
             appointment.setStatus(AppointmentStatus.REJECTED);
@@ -306,15 +312,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public boolean acceptRejection(String token) {
         if (jwtTokenService.validateToken(token)) {
-            int appointmentId = jwtTokenService.getAppointmentIdFromToken(token);
-            int providerId = jwtTokenService.getProviderIdFromToken(token);
+            UUID appointmentId = jwtTokenService.getAppointmentIdFromToken(token);
+            UUID providerId = jwtTokenService.getProviderIdFromToken(token);
             return acceptRejection(appointmentId, providerId);
         }
         return false;
     }
 
     @Override
-    public String getCancelNotAllowedReason(int userId, int appointmentId) {
+    public String getCancelNotAllowedReason(UUID userId, UUID appointmentId) {
         User user = userService.getUserById(userId);
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
 
@@ -347,17 +353,17 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public int getNumberOfCanceledAppointmentsForUser(int userId) {
+    public int getNumberOfCanceledAppointmentsForUser(UUID userId) {
         return appointmentRepository.findCanceledByUser(userId).size();
     }
 
     @Override
-    public int getNumberOfScheduledAppointmentsForUser(int userId) {
+    public int getNumberOfScheduledAppointmentsForUser(UUID userId) {
         return appointmentRepository.findScheduledByUserId(userId).size();
     }
 
     @Override
-    public boolean isAvailable(int workId, int providerId, int customerId, LocalDateTime start) {
+    public boolean isAvailable(UUID workId, UUID providerId, UUID customerId, LocalDateTime start) {
         if (!workService.isWorkForCustomer(workId, customerId)) {
             return false;
         }
@@ -367,7 +373,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getConfirmedAppointmentsByCustomerId(int customerId) {
+    public List<Appointment> getConfirmedAppointmentsByCustomerId(UUID customerId) {
         return appointmentRepository.findConfirmedByCustomerId(customerId);
     }
 }
