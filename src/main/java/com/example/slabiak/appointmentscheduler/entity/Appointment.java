@@ -18,12 +18,12 @@ import java.util.List;
 @JsonSerialize(using = AppointmentSerializer.class)
 public class Appointment extends BaseEntity implements Comparable<Appointment> {
 
-    @Column(name = "start")
+    @Column(name = "startdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime start;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Column(name = "end")
+    @Column(name = "enddate")
     private LocalDateTime end;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
