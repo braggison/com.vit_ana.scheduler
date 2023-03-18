@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -32,7 +33,11 @@ public class AppointmentServiceIT {
     @Transactional
     @WithUserDetails("admin")
     public void shouldSaveNewRetailCustomer() {
-        appointmentService.createNewAppointment(1, 2, 3, LocalDateTime.of(2020, 02, 9, 12, 0, 0));
+        appointmentService.createNewAppointment(
+        		UUID.fromString("0114860f-d6a0-4876-a88d-0b8e63512f78"), 
+        		UUID.fromString("2625c480-8748-4d22-9fd2-db52cefaa6ed"), 
+        		UUID.fromString("b9745f86-0433-4d15-ab6c-0281fded27c2"), 
+        		LocalDateTime.of(2020, 02, 9, 12, 0, 0));
 
         List<Appointment> appointmentByProviderId = appointmentService.getAllAppointments();
         assertThat(appointmentByProviderId).hasSize(1);

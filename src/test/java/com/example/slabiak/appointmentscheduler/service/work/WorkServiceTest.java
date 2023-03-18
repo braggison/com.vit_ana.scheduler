@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -28,26 +29,29 @@ public class WorkServiceTest {
     private WorkServiceImpl workService;
 
     private Work work;
+    private UUID workId;
     private Optional<Work> workOptional;
     private List<Work> works;
 
     @Before
     public void initObjects() {
         work = new Work();
+        workId = UUID.randomUUID();
         workOptional = Optional.of(work);
     }
 
     @Test
     public void shouldSaveWork() {
+    	work.setId(workId);
         workService.createNewWork(work);
         verify(workRepository, times(1)).save(work);
     }
 
     @Test
     public void shouldFindWorkById() {
-        when(workRepository.findById(1)).thenReturn(workOptional);
-        assertEquals(workOptional.get(), workService.getWorkById(1));
-        verify(workRepository, times(1)).findById(1);
+        when(workRepository.findById(workId)).thenReturn(workOptional);
+        assertEquals(workOptional.get(), workService.getWorkById(workId));
+        verify(workRepository, times(1)).findById(workId);
     }
 
     @Test
@@ -59,7 +63,7 @@ public class WorkServiceTest {
 
     @Test
     public void shouldDeleteWorkById() {
-        workService.deleteWorkById(1);
-        verify(workRepository).deleteById(1);
+        workService.deleteWorkById(workId);
+        verify(workRepository).deleteById(workId);
     }
 }

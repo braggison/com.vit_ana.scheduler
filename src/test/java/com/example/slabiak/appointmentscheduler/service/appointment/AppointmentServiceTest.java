@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -52,14 +53,14 @@ public class AppointmentServiceTest {
     private AppointmentServiceImpl appointmentService;
 
 
-    private int customerId;
-    private int providerId;
-    private int workId;
+    private UUID customerId;
+    private UUID providerId;
+    private UUID workId;
 
     private Appointment appointment;
     private Optional<Appointment> optionalAppointment;
     private List<Appointment> appointments;
-    private int appointmentId;
+    private UUID appointmentId;
     private Work work;
     private Provider provider;
     private Customer customer;
@@ -67,9 +68,9 @@ public class AppointmentServiceTest {
     @Before
     public void initObjects() {
 
-        customerId = 1;
-        providerId = 2;
-        workId = 3;
+        customerId = UUID.randomUUID();
+        providerId = UUID.randomUUID();
+        workId = UUID.randomUUID();
         work = new Work();
         work.setId(workId);
         work.setDuration(60);
@@ -79,7 +80,7 @@ public class AppointmentServiceTest {
         customer = new Customer();
         customer.setId(customerId);
         appointment = new Appointment();
-        appointmentId = 1;
+        appointmentId = UUID.randomUUID();
         appointment.setId(appointmentId);
         optionalAppointment = Optional.of(appointment);
         appointments = new ArrayList<>();
@@ -164,9 +165,9 @@ public class AppointmentServiceTest {
 
     @Test
     public void shouldFindAppointmentById() {
-        when(appointmentRepository.findById(1)).thenReturn(optionalAppointment);
-        assertEquals(optionalAppointment.get().getId(), appointmentService.getAppointmentByIdWithAuthorization(1).getId());
-        verify(appointmentRepository, times(1)).findById(1);
+        when(appointmentRepository.findById(appointmentId)).thenReturn(optionalAppointment);
+        assertEquals(optionalAppointment.get().getId(), appointmentService.getAppointmentByIdWithAuthorization(appointmentId).getId());
+        verify(appointmentRepository, times(1)).findById(appointmentId);
     }
 
     @Test
@@ -178,8 +179,8 @@ public class AppointmentServiceTest {
 
     @Test
     public void shouldDeleteAppointmentById() {
-        appointmentService.deleteAppointmentById(1);
-        verify(appointmentRepository).deleteById(1);
+        appointmentService.deleteAppointmentById(appointmentId);
+        verify(appointmentRepository).deleteById(appointmentId);
     }
 
 

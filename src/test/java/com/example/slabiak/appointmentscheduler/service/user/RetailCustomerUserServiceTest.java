@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -41,7 +42,7 @@ public class RetailCustomerUserServiceTest {
     RetailCustomer retailCustomer;
     Optional<RetailCustomer> optionalRetailCustomer;
 
-    private int userId;
+    private UUID userId;
     private String userName;
     private String password;
     private String matchingPassword;
@@ -65,7 +66,7 @@ public class RetailCustomerUserServiceTest {
     @Before
     public void initObjects() {
 
-        userId = 1;
+        userId = UUID.randomUUID();
         userName = "username";
         password = "password";
         matchingPassword = "password";

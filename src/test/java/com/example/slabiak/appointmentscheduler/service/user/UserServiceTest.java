@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -32,7 +33,7 @@ public class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    private int userId;
+    private UUID userId;
     private String password;
     private String passwordEncoded;
     private String userName;
@@ -42,7 +43,7 @@ public class UserServiceTest {
 
     @Before
     public void initObjects() {
-        userId = 1;
+        userId = UUID.randomUUID();
         passwordEncoded = "encodedpass";
         userName = "username";
         password = "password";
