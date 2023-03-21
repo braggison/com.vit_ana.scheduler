@@ -33,14 +33,15 @@ public class AppointmentServiceIT {
     @Transactional
     @WithUserDetails("admin")
     public void shouldSaveNewRetailCustomer() {
+        int appointmentsCount = appointmentService.getAllAppointments().size();
         appointmentService.createNewAppointment(
         		UUID.fromString("0114860f-d6a0-4876-a88d-0b8e63512f78"), 
-        		UUID.fromString("2625c480-8748-4d22-9fd2-db52cefaa6ed"), 
-        		UUID.fromString("b9745f86-0433-4d15-ab6c-0281fded27c2"), 
+        		UUID.fromString("629f43d1-e89f-471e-ba0f-61bdbdb359d0"), 
+        		UUID.fromString("4d003570-cd94-4fdb-a5cf-667ca8b98fa2"), 
         		LocalDateTime.of(2020, 02, 9, 12, 0, 0));
 
         List<Appointment> appointmentByProviderId = appointmentService.getAllAppointments();
-        assertThat(appointmentByProviderId).hasSize(1);
+        assertThat(appointmentByProviderId).hasSize(appointmentsCount++);
         assertEquals(AppointmentStatus.SCHEDULED, appointmentByProviderId.get(0).getStatus());
 
     }
