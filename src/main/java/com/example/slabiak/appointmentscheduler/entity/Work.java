@@ -4,6 +4,7 @@ import com.example.slabiak.appointmentscheduler.entity.user.User;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "works")
@@ -32,6 +33,7 @@ public class Work extends BaseEntity {
     private List<User> providers;
 
     public Work() {
+    	super(UUID.randomUUID());
     }
 
     public String getName() {

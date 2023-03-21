@@ -2,6 +2,8 @@ package com.example.slabiak.appointmentscheduler.entity.user;
 
 import com.example.slabiak.appointmentscheduler.entity.BaseEntity;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,9 +16,11 @@ public class Role extends BaseEntity {
     private String name;
 
     public Role() {
+    	super(UUID.randomUUID());
     }
 
     public Role(String name) {
+    	super(UUID.randomUUID());
         this.name = name;
     }
 

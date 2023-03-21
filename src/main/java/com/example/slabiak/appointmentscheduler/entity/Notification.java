@@ -4,6 +4,7 @@ import com.example.slabiak.appointmentscheduler.entity.user.User;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "notifications")
@@ -29,6 +30,7 @@ public class Notification extends BaseEntity {
     private User user;
 
     public Notification() {
+    	super(UUID.randomUUID());
     }
 
     public String getTitle() {

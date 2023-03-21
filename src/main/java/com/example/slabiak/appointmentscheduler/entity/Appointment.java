@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -61,9 +62,11 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
     private ExchangeRequest exchangeRequest;
 
     public Appointment() {
+    	super(UUID.randomUUID());
     }
 
     public Appointment(LocalDateTime start, LocalDateTime end, Customer customer, Provider provider, Work work) {
+    	super(UUID.randomUUID());
         this.start = start;
         this.end = end;
         this.customer = customer;

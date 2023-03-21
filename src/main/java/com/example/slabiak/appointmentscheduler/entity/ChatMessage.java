@@ -4,6 +4,7 @@ import com.example.slabiak.appointmentscheduler.entity.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "messages")
@@ -24,7 +25,7 @@ public class ChatMessage extends BaseEntity implements Comparable<ChatMessage> {
     private Appointment appointment;
 
     public ChatMessage() {
-
+    	super(UUID.randomUUID());
     }
 
     public LocalDateTime getCreatedAt() {

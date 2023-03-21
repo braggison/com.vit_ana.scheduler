@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 // statuses: issued,paid
 
@@ -33,9 +34,11 @@ public class Invoice extends BaseEntity {
     private List<Appointment> appointments;
 
     public Invoice() {
+    	super(UUID.randomUUID());
     }
 
     public Invoice(String number, String status, LocalDateTime issued, List<Appointment> appointments2) {
+    	super(UUID.randomUUID());
         this.number = number;
         this.status = status;
         this.issued = issued;

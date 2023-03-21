@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 
 @Entity
@@ -50,9 +51,11 @@ public class User extends BaseEntity {
     private Collection<Role> roles;
 
     public User() {
+    	super(UUID.randomUUID());
     }
 
     public User(UserForm newUserForm, String encryptedPassword, Collection<Role> roles) {
+    	super(UUID.randomUUID());
         this.setUserName(newUserForm.getUserName());
         this.setFirstName(newUserForm.getFirstName());
         this.setLastName(newUserForm.getLastName());

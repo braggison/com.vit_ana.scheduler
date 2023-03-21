@@ -11,6 +11,10 @@ public class BaseEntity {
 	@Id
 	private UUID id;
 
+	public BaseEntity(UUID id) {
+		this.id = id;
+	}
+
 	public UUID getId() {
 		return id;
 	}

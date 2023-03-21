@@ -1,5 +1,7 @@
 package com.example.slabiak.appointmentscheduler.entity;
 
+import java.util.UUID;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,10 +22,11 @@ public class ExchangeRequest extends BaseEntity {
 
 
     public ExchangeRequest() {
-
+    	super(UUID.randomUUID());
     }
 
     public ExchangeRequest(Appointment requestor, Appointment requested, ExchangeStatus status) {
+    	super(UUID.randomUUID());
         this.status = status;
         this.requestor = requestor;
         this.requested = requested;
