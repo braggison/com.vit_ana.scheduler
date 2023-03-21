@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS appointments (
   enddate timestamp,
 	canceled_at timestamp,
 	status text,
-	id_canceler integer,
-  id_provider integer,
-  id_customer integer,
-  id_work integer,
-	id_invoice integer
+	id_canceler uuid,
+  id_provider uuid,
+  id_customer uuid,
+  id_work uuid,
+	id_invoice uuid
 );
 
 CREATE TABLE IF NOT EXISTS works_providers (
