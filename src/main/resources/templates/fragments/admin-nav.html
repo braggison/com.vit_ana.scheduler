@@ -2,22 +2,22 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" th:classappend="${activeLink} == 'home' ? 'active':''">
-                <a class="nav-link" th:href="@{/}">Home</a>
+                <a class="nav-link" th:href="@{/}" th:text="#{menu.Home}">Home</a>
             </li>
             <li class="nav-item" th:classappend="${activeLink} == 'appointments' ? 'active':''">
-                <a class="nav-link" th:href="@{/appointments/all}">Appointments</a>
+                <a class="nav-link" th:href="@{/appointments/all}" th:text="#{menu.Appointments}">Appointments</a>
             </li>
             <li class="nav-item" th:classappend="${activeLink} == 'works' ? 'active':''">
-                <a class="nav-link" th:href="@{/works/all}">Works</a>
+                <a class="nav-link" th:href="@{/works/all}" th:text="#{menu.Works}">Works</a>
             </li>
             <li class="nav-item" th:classappend="${activeLink} == 'providers' ? 'active':''">
-                <a class="nav-link" th:href="@{/providers/all}">Providers</a>
+                <a class="nav-link" th:href="@{/providers/all}" th:text="#{menu.Providers}">Providers</a>
             </li>
             <li class="nav-item" th:classappend="${activeLink} == 'customers' ? 'active':''">
-                <a class="nav-link" th:href="@{/customers/all}">Customers</a>
+                <a class="nav-link" th:href="@{/customers/all}" th:text="#{menu.Customers}">Customers</a>
             </li>
             <li class="nav-item" th:classappend="${activeLink} == 'invoices' ? 'active':''">
-                <a class="nav-link" th:href="@{/invoices/all}">Invoices</a>
+                <a class="nav-link" th:href="@{/invoices/all}" th:text="#{menu.Invoices}">Invoices</a>
             </li>
         </ul>
     </div>

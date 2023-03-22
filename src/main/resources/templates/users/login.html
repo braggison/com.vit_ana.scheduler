@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body}, '','Login form')}"
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body}, '', #{login.LoginForm})}"
 >
 <body>
 <div class="row" style="margin-top: 50px" ;>
     <div class="col-lg-4 text-center"></div>
     <div class="col-lg-4 text-center">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" th:text="#{login.SignIn}">
                 Sign in
             </div>
             <div class="card-body">
                 <form id="login-form" th:action="@{/perform_login}" method='POST' class="form-horizontal">
-                    <div th:if="${param.error != null}" class="alert alert-danger">
+                    <div th:if="${param.error != null}" class="alert alert-danger" th:text="#{login.InvalidUsernameOrPassword}">
                         Invalid username or password.
                     </div>
-                    <div th:if="${createdUserName != null}" class="alert alert-success">
-                        <p>User <span th:text="${createdUserName}"></span> added!</p>
+                    <div th:if="${createdUserName != null}" class="alert alert-success" >
+                        <p> <span th:text="#{login.User}">User</span> <span th:text="${createdUserName}"></span> <span th:text="#{login.added}">added!</span></p>
                     </div>
                     <div th:if="${param.logout != null}" class="alert alert-success">
-                        <p>Logged out successfully</p>
+                        <p th:text="#{login.LogoutSuccessfully}">Logged out successfully</p>
                     </div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input type="text" id="username" name="username" placeholder="username" class="form-control">
+                        <input type="text" id="username" name="username" th:placeholder="#{login.username}" class="form-control">
                     </div>
                     <div style="margin-bottom: 25px" class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input type="password" id="password" name="password" placeholder="password"
+                        <input type="password" id="password" name="password" th:placeholder="#{login.password}"
                                class="form-control">
                     </div>
                     <div style="margin-top: 10px" class="input-group">
-                        <button type="submit" class="btn btn-success">Login</button>
+                        <button type="submit" class="btn btn-success" th:text="#{login.Login}">Login</button>
                     </div>
                     <div style="margin-top: 10px" class="input-group">
 
-                        <p>Need account? </p>
-                        <p>Create new <a th:href="@{/customers/new/retail}">Retail</a> or <a th:href="@{/customers/new/corporate}">Corporate</a> account</p>
+                        <p th:text="#{login.NeedAccount}">Need account? </p>
+                        <p> <span th:text="#{login.CreateNew}">Create new</span> <a th:href="@{/customers/new/retail}" th:text="#{login.retail}">Retail</a> <span th:text="#{login.or}">or</span> <a th:href="@{/customers/new/corporate}" th:text="#{login.corporate}">Corporate</a> <span th:text="#{login.account}">account</span></p>
                     </div>
                 </form>
             </div>

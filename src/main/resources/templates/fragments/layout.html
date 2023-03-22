@@ -86,13 +86,13 @@
                         </a>
                     </li>
                     <li>
-                        <p class="navbar-nav ml-auto navbar-text"> Logged as:
+                        <p class="navbar-nav ml-auto navbar-text"> <span th:text="#{login.LoggedAs}">Logged as:</span>
                             <span sec:authentication="name">username</span> | </p>
                     </li>
                     <li>
                         <form th:action="@{/perform_logout}" id="logout" method="POST">
                             <a class="nav-link" href="#"
-                               onclick="document.getElementById('logout').submit(); return false;">Log out</a>
+                               onclick="document.getElementById('logout').submit(); return false;" th:text="#{login.Logout}">Log out</a>
                         </form>
                     </li>
                 </ul>
@@ -105,7 +105,7 @@
 <div class="container">
     <th:block th:include="${content}"/>
     <div class="row align-items-center justify-content-center" style="margin-top: 50px">
-        <p>AppointmentScheduler v<span th:text="${currentVersion}">1.0</span></p>
+        <p><span th:text="#{AppointmentScheduler}">AppointmentScheduler v</span><span th:text="${currentVersion}">1.0</span></p>
     </div>
 </div>
 
