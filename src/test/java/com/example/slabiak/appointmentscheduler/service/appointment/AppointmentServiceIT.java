@@ -41,7 +41,7 @@ public class AppointmentServiceIT {
         		LocalDateTime.of(2020, 02, 9, 12, 0, 0));
 
         List<Appointment> appointmentByProviderId = appointmentService.getAllAppointments();
-        assertThat(appointmentByProviderId).hasSize(appointmentsCount++);
+        assertThat(appointmentByProviderId).hasSize(++appointmentsCount);
         assertEquals(AppointmentStatus.SCHEDULED, appointmentByProviderId.get(0).getStatus());
 
     }
