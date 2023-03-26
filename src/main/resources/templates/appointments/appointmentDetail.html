@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout (~{::body},'appointments','Appointment detail')}"
+      th:replace="~{fragments/layout :: layout (~{::body},'appointments',#{appointment.AppointmentDetail})}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <body>
@@ -11,34 +11,34 @@
             <div clas="col-md-1">
             </div>
             <div th:if="${appointment.exchangeRequest !=null && appointment.exchangeRequest.getStatus().name()== 'PENDING'}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
-                <p>Someone requested this appointment to be exchanged.</p>
+                <p th:utext="#{appointment.SomeoneAppointmentExchangeRequest}">Someone requested this appointment to be exchanged.</p>
 
                 <form th:action="@{/exchange/reject}" method='POST'>
                     <input type="hidden" name="exchangeId" th:value="${appointment.exchangeRequest.id}">
-                    <input type="submit" class="btn btn-success" value="Reject" />
+                    <input type="submit" class="btn btn-success" th:value="#{button.Reject}" />
                 </form>
                 <form th:action="@{/exchange/accept}" method='POST'>
                     <input type="hidden" name="exchangeId" th:value="${appointment.exchangeRequest.id}">
-                    <input type="submit" class="btn btn-success" value="Accept" />
+                    <input type="submit" class="btn btn-success" th:value="#{button.Accept}" />
                 </form>
             </div>
             <div th:if="${allowedToRequestRejection}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
-                <p>You have <span class="font-weight-bold" th:text="${remainingTime}">3h 45m</span> to deny that
-                    this appointment took place.</p>
-                <p>After that time it will be invoiced automatically.</p>
+                <p><span th:utext="#{appointment.YouHave}">You have</span> <span class="font-weight-bold" th:text="${remainingTime}">3h 45m</span> <span th:utext="#{appointment.ToDenyThisAppointment}">to deny that
+                    this appointment took place.</span></p>
+                <p th:utext="#{appointment.AfterTimeInvoicedAutomatically}">After that time it will be invoiced automatically.</p>
 
                 <form th:action="@{/appointments/reject}" method='POST'>
                     <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                    <input type="submit" class="btn btn-danger" value="Reject" />
+                    <input type="submit" class="btn btn-danger" th:value="#{button.Reject}" />
                 </form>
             </div>
             <div th:if="${allowedToAcceptRejection}" class="col-md-9 p-3 mb-2 bg-warning text-dark text-center">
-                <p>Customer claims that this appointment didn't take place.</p>
-                <p>If you agree with that, click the button below:</p>
+                <p th:utext="#{appointment.CustomerClaimsAppointmentNotTakePlace}">Customer claims that this appointment didn't take place.</p>
+                <p th:utext="#{appointment.IfYouAgreeClickButton}">If you agree with that, click the button below:</p>
 
                 <form th:action="@{/appointments/acceptRejection}" method='POST'>
                     <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                    <input type="submit" class="btn btn-danger" value="Accept" /></form>
+                    <input type="submit" class="btn btn-danger" th:value="#{button.Accept}" /></form>
             </div>
 
         </div>
@@ -50,7 +50,7 @@
 
                 <table id="appointments" class="table">
                     <tr>
-                        <td><b>status</b></td>
+                        <td><b th:utext="#{appointment.status}">status</b></td>
                         <td><span th:text="${appointment.status}"> scheduled </span></td>
                     </tr>
                     <tr th:if="${appointment.status.name()=='CANCELED'}">
@@ -63,37 +63,37 @@
                     </tr>
 
                     <tr>
-                        <td><b>date</b></td>
+                        <td><b th:utext="#{appointment.date}">date</b></td>
                         <td><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy')}">10-01-2019</span></td>
                     </tr>
                     <tr>
-                        <td><b>time</b></td>
+                        <td><b th:utext="#{appointment.time}">time</b></td>
                         <td><span th:text="${#temporals.format(appointment.start, 'HH:mm')+' - '+ #temporals.format(appointment.end, 'HH:mm')}">14:00 - 15:00</span>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>customer</b></td>
+                        <td><b th:utext="#{appointment.customer}">customer</b></td>
                         <td><span th:text="${appointment.customer.firstName+' '+appointment.customer.lastName}">Peter Kowalski</span>
                         </td>
                     </tr>
                     <tr>
-                        <td><b>provider</b></td>
+                        <td><b th:utext="#{appointment.provider}">provider</b></td>
                         <td><span th:text="${appointment.provider.firstName+' '+appointment.provider.lastName}">Marian Nowak</span>
                         </td>
                     </tr>
 
                     <tr>
-                        <td><b>work</b></td>
+                        <td><b th:utext="#{appointment.work}">work</b></td>
                         <td><span th:text="${appointment.work.name}"> english </span></td>
                     </tr>
                     <tr>
-                        <td><b>description</b></td>
+                        <td><b th:utext="#{appointment.description}">description</b></td>
                         <td><span th:text="${appointment.work.description}">description</span></td>
                     </tr>
 
 
                     <tr>
-                        <td><b>price</b></td>
+                        <td><b th:utext="#{appointment.price}">price</b></td>
                         <td><span th:text="${appointment.work.price}"> 50 </span> pln</td>
                     </tr>
                     <tr th:if="${appointment.status.name()=='INVOICED'}">
@@ -102,21 +102,21 @@
                     </tr>
 
                     <tr>
-                        <td><b>exchange</b></td>
+                        <td><b th:utext="#{appointment.exchange}">exchange</b></td>
                         <td th:if="${allowedToExchange}">
                             <a th:href="@{'/exchange/'+${appointment.id}}">exchange</a>
                         </td>
                         <td th:unless="${allowedToExchange}">
-                            <p>This appointment cannot be exchanged.</p>
+                            <p th:utext="#{appointment.CannotBeExchanged}">This appointment cannot be exchanged.</p>
                         </td>
                     </tr>
                     
                     <tr>
-                        <td><b>cancellation</b></td>
+                        <td><b th:utext="#{appointment.cancellation}">cancellation</b></td>
                         <td th:if="${allowedToCancel}">
                             <form th:action="@{/appointments/cancel}" method='POST'>
                                 <input type="hidden" name="appointmentId" th:value="${appointment.id}">
-                                <input type="submit" class="btn btn-danger" value="Cancel" />
+                                <input type="submit" class="btn btn-danger" th:value="#{button.Cancel}" />
                             </form>
                         </td>
                         <td th:unless="${allowedToCancel}">
@@ -134,7 +134,7 @@
                         <div class="panel-heading top-bar">
                             <div class="col-md-8 col-xs-8">
                                 <p>
-                                    Appointment chat with
+                                    <span th:utext="#{appointment.AppointmentChatWith}">Appointment chat with</span>
                                     <span sec:authorize="hasRole('ROLE_PROVIDER')" th:text="${appointment.customer.firstName}"></span>
                                     <span sec:authorize="hasRole('ROLE_CUSTOMER')" th:text="${appointment.provider.firstName}"></span>
                                 </p>
@@ -145,7 +145,7 @@
                             <div th:each="chatMessage : ${appointment.chatMessages}" class="row msg_container base_receive">
                                 <div class="col-md-12 col-xs-12">
                                     <div class="messages msg_receive">
-                                        <p th:text="${chatMessage.message}">messae</p>
+                                        <p th:text="${chatMessage.message}">message</p>
                                         <time datetime="2009-11-13T20:00"><span
                                                 th:text="${chatMessage.author.firstName}">author</span> • <span
                                                 th:text="${#temporals.format(chatMessage.createdAt, 'dd-MM-yyyy HH:mm')}"></span></time>
@@ -157,9 +157,9 @@
                         <form th:action="@{/appointments/messages/new}" th:object="${chatMessage}" method='POST'>
                             <div class="input-group mb-3">
                                 <input type="hidden" th:name="appointmentId" th:value="${appointment.id}">
-                                <input type="text" class="form-control" th:field="*{message}" placeholder="Write your message here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" th:field="*{message}" th:placeholder="#{appointment.WriteYourMessageHere}" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="submit">Send</button>
+                                    <button class="btn btn-outline-secondary" type="submit" th:utext="#{button.Send}">Send</button>
                                 </div>
                             </div>
                         </form>
