@@ -87,7 +87,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             return true;
         }
         for (Appointment a : invoice.getAppointments()) {
-            if (a.getProvider().getId() == userId || a.getCustomer().getId() == userId) {
+            if (a.getProvider().getId().equals(userId) || a.getCustomer().getId().equals(userId)) {
                 return true;
             }
         }

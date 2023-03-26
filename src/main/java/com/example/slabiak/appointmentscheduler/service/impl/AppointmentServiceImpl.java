@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -39,14 +41,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final ChatMessageRepository chatMessageRepository;
     private final NotificationService notificationService;
     private final JwtTokenServiceImpl jwtTokenService;
+    private final MessageSource messageSource;
 
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UserService userService, WorkService workService, ChatMessageRepository chatMessageRepository, NotificationService notificationService, JwtTokenServiceImpl jwtTokenService) {
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, UserService userService, WorkService workService, ChatMessageRepository chatMessageRepository, NotificationService notificationService, JwtTokenServiceImpl jwtTokenService, MessageSource messageSource) {
         this.appointmentRepository = appointmentRepository;
         this.userService = userService;
         this.workService = workService;
         this.chatMessageRepository = chatMessageRepository;
         this.notificationService = notificationService;
         this.jwtTokenService = jwtTokenService;
+		this.messageSource = messageSource;
     }
 
     @Override
@@ -137,14 +141,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void addMessageToAppointmentChat(UUID appointmentId, UUID authorId, ChatMessage chatMessage) {
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
-        if (appointment.getProvider().getId() == authorId || appointment.getCustomer().getId() == authorId) {
+        if (appointment.getProvider().getId().equals(authorId) || appointment.getCustomer().getId().equals(authorId)) {
             chatMessage.setAuthor(userService.getUserById(authorId));
             chatMessage.setAppointment(appointment);
             chatMessage.setCreatedAt(LocalDateTime.now());
             chatMessageRepository.save(chatMessage);
             notificationService.newChatMessageNotification(chatMessage, true);
         } else {
-            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+            throw new org.springframework.security.access.AccessDeniedException(messageSource.getMessage("access.Unauthorized", null, LocaleContextHolder.getLocale()));
         }
     }
 
@@ -235,7 +239,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void cancelUserAppointmentById(UUID appointmentId, UUID userId) {
         Appointment appointment = appointmentRepository.getOne(appointmentId);
-        if (appointment.getCustomer().getId() == userId || appointment.getProvider().getId() == userId) {
+        if (appointment.getCustomer().getId().equals(userId) || appointment.getProvider().getId().equals(userId)) {
             appointment.setStatus(AppointmentStatus.CANCELED);
             User canceler = userService.getUserById(userId);
             appointment.setCanceler(canceler);
@@ -247,7 +251,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 notificationService.newAppointmentCanceledByProviderNotification(appointment, true);
             }
         } else {
-            throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
+            throw new org.springframework.security.access.AccessDeniedException(messageSource.getMessage("access.Unauthorized", null, LocaleContextHolder.getLocale()));
         }
 
 

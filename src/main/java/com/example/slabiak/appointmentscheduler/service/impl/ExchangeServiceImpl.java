@@ -31,7 +31,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Override
     public boolean checkIfEligibleForExchange(UUID userId, UUID appointmentId) {
         Appointment appointment = appointmentRepository.getOne(appointmentId);
-        return appointment.getStart().minusHours(24).isAfter(LocalDateTime.now()) && appointment.getStatus().equals(AppointmentStatus.SCHEDULED) && appointment.getCustomer().getId() == userId;
+        return appointment.getStart().minusHours(24).isAfter(LocalDateTime.now()) && appointment.getStatus().equals(AppointmentStatus.SCHEDULED) && appointment.getCustomer().getId().equals(userId);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     public boolean checkIfExchangeIsPossible(UUID oldAppointmentId, UUID newAppointmentId, UUID userId) {
         Appointment oldAppointment = appointmentRepository.getOne(oldAppointmentId);
         Appointment newAppointment = appointmentRepository.getOne(newAppointmentId);
-        if (oldAppointment.getCustomer().getId() == userId) {
+        if (oldAppointment.getCustomer().getId().equals(userId)) {
             return oldAppointment.getWork().getId().equals(newAppointment.getWork().getId())
                     && oldAppointment.getProvider().getId().equals(newAppointment.getProvider().getId())
                     && oldAppointment.getStart().minusHours(24).isAfter(LocalDateTime.now())

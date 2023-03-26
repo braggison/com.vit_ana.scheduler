@@ -51,7 +51,7 @@ public class ProviderController {
 
     @GetMapping("/{id}")
     public String showProviderDetails(@PathVariable("id") UUID providerId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
-        if (currentUser.getId() == providerId || currentUser.hasRole("ROLE_ADMIN")) {
+        if (currentUser.getId().equals(providerId) || currentUser.hasRole("ROLE_ADMIN")) {
             if (!model.containsAttribute("user")) {
                 model.addAttribute("user", new UserForm(userService.getProviderById(providerId)));
             }

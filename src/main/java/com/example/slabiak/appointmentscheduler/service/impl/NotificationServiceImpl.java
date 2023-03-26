@@ -43,7 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void markAsRead(UUID notificationId, UUID userId) {
         Notification notification = notificationRepository.getOne(notificationId);
-        if (notification.getUser().getId() == userId) {
+        if (notification.getUser().getId().equals(userId)) {
             notification.setRead(true);
             notificationRepository.save(notification);
         } else {
@@ -190,7 +190,7 @@ public class NotificationServiceImpl implements NotificationService {
         String title = "New chat message";
         String message = "You have new chat message from " + chatMessage.getAuthor().getFirstName() + " regarding appointment scheduled at " + chatMessage.getAppointment().getStart();
         String url = "/appointments/" + chatMessage.getAppointment().getId();
-        newNotification(title, message, url, chatMessage.getAuthor() == chatMessage.getAppointment().getProvider() ? chatMessage.getAppointment().getCustomer() : chatMessage.getAppointment().getProvider());
+        newNotification(title, message, url, chatMessage.getAuthor().equals(chatMessage.getAppointment().getProvider()) ? chatMessage.getAppointment().getCustomer() : chatMessage.getAppointment().getProvider());
         if (sendEmail && mailingEnabled) {
             emailService.sendNewChatMessageNotification(chatMessage);
         }

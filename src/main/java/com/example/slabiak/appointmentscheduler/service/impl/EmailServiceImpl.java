@@ -137,7 +137,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendNewChatMessageNotification(ChatMessage chatMessage) {
         Context context = new Context();
-        User recipent = chatMessage.getAuthor() == chatMessage.getAppointment().getProvider() ? chatMessage.getAppointment().getCustomer() : chatMessage.getAppointment().getProvider();
+        User recipent = chatMessage.getAuthor().equals(chatMessage.getAppointment().getProvider()) ? chatMessage.getAppointment().getCustomer() : chatMessage.getAppointment().getProvider();
         context.setVariable("recipent", recipent);
         context.setVariable("appointment", chatMessage.getAppointment());
         context.setVariable("url", baseUrl + "/appointments/" + chatMessage.getAppointment().getId());
