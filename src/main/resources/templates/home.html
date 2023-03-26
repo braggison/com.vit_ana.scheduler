@@ -16,6 +16,28 @@
 </div>
 
 <script th:inline="javascript">
+	document.addEventListener('DOMContentLoaded', function() {
+	    var calendarEl = document.getElementById('calendar');
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	      locale: 'ru',
+	      initialView: 'timeGridWeek',
+	      headerToolbar: {
+	    	  start: 'title',
+	    	  center: 'dayGridMonth,timeGridWeek,timeGridDay',
+	    	  end: 'today prev,next'
+	      },
+          eventSources: [
+              {
+                  url: [[${'/api/user/'+user.id+'/appointments'}]],
+                  color: 'yellow',
+                  textColor: 'black'
+
+              }
+          ]
+	    });
+	    calendar.render();
+	  });
+/*
     $(function () {
         $('#calendar').fullCalendar({
             defaultView: 'agendaWeek',
@@ -32,7 +54,7 @@
             eventSources: [
 
                 {
-                    url: /*[[${'/api/user/'+user.id+'/appointments'}]]*/ '/api/user/1/appointments',
+                    url: [[${'/api/user/'+user.id+'/appointments'}]] '/api/user/1/appointments',
                     color: 'yellow',
                     textColor: 'black'
 
@@ -41,6 +63,7 @@
         })
 
     });
+    */
 </script>
 </body>
 

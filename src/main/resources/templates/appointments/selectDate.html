@@ -17,7 +17,49 @@
 </div>
 
 <script th:inline="javascript">
+document.addEventListener('DOMContentLoaded', function() {
 
+	var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'ru',
+      initialView: 'listDay',
+      validRange: function (nowDate) {
+          return {
+              start: nowDate
+          };
+      },
+      eventSources: [
+
+          // your event source
+          {
+              events: function (fetchInfo, successCallback, failureCallback) {
+            	  //TODO check ISO string minus 1 day
+                  //var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.start.toISOString().split('T')[0];
+                  var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.startStr.slice(0,10);
+                  console.log(url);
+                  $.ajax({
+                      url: url,
+                      data: {},
+                      success: function (doc) {
+
+                          var x = doc.map(function (entry) {
+                              var URL = [[${ '/appointments/new/'+providerId + '/' + workId + '/' }]] + entry.start;
+                              entry.url = URL;
+                              return entry;
+                          });
+                          successCallback(x);
+                      }
+                  });
+              },
+              color: 'white',   // an option!
+              textColor: 'black' // an option!
+          }
+      ]
+    });
+    calendar.render();
+  });
+
+	/*
 
     $(function () {
         $('#calendar').fullCalendar({
@@ -69,7 +111,7 @@
 
     });
 
-
+*/
 </script>
 </body>
 

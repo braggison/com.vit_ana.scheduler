@@ -11,7 +11,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
     <!-- Fullcalendar CSS -->
-    <link rel="stylesheet" th:href="@{/css/vendor/fullcalendar.css}"/>
+    <!--<link rel="stylesheet" th:href="@{/css/vendor/fullcalendar.css}"/>-->
     <!-- Site CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <!--DataTables CSS-->
@@ -28,9 +28,17 @@
     <!-- Bootstrap core JavaScript -->
     <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!--Moment-->
-    <script type="text/javascript" th:src="@{/js/vendor/moment.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/moment-with-locales-2.29.4.js}"></script>
     <!--FullCalendar-->
-    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/js/vendor/fullcalendar.js}"></script> -->
+    <!--FullCalendar 6.15-->
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/core/index.global.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/core/locales/ru.global.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/daygrid/index.global.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/interaction/index.global.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/list/index.global.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/moment/index.global.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/fullcalendar-6.1.5/packages/timegrid/index.global.js}"></script>
     <!--DataTables-->
     <script type="text/javascript" charset="utf8"
             src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
