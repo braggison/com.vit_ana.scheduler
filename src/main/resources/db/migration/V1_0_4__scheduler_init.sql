@@ -122,53 +122,53 @@ INSERT INTO roles (id,name) VALUES
   ('973c824f-2d1f-4c45-b169-532a2b7d7100','ROLE_PROVIDER'),
   ('93fafa5e-6903-4952-9c94-b41eac240c2d','ROLE_CUSTOMER'),
   ('1bcef0fb-9914-4ed3-87e4-534f54719423','ROLE_CUSTOMER_CORPORATE'),
-  ('2bfa4fcb-3bfb-46e3-8ec6-7a7e431e0a0b','ROLE_CUSTOMER_RETAIL');
+  ('2bfa4fcb-3bfb-46e3-8ec6-7a7e431e0a0b','ROLE_CUSTOMER_RETAIL') on conflict do nothing;
 
 -- INSERT admin account with username: 'admin' and password 'qwerty123'
 INSERT INTO users (id, username, password)
-VALUES ('3797fbbe-c7e7-48a6-9846-7d41ecf4d338', 'admin', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi');
+VALUES ('3797fbbe-c7e7-48a6-9846-7d41ecf4d338', 'admin', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi') on conflict do nothing;
 INSERT INTO users_roles (user_id, role_id)
-VALUES ('3797fbbe-c7e7-48a6-9846-7d41ecf4d338', '4863203f-fcf8-48d6-b3c1-939e959f873c');
+VALUES ('3797fbbe-c7e7-48a6-9846-7d41ecf4d338', '4863203f-fcf8-48d6-b3c1-939e959f873c') on conflict do nothing;
 
 -- INSERT provider account with username: 'provider' and password 'qwerty123'
 INSERT INTO users (id, username, password)
-VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0', 'provider', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi');
+VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0', 'provider', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi') on conflict do nothing;
 INSERT INTO providers (id_provider)
-VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0');
+VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0') on conflict do nothing;
 INSERT INTO users_roles (user_id, role_id)
-VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0', '973c824f-2d1f-4c45-b169-532a2b7d7100');
+VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0', '973c824f-2d1f-4c45-b169-532a2b7d7100') on conflict do nothing;
 
 
 -- INSERT retail customer account with username: 'customer_r' and password 'qwerty123'
 INSERT INTO users (id, username, password)
-VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2', 'customer_r', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi');
+VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2', 'customer_r', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi') on conflict do nothing;
 INSERT INTO customers (id_customer)
-VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2');
+VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2') on conflict do nothing;
 INSERT INTO retail_customers (id_customer)
-VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2');
+VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2') on conflict do nothing;
 INSERT INTO users_roles (user_id, role_id)
-VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2', '93fafa5e-6903-4952-9c94-b41eac240c2d');
+VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2', '93fafa5e-6903-4952-9c94-b41eac240c2d') on conflict do nothing;
 INSERT INTO users_roles (user_id, role_id)
-VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2', '2bfa4fcb-3bfb-46e3-8ec6-7a7e431e0a0b');
+VALUES ('4d003570-cd94-4fdb-a5cf-667ca8b98fa2', '2bfa4fcb-3bfb-46e3-8ec6-7a7e431e0a0b') on conflict do nothing;
 
 -- INSERT corporate customer account with username: 'customer_c' and password 'qwerty123'
 INSERT INTO users (id, username, password)
-VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', 'customer_c', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi');
+VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', 'customer_c', '$2a$10$EqKcp1WFKVQISheBxkQJoOqFbsWDzGJXRz/tjkGq85IZKJJ1IipYi') on conflict do nothing;
 INSERT INTO customers (id_customer)
-VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd');
+VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd') on conflict do nothing;
 INSERT INTO corporate_customers (id_customer, vat_number, company_name)
-VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', '123456789', 'Company name');
+VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', '123456789', 'Company name') on conflict do nothing;
 INSERT INTO users_roles (user_id, role_id)
-VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', '93fafa5e-6903-4952-9c94-b41eac240c2d');
+VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', '93fafa5e-6903-4952-9c94-b41eac240c2d') on conflict do nothing;
 INSERT INTO users_roles (user_id, role_id)
-VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', '1bcef0fb-9914-4ed3-87e4-534f54719423');
+VALUES ('bb4caaf3-b16f-4ef0-8a65-f826c9c853cd', '1bcef0fb-9914-4ed3-87e4-534f54719423') on conflict do nothing;
 
 INSERT INTO works (id, name, duration, price, editable, target, description)
 VALUES ('0114860f-d6a0-4876-a88d-0b8e63512f78', 'English lesson', 60, 100.00, true, 'retail',
-        'This is english lesson with duration 60 minutes and price 100 pln');
+        'This is english lesson with duration 60 minutes and price 100 pln') on conflict do nothing;
 
 INSERT INTO works_providers(id_user, id_work)
-VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0', '0114860f-d6a0-4876-a88d-0b8e63512f78');
+VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0', '0114860f-d6a0-4876-a88d-0b8e63512f78') on conflict do nothing;
 INSERT INTO working_plans(id_provider, 
 	monday,
 	tuesday,
@@ -178,11 +178,11 @@ INSERT INTO working_plans(id_provider,
 	saturday,
 	sunday)
 VALUES ('629f43d1-e89f-471e-ba0f-61bdbdb359d0',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}',
-        '{"workingHours":{"start":[6,0],"end":[18,0]},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":[6,0],"end":[18,0]}]}');
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}',
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}',
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}',
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}',
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}',
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}',
+        '{"workingHours":{"start":"06:00:00+02:00","end":"18:00:00+02:00"},"breaks":[],"timePeroidsWithBreaksExcluded":[{"start":"06:00:00+02:00","end":"18:00:00+02:00"}]}') on conflict do nothing;
 
