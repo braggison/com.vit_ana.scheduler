@@ -22,6 +22,11 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
     }
 
     @Override
+    public void createWorkingPlan(WorkingPlan workingPlan) {
+        workingPlanRepository.save(workingPlan);
+    }
+    
+    @Override
     @PreAuthorize("#updateData.provider.id == principal.id")
     public void updateWorkingPlan(WorkingPlan updateData) {
         WorkingPlan workingPlan = workingPlanRepository.getOne(updateData.getId());

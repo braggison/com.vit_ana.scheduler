@@ -6,6 +6,8 @@ import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
 import com.example.slabiak.appointmentscheduler.model.TimePeroid;
 
 public interface WorkingPlanService {
+    void createWorkingPlan(WorkingPlan workingPlan);
+	
     void updateWorkingPlan(WorkingPlan workingPlan);
 
     void addBreakToWorkingPlan(TimePeroid breakToAdd, UUID planId, String dayOfWeek);
