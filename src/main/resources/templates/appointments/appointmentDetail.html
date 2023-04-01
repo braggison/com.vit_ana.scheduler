@@ -97,8 +97,8 @@
                         <td><span th:text="${appointment.work.price}"> 50 </span> pln</td>
                     </tr>
                     <tr th:if="${appointment.status.name()=='INVOICED'}">
-                        <td><b>invoice</b></td>
-                        <td><a th:href="@{'/invoices/download/'+${appointment.invoice.id}}">download</a></td>
+                        <td><b th:utext="#{appointment.invoice}">invoice</b></td>
+                        <td><a th:href="@{'/invoices/download/'+${appointment.invoice.id}}" th:utext="#{appointment.download}">download</a></td>
                     </tr>
 
                     <tr>

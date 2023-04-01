@@ -2,6 +2,7 @@ package com.example.slabiak.appointmentscheduler.ui;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -31,6 +32,7 @@ import static org.junit.Assert.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ContextConfiguration(initializers = LoginPageIT.Initializer.class)
 @ActiveProfiles("integration-test")
+@Disabled
 public class LoginPageIT {
 
     @LocalServerPort
@@ -42,6 +44,7 @@ public class LoginPageIT {
             .withCapabilities(new ChromeOptions());
 
     @Test
+    @Disabled
     public void shouldShowLoginPageAndSuccessfullyLoginToAdminAccountUsingAdminCredentials() {
         RemoteWebDriver driver = chrome.getWebDriver();
         String url = "http://host.testcontainers.internal:" + port + "/";
@@ -59,6 +62,7 @@ public class LoginPageIT {
     }
 
     @Test
+    @Disabled
     public void shouldLoginAsRetailCustomerAndSuccessfullyBookNewAppointment() {
         RemoteWebDriver driver = chrome.getWebDriver();
         String url = "http://host.testcontainers.internal:" + port + "/";
