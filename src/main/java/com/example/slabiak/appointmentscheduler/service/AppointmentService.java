@@ -1,7 +1,7 @@
 package com.example.slabiak.appointmentscheduler.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import com.example.slabiak.appointmentscheduler.entity.Work;
 import com.example.slabiak.appointmentscheduler.model.TimePeroid;
 
 public interface AppointmentService {
-	void createNewAppointment(UUID workId, UUID providerId, UUID customerId, LocalDateTime start);
+	void createNewAppointment(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start);
 
 	void updateAppointment(Appointment appointment);
 
@@ -41,7 +41,7 @@ public interface AppointmentService {
 
 	List<Appointment> getCanceledAppointmentsByCustomerIdForCurrentMonth(UUID userId);
 
-	List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, LocalDate date);
+	List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime);
 
 	List<TimePeroid> calculateAvailableHours(List<TimePeroid> availableTimePeroids, Work work);
 
@@ -69,5 +69,5 @@ public interface AppointmentService {
 
 	int getNumberOfScheduledAppointmentsForUser(UUID userId);
 
-	boolean isAvailable(UUID workId, UUID providerId, UUID customerId, LocalDateTime start);
+	boolean isAvailable(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start);
 }

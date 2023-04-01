@@ -1,17 +1,28 @@
 package com.example.slabiak.appointmentscheduler.entity;
 
+import java.time.LocalTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.util.TimeZone;
+import java.util.UUID;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
 import com.example.slabiak.appointmentscheduler.model.DayPlan;
 import com.example.slabiak.appointmentscheduler.model.TimePeroid;
 import com.vladmihalcea.hibernate.type.json.JsonStringType;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-
-import javax.persistence.*;
-import java.time.LocalTime;
-import java.util.UUID;
 
 @TypeDefs(@TypeDef(name = "json", typeClass = JsonStringType.class))
 @Entity
@@ -57,6 +68,7 @@ public class WorkingPlan {
 
 
     public WorkingPlan() {
+    	this.id = UUID.randomUUID();
     }
 
     public UUID getId() {
@@ -162,8 +174,8 @@ public class WorkingPlan {
 
     public static WorkingPlan generateDefaultWorkingPlan() {
         WorkingPlan wp = new WorkingPlan();
-        LocalTime defaultStartHour = LocalTime.parse("06:00");
-        LocalTime defaultEndHour = LocalTime.parse("18:00");
+        OffsetTime defaultStartHour = LocalTime.parse("06:00").atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
+        OffsetTime defaultEndHour = LocalTime.parse("18:00").atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
         TimePeroid defaultWorkingPeroid = new TimePeroid(defaultStartHour, defaultEndHour);
         DayPlan defaultDayPlan = new DayPlan(defaultWorkingPeroid);
         wp.setMonday(defaultDayPlan);

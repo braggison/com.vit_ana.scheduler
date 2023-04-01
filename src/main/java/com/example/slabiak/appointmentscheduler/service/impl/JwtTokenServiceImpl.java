@@ -1,9 +1,7 @@
 package com.example.slabiak.appointmentscheduler.service.impl;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -90,10 +88,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
-    public Date convertLocalDateTimeToDate(LocalDateTime localDateTime) {
-        ZoneId zone = ZoneId.of("Europe/Warsaw");
-        ZoneOffset zoneOffSet = zone.getRules().getOffset(localDateTime);
-        Instant instant = localDateTime.toInstant(zoneOffSet);
+    public Date convertLocalDateTimeToDate(OffsetDateTime offsetDateTime) {
+        Instant instant = offsetDateTime.toInstant();
         return Date.from(instant);
     }
 }

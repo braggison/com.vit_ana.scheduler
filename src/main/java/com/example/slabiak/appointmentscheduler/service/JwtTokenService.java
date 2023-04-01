@@ -1,10 +1,10 @@
 package com.example.slabiak.appointmentscheduler.service;
 
-import com.example.slabiak.appointmentscheduler.entity.Appointment;
-
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.UUID;
+
+import com.example.slabiak.appointmentscheduler.entity.Appointment;
 
 public interface JwtTokenService {
     String generateAppointmentRejectionToken(Appointment appointment);
@@ -20,5 +20,5 @@ public interface JwtTokenService {
     UUID getProviderIdFromToken(String token);
 
     ////
-    Date convertLocalDateTimeToDate(LocalDateTime localDateTime);
+    Date convertLocalDateTimeToDate(OffsetDateTime offsetDateTime);
 }

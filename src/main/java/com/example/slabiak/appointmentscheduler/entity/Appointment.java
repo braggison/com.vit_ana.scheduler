@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -21,15 +22,15 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
 
     @Column(name = "startdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime start;
+    private OffsetDateTime start;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "enddate")
-    private LocalDateTime end;
+    private OffsetDateTime end;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(name = "canceled_at")
-    private LocalDateTime canceledAt;
+    private OffsetDateTime canceledAt;
 
     @OneToOne
     @JoinColumn(name = "id_canceler")
@@ -65,7 +66,7 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
     	super(UUID.randomUUID());
     }
 
-    public Appointment(LocalDateTime start, LocalDateTime end, Customer customer, Provider provider, Work work) {
+    public Appointment(OffsetDateTime start, OffsetDateTime end, Customer customer, Provider provider, Work work) {
     	super(UUID.randomUUID());
         this.start = start;
         this.end = end;
@@ -79,19 +80,19 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
         return this.getStart().compareTo(o.getStart());
     }
 
-    public LocalDateTime getStart() {
+    public OffsetDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(OffsetDateTime start) {
         this.start = start;
     }
 
-    public LocalDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(OffsetDateTime end) {
         this.end = end;
     }
 
@@ -144,11 +145,11 @@ public class Appointment extends BaseEntity implements Comparable<Appointment> {
         this.chatMessages = chatMessages;
     }
 
-    public LocalDateTime getCanceledAt() {
+    public OffsetDateTime getCanceledAt() {
         return canceledAt;
     }
 
-    public void setCanceledAt(LocalDateTime canceledAt) {
+    public void setCanceledAt(OffsetDateTime canceledAt) {
         this.canceledAt = canceledAt;
     }
 

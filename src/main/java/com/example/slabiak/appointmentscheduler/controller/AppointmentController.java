@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Controller
@@ -143,12 +144,12 @@ public class AppointmentController {
 
     @GetMapping("/new/{providerId}/{workId}/{dateTime}")
     public String showNewAppointmentSummary(@PathVariable("workId") UUID workId, @PathVariable("providerId") UUID providerId, @PathVariable("dateTime") String start, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
-        if (appointmentService.isAvailable(workId, providerId, currentUser.getId(), LocalDateTime.parse(start))) {
+        if (appointmentService.isAvailable(workId, providerId, currentUser.getId(), OffsetDateTime.parse(start))) {
             model.addAttribute("work", workService.getWorkById(workId));
             model.addAttribute("provider", userService.getProviderById(providerId).getFirstName() + " " + userService.getProviderById(providerId).getLastName());
             model.addAttribute(providerId);
-            model.addAttribute("start", LocalDateTime.parse(start));
-            model.addAttribute("end", LocalDateTime.parse(start).plusMinutes(workService.getWorkById(workId).getDuration()));
+            model.addAttribute("start", OffsetDateTime.parse(start));
+            model.addAttribute("end", OffsetDateTime.parse(start).plusMinutes(workService.getWorkById(workId).getDuration()));
             return "appointments/newAppointmentSummary";
         } else {
             return "redirect:/appointments/new";
@@ -157,7 +158,7 @@ public class AppointmentController {
 
     @PostMapping("/new")
     public String bookAppointment(@RequestParam("workId") UUID workId, @RequestParam("providerId") UUID providerId, @RequestParam("start") String start, @AuthenticationPrincipal CustomUserDetails currentUser) {
-        appointmentService.createNewAppointment(workId, providerId, currentUser.getId(), LocalDateTime.parse(start));
+        appointmentService.createNewAppointment(workId, providerId, currentUser.getId(), OffsetDateTime.parse(start));
         return "redirect:/appointments/all";
     }
 

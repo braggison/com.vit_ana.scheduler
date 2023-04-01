@@ -1,5 +1,11 @@
 package com.example.slabiak.appointmentscheduler.service.impl;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.example.slabiak.appointmentscheduler.dao.AppointmentRepository;
 import com.example.slabiak.appointmentscheduler.dao.ExchangeRequestRepository;
 import com.example.slabiak.appointmentscheduler.entity.Appointment;
@@ -9,11 +15,6 @@ import com.example.slabiak.appointmentscheduler.entity.ExchangeStatus;
 import com.example.slabiak.appointmentscheduler.entity.user.customer.Customer;
 import com.example.slabiak.appointmentscheduler.service.ExchangeService;
 import com.example.slabiak.appointmentscheduler.service.NotificationService;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
@@ -31,13 +32,13 @@ public class ExchangeServiceImpl implements ExchangeService {
     @Override
     public boolean checkIfEligibleForExchange(UUID userId, UUID appointmentId) {
         Appointment appointment = appointmentRepository.getOne(appointmentId);
-        return appointment.getStart().minusHours(24).isAfter(LocalDateTime.now()) && appointment.getStatus().equals(AppointmentStatus.SCHEDULED) && appointment.getCustomer().getId().equals(userId);
+        return appointment.getStart().minusHours(24).isAfter(OffsetDateTime.now()) && appointment.getStatus().equals(AppointmentStatus.SCHEDULED) && appointment.getCustomer().getId().equals(userId);
     }
 
     @Override
     public List<Appointment> getEligibleAppointmentsForExchange(UUID appointmentId) {
         Appointment appointmentToExchange = appointmentRepository.getOne(appointmentId);
-        return appointmentRepository.getEligibleAppointmentsForExchange(LocalDateTime.now().plusHours(24), appointmentToExchange.getCustomer().getId(), appointmentToExchange.getProvider().getId(), appointmentToExchange.getWork().getId());
+        return appointmentRepository.getEligibleAppointmentsForExchange(OffsetDateTime.now().plusHours(24), appointmentToExchange.getCustomer().getId(), appointmentToExchange.getProvider().getId(), appointmentToExchange.getWork().getId());
     }
 
     @Override
@@ -47,8 +48,8 @@ public class ExchangeServiceImpl implements ExchangeService {
         if (oldAppointment.getCustomer().getId().equals(userId)) {
             return oldAppointment.getWork().getId().equals(newAppointment.getWork().getId())
                     && oldAppointment.getProvider().getId().equals(newAppointment.getProvider().getId())
-                    && oldAppointment.getStart().minusHours(24).isAfter(LocalDateTime.now())
-                    && newAppointment.getStart().minusHours(24).isAfter(LocalDateTime.now());
+                    && oldAppointment.getStart().minusHours(24).isAfter(OffsetDateTime.now())
+                    && newAppointment.getStart().minusHours(24).isAfter(OffsetDateTime.now());
         } else {
             throw new org.springframework.security.access.AccessDeniedException("Unauthorized");
         }

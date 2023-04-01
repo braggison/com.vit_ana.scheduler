@@ -1,13 +1,12 @@
 package com.example.slabiak.appointmentscheduler.model;
 
+import java.io.IOException;
+
 import com.example.slabiak.appointmentscheduler.entity.Appointment;
 import com.example.slabiak.appointmentscheduler.entity.AppointmentStatus;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
-import java.io.IOException;
-import java.time.ZoneOffset;
 
 public class AppointmentSerializer extends StdSerializer<Appointment> {
 
@@ -24,8 +23,8 @@ public class AppointmentSerializer extends StdSerializer<Appointment> {
         gen.writeStartObject();
         gen.writeStringField("id", appointment.getId().toString());
         gen.writeStringField("title", appointment.getWork().getName());
-        gen.writeNumberField("start", appointment.getStart().toInstant(ZoneOffset.UTC).toEpochMilli());
-        gen.writeNumberField("end", appointment.getEnd().toInstant(ZoneOffset.UTC).toEpochMilli());
+        gen.writeNumberField("start", appointment.getStart().toInstant().toEpochMilli());
+        gen.writeNumberField("end", appointment.getEnd().toInstant().toEpochMilli());
         gen.writeStringField("url", "/appointments/" + appointment.getId());
         gen.writeStringField("color", appointment.getStatus().equals(AppointmentStatus.SCHEDULED) ? "#28a745" : "grey");
         gen.writeEndObject();

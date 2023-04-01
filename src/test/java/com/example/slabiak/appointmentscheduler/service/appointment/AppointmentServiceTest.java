@@ -19,10 +19,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -90,7 +92,7 @@ public class AppointmentServiceTest {
 
     @Test
     public void shouldBookAppointmentWhenAllConditionsMet() {
-        LocalDateTime startOfNewAppointment = LocalDateTime.of(2019, 01, 01, 6, 0);
+        OffsetDateTime startOfNewAppointment = OffsetDateTime.of(2019, 01, 01, 6, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
 
         when(workService.isWorkForCustomer(workId, customerId)).thenReturn(true);
         when(workService.getWorkById(workId)).thenReturn(work);
@@ -105,7 +107,7 @@ public class AppointmentServiceTest {
 
     @Test(expected = RuntimeException.class)
     public void shouldNotBookAppointmentWhenAppointmentStartIsNotWithinProviderWorkingHours() {
-        LocalDateTime startOfNewAppointment = LocalDateTime.of(2019, 01, 01, 5, 59);
+        OffsetDateTime startOfNewAppointment = OffsetDateTime.of(2019, 01, 01, 5, 59, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
 
         when(workService.isWorkForCustomer(workId, customerId)).thenReturn(true);
         when(workService.getWorkById(workId)).thenReturn(work);
@@ -118,18 +120,18 @@ public class AppointmentServiceTest {
 
     @Test(expected = RuntimeException.class)
     public void shouldNotBookNewAppointmentWhenCollidingWithProviderAlreadyBookedAppointments() {
-        LocalDateTime startOfNewAppointment = LocalDateTime.of(2019, 01, 01, 6, 0);
+        OffsetDateTime startOfNewAppointment = OffsetDateTime.of(2019, 01, 01, 6, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
 
         Appointment existingAppointment = new Appointment();
-        LocalDateTime startOfExistingAppointment = LocalDateTime.of(2019, 01, 01, 6, 0);
-        LocalDateTime endOfExistingAppointment = LocalDateTime.of(2019, 01, 01, 7, 0);
+        OffsetDateTime startOfExistingAppointment = OffsetDateTime.of(2019, 01, 01, 6, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
+        OffsetDateTime endOfExistingAppointment = OffsetDateTime.of(2019, 01, 01, 7, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
         existingAppointment.setStart(startOfExistingAppointment);
         existingAppointment.setEnd(endOfExistingAppointment);
         List<Appointment> providerBookedAppointments = new ArrayList<>();
         providerBookedAppointments.add(existingAppointment);
 
         when(workService.isWorkForCustomer(workId, customerId)).thenReturn(true);
-        when(appointmentRepository.findByProviderIdWithStartInPeroid(providerId, startOfNewAppointment.toLocalDate().atStartOfDay(), startOfNewAppointment.toLocalDate().atStartOfDay().plusDays(1))).thenReturn(providerBookedAppointments);
+        when(appointmentRepository.findByProviderIdWithStartInPeroid(providerId, startOfNewAppointment, startOfNewAppointment.plusDays(1))).thenReturn(providerBookedAppointments);
         when(workService.getWorkById(workId)).thenReturn(work);
         when(userService.getProviderById(providerId)).thenReturn(provider);
 
@@ -141,18 +143,18 @@ public class AppointmentServiceTest {
 
     @Test(expected = RuntimeException.class)
     public void shouldNotBookNewAppointmentWhenCollidingWithCustomerAlreadyBookedAppointments() {
-        LocalDateTime startOfNewAppointment = LocalDateTime.of(2019, 01, 01, 6, 0);
+        OffsetDateTime startOfNewAppointment = OffsetDateTime.of(2019, 01, 01, 6, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
 
         Appointment existingAppointment = new Appointment();
-        LocalDateTime startOfExistingAppointment = LocalDateTime.of(2019, 01, 01, 6, 0);
-        LocalDateTime endOfExistingAppointment = LocalDateTime.of(2019, 01, 01, 7, 0);
+        OffsetDateTime startOfExistingAppointment = OffsetDateTime.of(2019, 01, 01, 6, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
+        OffsetDateTime endOfExistingAppointment = OffsetDateTime.of(2019, 01, 01, 7, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
         existingAppointment.setStart(startOfExistingAppointment);
         existingAppointment.setEnd(endOfExistingAppointment);
         List<Appointment> customerBookedAppointments = new ArrayList<>();
         customerBookedAppointments.add(existingAppointment);
 
         when(workService.isWorkForCustomer(workId, customerId)).thenReturn(true);
-        when(appointmentRepository.findByCustomerIdWithStartInPeroid(customerId, startOfNewAppointment.toLocalDate().atStartOfDay(), startOfNewAppointment.toLocalDate().atStartOfDay().plusDays(1))).thenReturn(customerBookedAppointments);
+        when(appointmentRepository.findByCustomerIdWithStartInPeroid(customerId, startOfNewAppointment, startOfNewAppointment.plusDays(1))).thenReturn(customerBookedAppointments);
         when(workService.getWorkById(workId)).thenReturn(work);
         when(userService.getProviderById(providerId)).thenReturn(provider);
 

@@ -2,10 +2,14 @@ package com.example.slabiak.appointmentscheduler.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import org.springframework.context.MessageSource;
@@ -95,22 +99,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsByProviderAtDay(UUID providerId, LocalDate day) {
-        return appointmentRepository.findByProviderIdWithStartInPeroid(providerId, day.atStartOfDay(), day.atStartOfDay().plusDays(1));
+        return appointmentRepository.findByProviderIdWithStartInPeroid(providerId, 
+        		day.atStartOfDay().atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)), 
+        		day.atStartOfDay().plusDays(1).atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)));
     }
 
     @Override
     public List<Appointment> getAppointmentsByCustomerAtDay(UUID providerId, LocalDate day) {
-        return appointmentRepository.findByCustomerIdWithStartInPeroid(providerId, day.atStartOfDay(), day.atStartOfDay().plusDays(1));
+        return appointmentRepository.findByCustomerIdWithStartInPeroid(
+        		providerId, 
+        		day.atStartOfDay().atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)), 
+        		day.atStartOfDay().plusDays(1).atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)));
     }
 
     @Override
-    public List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, LocalDate date) {
+    public List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime) {
         Provider p = userService.getProviderById(providerId);
         WorkingPlan workingPlan = p.getWorkingPlan();
-        DayPlan selectedDay = workingPlan.getDay(date.getDayOfWeek().toString().toLowerCase());
+        DayPlan selectedDay = workingPlan.getDay(datetime.getDayOfWeek().toString().toLowerCase());
 
-        List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, date);
-        List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, date);
+        List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, datetime.toLocalDate());
+        List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
 
         List<TimePeroid> availablePeroids = selectedDay.getTimePeroidsWithBreaksExcluded();
         availablePeroids = excludeAppointmentsFromTimePeroids(availablePeroids, providerAppointments);
@@ -120,7 +129,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void createNewAppointment(UUID workId, UUID providerId, UUID customerId, LocalDateTime start) {
+    public void createNewAppointment(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start) {
         if (isAvailable(workId, providerId, customerId, start)) {
             Appointment appointment = new Appointment();
             appointment.setStatus(AppointmentStatus.SCHEDULED);
@@ -154,7 +163,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<TimePeroid> calculateAvailableHours(List<TimePeroid> availableTimePeroids, Work work) {
-        ArrayList<TimePeroid> availableHours = new ArrayList();
+        ArrayList<TimePeroid> availableHours = new ArrayList<>();
         for (TimePeroid peroid : availableTimePeroids) {
             TimePeroid workPeroid = new TimePeroid(peroid.getStart(), peroid.getStart().plusMinutes(work.getDuration()));
             while (workPeroid.getEnd().isBefore(peroid.getEnd()) || workPeroid.getEnd().equals(peroid.getEnd())) {
@@ -169,19 +178,26 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<TimePeroid> excludeAppointmentsFromTimePeroids(List<TimePeroid> peroids, List<Appointment> appointments) {
 
-        List<TimePeroid> toAdd = new ArrayList();
+        List<TimePeroid> toAdd = new ArrayList<>();
         Collections.sort(appointments);
         for (Appointment appointment : appointments) {
             for (TimePeroid peroid : peroids) {
-                if ((appointment.getStart().toLocalTime().isBefore(peroid.getStart()) || appointment.getStart().toLocalTime().equals(peroid.getStart())) && appointment.getEnd().toLocalTime().isAfter(peroid.getStart()) && appointment.getEnd().toLocalTime().isBefore(peroid.getEnd())) {
-                    peroid.setStart(appointment.getEnd().toLocalTime());
+                if ((appointment.getStart().toOffsetTime().isBefore(peroid.getStart()) 
+                		|| appointment.getStart().toOffsetTime().equals(peroid.getStart())) 
+                		&& appointment.getEnd().toOffsetTime().isAfter(peroid.getStart()) 
+                		&& appointment.getEnd().toOffsetTime().isBefore(peroid.getEnd())) {
+                    peroid.setStart(appointment.getEnd().toOffsetTime());
                 }
-                if (appointment.getStart().toLocalTime().isAfter(peroid.getStart()) && appointment.getStart().toLocalTime().isBefore(peroid.getEnd()) && appointment.getEnd().toLocalTime().isAfter(peroid.getEnd()) || appointment.getEnd().toLocalTime().equals(peroid.getEnd())) {
-                    peroid.setEnd(appointment.getStart().toLocalTime());
+                if (appointment.getStart().toOffsetTime().isAfter(peroid.getStart()) 
+                		&& appointment.getStart().toOffsetTime().isBefore(peroid.getEnd()) 
+                		&& appointment.getEnd().toOffsetTime().isAfter(peroid.getEnd()) 
+                		|| appointment.getEnd().toOffsetTime().equals(peroid.getEnd())) {
+                    peroid.setEnd(appointment.getStart().toOffsetTime());
                 }
-                if (appointment.getStart().toLocalTime().isAfter(peroid.getStart()) && appointment.getEnd().toLocalTime().isBefore(peroid.getEnd())) {
-                    toAdd.add(new TimePeroid(peroid.getStart(), appointment.getStart().toLocalTime()));
-                    peroid.setStart(appointment.getEnd().toLocalTime());
+                if (appointment.getStart().toOffsetTime().isAfter(peroid.getStart()) 
+                		&& appointment.getEnd().toOffsetTime().isBefore(peroid.getEnd())) {
+                    toAdd.add(new TimePeroid(peroid.getStart(), appointment.getStart().toOffsetTime()));
+                    peroid.setStart(appointment.getEnd().toOffsetTime());
                 }
             }
         }
@@ -192,17 +208,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getCanceledAppointmentsByCustomerIdForCurrentMonth(UUID customerId) {
-        return appointmentRepository.findByCustomerIdCanceledAfterDate(customerId, LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay());
+        return appointmentRepository.findByCustomerIdCanceledAfterDate(customerId, OffsetDateTime.now().with(TemporalAdjusters.firstDayOfMonth()).truncatedTo(ChronoUnit.DAYS));
     }
 
     @Override
     public void updateUserAppointmentsStatuses(UUID userId) {
-        for (Appointment appointment : appointmentRepository.findScheduledByUserIdWithEndBeforeDate(LocalDateTime.now(), userId)) {
+        for (Appointment appointment : appointmentRepository.findScheduledByUserIdWithEndBeforeDate(OffsetDateTime.now(), userId)) {
             appointment.setStatus(AppointmentStatus.FINISHED);
             updateAppointment(appointment);
         }
 
-        for (Appointment appointment : appointmentRepository.findFinishedByUserIdWithEndBeforeDate(LocalDateTime.now().minusDays(1), userId)) {
+        for (Appointment appointment : appointmentRepository.findFinishedByUserIdWithEndBeforeDate(OffsetDateTime.now().minusDays(1), userId)) {
 
             appointment.setStatus(AppointmentStatus.INVOICED);
             updateAppointment(appointment);
@@ -211,16 +227,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void updateAllAppointmentsStatuses() {
-        appointmentRepository.findScheduledWithEndBeforeDate(LocalDateTime.now())
+        appointmentRepository.findScheduledWithEndBeforeDate(OffsetDateTime.now())
                 .forEach(appointment -> {
                     appointment.setStatus(AppointmentStatus.FINISHED);
                     updateAppointment(appointment);
-                    if (LocalDateTime.now().minusDays(1).isBefore(appointment.getEnd())) {
+                    if (OffsetDateTime.now().minusDays(1).isBefore(appointment.getEnd())) {
                         notificationService.newAppointmentFinishedNotification(appointment, true);
                     }
                 });
 
-        appointmentRepository.findFinishedWithEndBeforeDate(LocalDateTime.now().minusDays(1))
+        appointmentRepository.findFinishedWithEndBeforeDate(OffsetDateTime.now().minusDays(1))
                 .forEach(appointment -> {
                     appointment.setStatus(AppointmentStatus.CONFIRMED);
                     updateAppointment(appointment);
@@ -229,7 +245,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void updateAppointmentsStatusesWithExpiredExchangeRequest() {
-        appointmentRepository.findExchangeRequestedWithStartBefore(LocalDateTime.now().plusDays(1))
+        appointmentRepository.findExchangeRequestedWithStartBefore(OffsetDateTime.now().plusDays(1))
                 .forEach(appointment -> {
                     appointment.setStatus(AppointmentStatus.SCHEDULED);
                     updateAppointment(appointment);
@@ -243,7 +259,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointment.setStatus(AppointmentStatus.CANCELED);
             User canceler = userService.getUserById(userId);
             appointment.setCanceler(canceler);
-            appointment.setCanceledAt(LocalDateTime.now());
+            appointment.setCanceledAt(OffsetDateTime.now());
             appointmentRepository.save(appointment);
             if (canceler.equals(appointment.getCustomer())) {
                 notificationService.newAppointmentCanceledByCustomerNotification(appointment, true);
@@ -263,7 +279,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         User user = userService.getUserById(userId);
         Appointment appointment = getAppointmentByIdWithAuthorization(appointmentId);
 
-        return appointment.getCustomer().equals(user) && appointment.getStatus().equals(AppointmentStatus.FINISHED) && !LocalDateTime.now().isAfter(appointment.getEnd().plusDays(1));
+        return appointment.getCustomer().equals(user) && appointment.getStatus().equals(AppointmentStatus.FINISHED) && !OffsetDateTime.now().isAfter(appointment.getEnd().plusDays(1));
     }
 
     @Override
@@ -343,7 +359,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (appointment.getCustomer().equals(user)) {
             if (!appointment.getStatus().equals(AppointmentStatus.SCHEDULED)) {
                 return "Only appoinmtents with scheduled status can be cancelled.";
-            } else if (LocalDateTime.now().plusDays(1).isAfter(appointment.getStart())) {
+            } else if (OffsetDateTime.now().plusDays(1).isAfter(appointment.getStart())) {
                 return "Appointments which will be in less than 24 hours cannot be canceled.";
             } else if (!appointment.getWork().getEditable()) {
                 return "This type of appointment can be canceled only by Provider.";
@@ -367,13 +383,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public boolean isAvailable(UUID workId, UUID providerId, UUID customerId, LocalDateTime start) {
+    public boolean isAvailable(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start) {
         if (!workService.isWorkForCustomer(workId, customerId)) {
             return false;
         }
         Work work = workService.getWorkById(workId);
-        TimePeroid timePeroid = new TimePeroid(start.toLocalTime(), start.toLocalTime().plusMinutes(work.getDuration()));
-        return getAvailableHours(providerId, customerId, workId, start.toLocalDate()).contains(timePeroid);
+        TimePeroid timePeroid = new TimePeroid(start.toOffsetTime(), start.toOffsetTime().plusMinutes(work.getDuration()));
+        return getAvailableHours(providerId, customerId, workId, start).contains(timePeroid);
     }
 
     @Override

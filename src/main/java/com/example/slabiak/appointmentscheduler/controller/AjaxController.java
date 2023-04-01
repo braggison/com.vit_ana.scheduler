@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,10 +44,10 @@ public class AjaxController {
 
     @GetMapping("/availableHours/{providerId}/{workId}/{date}")
     public List<AppointmentRegisterForm> getAvailableHours(@PathVariable("providerId") UUID providerId, @PathVariable("workId") UUID workId, @PathVariable("date") String date, @AuthenticationPrincipal CustomUserDetails currentUser) {
-        LocalDate localDate = LocalDate.parse(date);
-        return appointmentService.getAvailableHours(providerId, currentUser.getId(), workId, localDate)
+    	OffsetDateTime offsetDateTime = OffsetDateTime.parse(date);
+        return appointmentService.getAvailableHours(providerId, currentUser.getId(), workId, offsetDateTime)
                 .stream()
-                .map(timePeriod -> new AppointmentRegisterForm(workId, providerId, timePeriod.getStart().atDate(localDate), timePeriod.getEnd().atDate(localDate)))
+                .map(timePeriod -> new AppointmentRegisterForm(workId, providerId, timePeriod.getStart().atDate(offsetDateTime.toLocalDate()), timePeriod.getEnd().atDate(offsetDateTime.toLocalDate())))
                 .collect(Collectors.toList());
     }
 

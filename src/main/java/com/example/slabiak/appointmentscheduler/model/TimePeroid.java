@@ -1,35 +1,35 @@
 package com.example.slabiak.appointmentscheduler.model;
 
-import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.util.Objects;
 
 public class TimePeroid implements Comparable<TimePeroid> {
 
-    private LocalTime start;
-    private LocalTime end;
+    private OffsetTime start;
+    private OffsetTime end;
 
     public TimePeroid() {
 
     }
 
-    public TimePeroid(LocalTime start, LocalTime end) {
+    public TimePeroid(OffsetTime start, OffsetTime end) {
         this.start = start;
         this.end = end;
     }
 
-    public LocalTime getStart() {
+    public OffsetTime getStart() {
         return start;
     }
 
-    public void setStart(LocalTime start) {
+    public void setStart(OffsetTime start) {
         this.start = start;
     }
 
-    public LocalTime getEnd() {
+    public OffsetTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalTime end) {
+    public void setEnd(OffsetTime end) {
         this.end = end;
     }
 

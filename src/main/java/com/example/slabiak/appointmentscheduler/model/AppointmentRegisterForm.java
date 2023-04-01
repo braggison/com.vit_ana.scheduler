@@ -1,9 +1,9 @@
 package com.example.slabiak.appointmentscheduler.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class AppointmentRegisterForm {
 
@@ -12,15 +12,15 @@ public class AppointmentRegisterForm {
     private UUID customerId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime start;
+    private OffsetDateTime start;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime end;
+    private OffsetDateTime end;
 
     public AppointmentRegisterForm() {
     }
 
-    public AppointmentRegisterForm(UUID workId, UUID providerId, LocalDateTime start, LocalDateTime end) {
+    public AppointmentRegisterForm(UUID workId, UUID providerId, OffsetDateTime start, OffsetDateTime end) {
         this.workId = workId;
         this.providerId = providerId;
         this.start = start;
@@ -43,19 +43,19 @@ public class AppointmentRegisterForm {
         this.providerId = providerId;
     }
 
-    public LocalDateTime getStart() {
+    public OffsetDateTime getStart() {
         return start;
     }
 
-    public void setStart(LocalDateTime start) {
+    public void setStart(OffsetDateTime start) {
         this.start = start;
     }
 
-    public LocalDateTime getEnd() {
+    public OffsetDateTime getEnd() {
         return end;
     }
 
-    public void setEnd(LocalDateTime end) {
+    public void setEnd(OffsetDateTime end) {
         this.end = end;
     }
 

@@ -1,8 +1,12 @@
 package com.example.slabiak.appointmentscheduler.service.appointment;
 
+import com.example.slabiak.appointmentscheduler.dao.WorkingPlanRepository;
 import com.example.slabiak.appointmentscheduler.entity.Appointment;
 import com.example.slabiak.appointmentscheduler.entity.AppointmentStatus;
+import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
 import com.example.slabiak.appointmentscheduler.service.AppointmentService;
+import com.example.slabiak.appointmentscheduler.service.WorkingPlanService;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +35,7 @@ public class AppointmentServiceIT {
 
     @Autowired
     private AppointmentService appointmentService;
-
+    
     @Test
     @Transactional
     @WithUserDetails("admin")
@@ -38,12 +45,11 @@ public class AppointmentServiceIT {
         		UUID.fromString("0114860f-d6a0-4876-a88d-0b8e63512f78"), 
         		UUID.fromString("629f43d1-e89f-471e-ba0f-61bdbdb359d0"), 
         		UUID.fromString("4d003570-cd94-4fdb-a5cf-667ca8b98fa2"), 
-        		LocalDateTime.of(2020, 02, 9, 12, 0, 0));
+        		OffsetDateTime.of(2020, 02, 9, 12, 0, 0, 0, ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)));
 
         List<Appointment> appointmentByProviderId = appointmentService.getAllAppointments();
         assertThat(appointmentByProviderId).hasSize(++appointmentsCount);
         assertEquals(AppointmentStatus.SCHEDULED, appointmentByProviderId.get(0).getStatus());
 
     }
-
 }
