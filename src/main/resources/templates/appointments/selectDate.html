@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
       locale: 'ru',
       initialView: 'listDay',
       validRange: function (nowDate) {
+    	  console.log(nowDate.constructor.name)
+    	  console.log(nowDate.toString())
           return {
               start: nowDate
           };
@@ -35,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
               events: function (fetchInfo, successCallback, failureCallback) {
             	  //TODO check ISO string minus 1 day
                   //var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.start.toISOString().split('T')[0];
-                  var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.startStr.slice(0,10);
+                  //var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.startStr.slice(0,10);
+                  var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.startStr;
                   console.log(url);
                   $.ajax({
                       url: url,
