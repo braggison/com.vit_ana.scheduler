@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'exchange','Appointments eligible to exchange')}"
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'exchange',#{appointment.AppointmentEligibleToExchange})}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <body>
@@ -10,7 +10,7 @@
             <div clas="col-md-1">
             </div>
             <div>
-                <p>There are <span th:text="${numberOfEligibleAppointments}"> 3</span> appointments that you can exchange with. Please select one.</p>
+                <p><span th:utext="#{appointment.ThereAre}">There are </span><span th:text="${numberOfEligibleAppointments}"> 3</span> <span th:utext="#{appointment.appointmentsThatYouCanExchangeWithPleaseSelectOne}">appointments that you can exchange with. Please select one.</span></p>
             </div>
         </div>
 

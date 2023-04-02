@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'','Select service')}"
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'',#{work.SelectService})}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <body>
@@ -9,15 +9,15 @@
             <table id="customers" class="table table-striped text-center">
                 <thead class="thead-dark">
                 <tr>
-                    <th> Name</th>
-                    <th> Duration</th>
-                    <th> Price</th>
-                    <th> Action</th>
+                    <th th:utext="#{work.Name}"> Name</th>
+                    <th th:utext="#{work.Duration}"> Duration</th>
+                    <th th:utext="#{work.Price}"> Price</th>
+                    <th th:utext="#{work.Action}"> Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${works == null}">
-                    <td colspan="4"> No works available</td>
+                    <td colspan="4" th:utext="#{work.NoWorksAvailable}"> No works available</td>
                 </tr>
                 <tr th:each="work : ${works}">
                     <td><span th:text="${work.name}"> work name </span></td>
@@ -25,7 +25,7 @@
                     <td><span th:text="${work.price}"> 3 </span></td>
                     <td><a class="btn btn-primary"
                            th:href="@{'/appointments/new/'+${providerId} +'/'+ ${work.id}}"
-                           role="button">Select</a>
+                           role="button" th:utext="#{button.Select}">Select</a>
                     </td>
                 </tr>
                 </tbody>

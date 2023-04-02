@@ -4,14 +4,14 @@
 <head></head>
 
 <body>
-<p>Hello, <span th:text="${appointment.customer.firstName}"></span></p>
-<p>This is your finished appointment summary:</p>
-<p>Date: <span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
-<p>Provider: <span th:text="${appointment.provider.firstName}"></span></p>
-<p>Work: <span th:text="${appointment.work.name}"></span></p>
-<p>Duration: <span th:text="${appointment.work.duration}"></span></p>
-<p>Price: <span th:text="${appointment.work.price}"></span></p>
-<p>If by some reason this appointemt didn't take place, you have 24h to report this by clicking <a th:href="${url}">here</a></p>
+<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${appointment.customer.firstName}"></span></p>
+<p th:utext="#{email.ThisIsYourFinishedAppointmentSummary}">This is your finished appointment summary:</p>
+<p><span th:utext="#{email.Date}">Date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:utext="#{email.Provider}">Provider: </span><span th:text="${appointment.provider.firstName}"></span></p>
+<p><span th:utext="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
+<p><span th:utext="#{email.Duration}">Duration: </span><span th:text="${appointment.work.duration}"></span></p>
+<p><span th:utext="#{email.Price}">Price: </span><span th:text="${appointment.work.price}"></span></p>
+<p><span th:utext="#{email.IfBySomeReasonThisAppointmentDidntTakePlaceYouHave24HToReportThisByClick}">If by some reason this appointemt didn't take place, you have 24h to report this by clicking </span><a th:href="${url}" th:utext="#{email.here}">here</a></p>
 
 </body>
 

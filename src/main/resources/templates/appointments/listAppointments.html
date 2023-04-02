@@ -41,7 +41,7 @@
                 </td>
                 <td><span th:utext="${appointment.work.duration}">60</span><span th:utext="#{appointment.min}">min</span></td>
                 <td><a class="btn btn-secondary" th:href="@{'/appointments/' + ${appointment.id}}"
-                       role="button" th:utext="#{appointment.Details}">Details</a></td>
+                       role="button" th:utext="#{button.Details}">Details</a></td>
             </tr>
             </tbody>
             <tfoot class="text-primary">
@@ -57,7 +57,7 @@
             </tfoot>
         </table>
         <div sec:authorize="hasRole('ROLE_CUSTOMER')" class="text-center">
-            <a class="btn btn-primary mt-2" th:href="@{/appointments/new}" role="button" th:utext="#{appointment.NewAppointment}">New appointment</a>
+            <a class="btn btn-primary mt-2" th:href="@{/appointments/new}" role="button" th:utext="#{button.NewAppointment}">New appointment</a>
         </div>
 
     </div>

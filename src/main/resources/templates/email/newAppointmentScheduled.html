@@ -4,15 +4,15 @@
 <head></head>
 
 <body>
-<p>Hello, <span th:text="${appointment.provider.firstName}"></span></p>
-<p>One of your customers booked an appointment with you, here are the details:</p>
-<p>Start date: <span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
-<p>Customer: <span th:text="${appointment.customer.firstName +' '+ appointment.customer.lastName}"></span></p>
-<p>Work: <span th:text="${appointment.work.name}"></span></p>
-<p>Duration: <span th:text="${appointment.work.duration}"></span> min</p>
-<p>Price: <span th:text="${appointment.work.price}"></span> PLN</p>
+<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${appointment.provider.firstName}"></span></p>
+<p><span th:utext="#{email.OneOfYourCustomersBookedAnAppointmentWithYou}">One of your customers booked an appointment with you, </span><span th:utext="#{email.hereAreTheDetails}">here are the details:</span></p>
+<p><span th:utext="#{email.StartDate}">Start date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:utext="#{email.Customer}">Customer: </span><span th:text="${appointment.customer.firstName +' '+ appointment.customer.lastName}"></span></p>
+<p><span th:utext="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
+<p><span th:utext="#{email.Duration}">Duration: </span><span th:text="${appointment.work.duration}"></span> min</p>
+<p><span th:utext="#{email.Price}">Price: </span><span th:text="${appointment.work.price}"></span> PLN</p>
 
-<p>Contact phone: <span th:text="${appointment.customer.mobile}"></span></p>
+<p><span th:utext="#{email.ContactPhone}">Contact phone: </span><span th:text="${appointment.customer.mobile}"></span></p>
 
 
 </body>
