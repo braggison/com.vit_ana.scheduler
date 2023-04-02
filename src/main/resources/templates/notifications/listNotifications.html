@@ -13,7 +13,7 @@
         <div style="text-align:right">
             <form th:action="@{/notifications/markAllAsRead}" id="markAllAsRead" method="POST">
                 <a class="btn btn-success" href="#"
-                   onclick="document.getElementById('markAllAsRead').submit(); return false;" th:utext="notification.MarkAllAsRead">Mark All As Read</a>
+                   onclick="document.getElementById('markAllAsRead').submit(); return false;" th:utext="#{notification.MarkAllAsRead}">Mark All As Read</a>
             </form>
         </div>
         <table id="notifications" class="table table-striped text-center mt-2">

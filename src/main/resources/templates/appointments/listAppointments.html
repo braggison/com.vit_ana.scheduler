@@ -12,7 +12,7 @@
         <table id="appointments" class="table text-center">
             <thead class="thead-dark">
             <tr>
-                <th th:utext="#{appaintment.Work}"> Work</th>
+                <th th:utext="#{appointment.Work}"> Work</th>
                 <th th:utext="#{appointment.Status}"> Status</th>
                 <th th:utext="#{appointment.Start}"> Start</th>
                 <th sec:authorize="!hasRole('ROLE_PROVIDER')" th:utext="#{appointment.Provider}"> Provider</th>
@@ -73,7 +73,7 @@
                 ],
                 "initComplete": function () {
                     this.api().columns([1]).every(function () {
-                        $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px">Status filter: </div>');
+                        $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px" th:utext="#{appointment.StatusFilter}">Status filter: </div>');
                         var column = this;
                         column.search('^SCHEDULED$', true, false).draw();
                         var select = $('<select name="statuses"><option value="SCHEDULED">SCHEDULED</option></select>')
