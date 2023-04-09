@@ -12,18 +12,18 @@
         <table id="appointments" class="table text-center">
             <thead class="thead-dark">
             <tr>
-                <th th:utext="#{appointment.Work}"> Work</th>
-                <th th:utext="#{appointment.Status}"> Status</th>
-                <th th:utext="#{appointment.Start}"> Start</th>
-                <th sec:authorize="!hasRole('ROLE_PROVIDER')" th:utext="#{appointment.Provider}"> Provider</th>
-                <th sec:authorize="!hasRole('ROLE_CUSTOMER')" th:utext="#{appointment.Customer}"> Customer</th>
-                <th th:utext="#{appointment.Duration}"> Duration</th>
-                <th th:utext="#{appointment.Action}"> Action</th>
+                <th th:text="#{appointment.Work}"> Work</th>
+                <th th:text="#{appointment.Status}"> Status</th>
+                <th th:text="#{appointment.Start}"> Start</th>
+                <th sec:authorize="!hasRole('ROLE_PROVIDER')" th:text="#{appointment.Provider}"> Provider</th>
+                <th sec:authorize="!hasRole('ROLE_CUSTOMER')" th:text="#{appointment.Customer}"> Customer</th>
+                <th th:text="#{appointment.Duration}"> Duration</th>
+                <th th:text="#{appointment.Action}"> Action</th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${appointments == null}">
-                <td colspan="2" th:utext="#{appointment.NoAppointmentsAvailable}"> No Appointments Available</td>
+                <td colspan="2" th:text="#{appointment.NoAppointmentsAvailable}"> No Appointments Available</td>
             </tr>
             <tr th:each="appointment : ${appointments}"
                 th:classappend="${appointment.status.name() == 'CANCELED' || appointment.status.name()  == 'FINISHED' || appointment.status.name()  == 'INVOICED' || appointment.status.name()  == 'REJECTION_REQUESTED' || appointment.status.name()  == 'REJECTED'} ? table-secondary : table-success">
@@ -39,9 +39,9 @@
                         th:text="${appointment.customer.firstName + ' ' + appointment.customer.lastName}">
                                 Customer </span>
                 </td>
-                <td><span th:utext="${appointment.work.duration}">60</span><span th:utext="#{appointment.min}">min</span></td>
+                <td><span th:text="${appointment.work.duration}">60</span><span th:text="#{appointment.min}">min</span></td>
                 <td><a class="btn btn-secondary" th:href="@{'/appointments/' + ${appointment.id}}"
-                       role="button" th:utext="#{button.Details}">Details</a></td>
+                       role="button" th:text="#{button.Details}">Details</a></td>
             </tr>
             </tbody>
             <tfoot class="text-primary">
@@ -57,7 +57,7 @@
             </tfoot>
         </table>
         <div sec:authorize="hasRole('ROLE_CUSTOMER')" class="text-center">
-            <a class="btn btn-primary mt-2" th:href="@{/appointments/new}" role="button" th:utext="#{button.NewAppointment}">New appointment</a>
+            <a class="btn btn-primary mt-2" th:href="@{/appointments/new}" role="button" th:text="#{button.NewAppointment}">New appointment</a>
         </div>
 
     </div>
@@ -73,7 +73,7 @@
                 ],
                 "initComplete": function () {
                     this.api().columns([1]).every(function () {
-                        $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px" th:utext="#{appointment.StatusFilter}">Status filter: </div>');
+                        $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px" th:text="#{appointment.StatusFilter}">Status filter: </div>');
                         var column = this;
                         column.search('^SCHEDULED$', true, false).draw();
                         var select = $('<select name="statuses"><option value="SCHEDULED">SCHEDULED</option></select>')

@@ -16,7 +16,7 @@
                    th:text="#{appointment.AvailableWorks} + ${provider.getRetailWorks().size()}">Available works: 3</p>
                 <p sec:authorize="hasRole('ROLE_CUSTOMER_CORPORATE')"
                    th:text="#{appointment.AvailableWorks} + ${provider.getCorporateWorks().size()}">Available works: 3</p>
-                <a th:href="@{'/appointments/new/'+${provider.id}}" class="btn btn-primary" th:utext="#{button.Select}">Select</a>
+                <a th:href="@{'/appointments/new/'+${provider.id}}" class="btn btn-primary" th:text="#{button.Select}">Select</a>
 
             </div>
         </div>

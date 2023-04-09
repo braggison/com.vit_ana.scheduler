@@ -13,7 +13,7 @@
         <div style="text-align:right">
             <form th:action="@{/notifications/markAllAsRead}" id="markAllAsRead" method="POST">
                 <a class="btn btn-success" href="#"
-                   onclick="document.getElementById('markAllAsRead').submit(); return false;" th:utext="#{notification.MarkAllAsRead}">Mark All As Read</a>
+                   onclick="document.getElementById('markAllAsRead').submit(); return false;" th:text="#{notification.MarkAllAsRead}">Mark All As Read</a>
             </form>
         </div>
         <table id="notifications" class="table table-striped text-center mt-2">
@@ -21,16 +21,16 @@
             <thead class="thead-dark">
 
             <tr>
-                <th th:utext="#{notification.Date}"> Date</th>
-                <th th:utext="#{notification.Title}"> Title</th>
-                <th th:utext="#{notification.Message}"> Message</th>
-                <th th:utext="#{notification.Action}"> Action</th>
-                <th th:utext="#{notification.Seen}"> Seen</th>
+                <th th:text="#{notification.Date}"> Date</th>
+                <th th:text="#{notification.Title}"> Title</th>
+                <th th:text="#{notification.Message}"> Message</th>
+                <th th:text="#{notification.Action}"> Action</th>
+                <th th:text="#{notification.Seen}"> Seen</th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${notifications.size()==0}">
-                <td colspan="5" th:utext="#{notification.NoNotificationsAvailable}"> No notifications available</td>
+                <td colspan="5" th:text="#{notification.NoNotificationsAvailable}"> No notifications available</td>
             </tr>
             <tr th:each="notification : ${notifications}">
                 <td><span th:text="${#dates.format(notification.createdAt, 'dd-MMM-yyyy')}"> 01-01-2019 </span></td>

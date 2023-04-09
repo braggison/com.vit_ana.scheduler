@@ -4,12 +4,12 @@
 <head></head>
 
 <body>
-<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${exchangeRequest.getRequested().getCustomer().getFirstName()}"></span></p>
-<p><span th:utext="#{email.SomeoneAcceptedYourRequestToExchangeYourAppointment}">Someone accepted you request to exchange your appointments. </span></p>
-<p><span th:utext="#{email.YourOldAppointmentDateWas}">Your old appointment date was: </span><span th:text="${#temporals.format(exchangeRequest.getRequested().getStart(), 'dd-MM-yyyy HH:mm')}"></span></p>
-<p><span th:utext="#{email.YourNewAppointmentDateIs}">Your new appointment date is: </span><span th:text="${#temporals.format(exchangeRequest.getRequestor().getStart(), 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.Hello}">Hello, </span><span th:text="${exchangeRequest.getRequested().getCustomer().getFirstName()}"></span></p>
+<p><span th:text="#{email.SomeoneAcceptedYourRequestToExchangeYourAppointment}">Someone accepted you request to exchange your appointments. </span></p>
+<p><span th:text="#{email.YourOldAppointmentDateWas}">Your old appointment date was: </span><span th:text="${#temporals.format(exchangeRequest.getRequested().getStart(), 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.YourNewAppointmentDateIs}">Your new appointment date is: </span><span th:text="${#temporals.format(exchangeRequest.getRequestor().getStart(), 'dd-MM-yyyy HH:mm')}"></span></p>
 
-<p><span th:utext="#{email.Click}">Click </span><a th:href="${url}" th:utext="#{email.here}">here</a> <span th:utext="#{email.toSeeYourAppointment}">to see your appointment.</span></p>
+<p><span th:text="#{email.Click}">Click </span><a th:href="${url}" th:text="#{email.here}">here</a> <span th:text="#{email.toSeeYourAppointment}">to see your appointment.</span></p>
 
 </body>
 </html>

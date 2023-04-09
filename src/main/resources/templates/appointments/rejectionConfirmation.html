@@ -9,32 +9,32 @@
 <div class="row align-items-center justify-content-center" style="margin-top: 50px">
 <div th:if="${type == 'request'}">
     <div th:if="${result}">
-        <p th:utext="#{appointment.YouSuccesfullyRequestedRejectionForThisAppointment}">You succesfully requested rejection for this appointment. </p>
-        <p th:utext="#{appointment.IfProviderWillConfirmThatItWillBeNotInvoiced}">If provider will confirm that it will be not invoiced.</p>
+        <p th:text="#{appointment.YouSuccesfullyRequestedRejectionForThisAppointment}">You succesfully requested rejection for this appointment. </p>
+        <p th:text="#{appointment.IfProviderWillConfirmThatItWillBeNotInvoiced}">If provider will confirm that it will be not invoiced.</p>
     </div>
 
     <div th:if="${result==false}">
-        <p th:utext="#{appointment.ErrorOccured">Error occured!</p>
-        <p th:utext="#{appointment.MakeSureThisAppointmentIsNotAlreadyRejected}">Make sure that this appointments isn't already rejected</p>
+        <p th:text="#{appointment.ErrorOccured">Error occured!</p>
+        <p th:text="#{appointment.MakeSureThisAppointmentIsNotAlreadyRejected}">Make sure that this appointments isn't already rejected</p>
     </div>
 
 </div>
 
 <div  th:if="${type == 'accept'}">
     <div th:if="${result}">
-        <p th:utext="#{appointment.AppointmentStatusHasBeenSuccessfullySetToRejected}">Appointment status has been succesfully set to rejected </p>
-        <p th:utext="#{appointment.ItWillBeNotInvoiced}">It will be not invoiced.</p>
+        <p th:text="#{appointment.AppointmentStatusHasBeenSuccessfullySetToRejected}">Appointment status has been succesfully set to rejected </p>
+        <p th:text="#{appointment.ItWillBeNotInvoiced}">It will be not invoiced.</p>
     </div>
 
     <div th:if="${result==false}">
-        <p th:utext="#{appointment.ErrorOccured">Error occured!</p>
-        <p th:utext="#{appointment.MakeSureThisAppointmentIsNotAlreadyRejected}">Make sure that this appointments isn't already rejected</p>
+        <p th:text="#{appointment.ErrorOccured">Error occured!</p>
+        <p th:text="#{appointment.MakeSureThisAppointmentIsNotAlreadyRejected}">Make sure that this appointments isn't already rejected</p>
     </div>
 
 </div>
 
 <div sec:authorize="!isAuthenticated()">
-    <p th:utext="#{login.YouCanSignIn}">You can sign in <a th:href="@{/login}" th:utext="#{login.here}">here</a></p>
+    <p th:text="#{login.YouCanSignIn}">You can sign in <a th:href="@{/login}" th:text="#{login.here}">here</a></p>
 </div>
 </div>
 </div>

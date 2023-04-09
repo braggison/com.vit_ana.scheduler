@@ -4,11 +4,11 @@
 <head></head>
 
 <body>
-<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${exchangeRequest.getRequestor().getCustomer().getFirstName()}"></span></p>
-<p><span th:utext="#{email.SomeoneRejectedYourRequestToExchangeYourAppointment}">Someone rejected your request to exchange your appointment. </span></p>
-<p><span th:utext="#{email.YourAppointmentDateIsStillScheduledAt}">Your appointment date is still scheduled at: </span><span th:text="${#temporals.format(exchangeRequest.getRequestor().getStart(), 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.Hello}">Hello, </span><span th:text="${exchangeRequest.getRequestor().getCustomer().getFirstName()}"></span></p>
+<p><span th:text="#{email.SomeoneRejectedYourRequestToExchangeYourAppointment}">Someone rejected your request to exchange your appointment. </span></p>
+<p><span th:text="#{email.YourAppointmentDateIsStillScheduledAt}">Your appointment date is still scheduled at: </span><span th:text="${#temporals.format(exchangeRequest.getRequestor().getStart(), 'dd-MM-yyyy HH:mm')}"></span></p>
 
-<p><span th:utext="#{email.Click}">Click </span><a th:href="${url}" th:utext="#{email.here}">here</a> <span th:utext="#{email.toSeeYourAppointment}">to see your appointment.</span></p>
+<p><span th:text="#{email.Click}">Click </span><a th:href="${url}" th:text="#{email.here}">here</a> <span th:text="#{email.toSeeYourAppointment}">to see your appointment.</span></p>
 
 </body>
 </html>

@@ -4,12 +4,12 @@
 <head></head>
 
 <body>
-<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${recipent.firstName}"></span></p>
-<p><span th:utext="#{email.YouHaveNewChatMessageInThisAppointment}">You have new chat message in this appointment: </span></p>
-<p><span th:utext="#{email.StartDate}">Start date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
-<p><span th:utext="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
+<p><span th:text="#{email.Hello}">Hello, </span><span th:text="${recipent.firstName}"></span></p>
+<p><span th:text="#{email.YouHaveNewChatMessageInThisAppointment}">You have new chat message in this appointment: </span></p>
+<p><span th:text="#{email.StartDate}">Start date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
 
-<p><span th:utext="#{email.Click}">Click </span><a th:href="${url}" th:utext="#{email.here}">here</a> <span th:utext="#{email.toViewIt}">to view it</span></p>
+<p><span th:text="#{email.Click}">Click </span><a th:href="${url}" th:text="#{email.here}">here</a> <span th:text="#{email.toViewIt}">to view it</span></p>
 
 </body>
 </html>

@@ -4,15 +4,15 @@
 <head></head>
 
 <body>
-<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${appointment.provider.firstName}"></span></p>
-<p><span th:utext="#{email.OneOfYourCustomersBookedAnAppointmentWithYou}">One of your customers booked an appointment with you, </span><span th:utext="#{email.hereAreTheDetails}">here are the details:</span></p>
-<p><span th:utext="#{email.StartDate}">Start date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
-<p><span th:utext="#{email.Customer}">Customer: </span><span th:text="${appointment.customer.firstName +' '+ appointment.customer.lastName}"></span></p>
-<p><span th:utext="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
-<p><span th:utext="#{email.Duration}">Duration: </span><span th:text="${appointment.work.duration}"></span> min</p>
-<p><span th:utext="#{email.Price}">Price: </span><span th:text="${appointment.work.price}"></span> PLN</p>
+<p><span th:text="#{email.Hello}">Hello, </span><span th:text="${appointment.provider.firstName}"></span></p>
+<p><span th:text="#{email.OneOfYourCustomersBookedAnAppointmentWithYou}">One of your customers booked an appointment with you, </span><span th:text="#{email.hereAreTheDetails}">here are the details:</span></p>
+<p><span th:text="#{email.StartDate}">Start date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.Customer}">Customer: </span><span th:text="${appointment.customer.firstName +' '+ appointment.customer.lastName}"></span></p>
+<p><span th:text="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
+<p><span th:text="#{email.Duration}">Duration: </span><span th:text="${appointment.work.duration}"></span> min</p>
+<p><span th:text="#{email.Price}">Price: </span><span th:text="${appointment.work.price}"></span> PLN</p>
 
-<p><span th:utext="#{email.ContactPhone}">Contact phone: </span><span th:text="${appointment.customer.mobile}"></span></p>
+<p><span th:text="#{email.ContactPhone}">Contact phone: </span><span th:text="${appointment.customer.mobile}"></span></p>
 
 
 </body>

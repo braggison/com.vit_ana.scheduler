@@ -11,41 +11,41 @@
             <thead>
             <tr class="text-center">
                 <td colspan="2">
-                    <h3 th:utext="#{appointment.YourNewAppointmentSummary}">Your new appointment summary</h3>
+                    <h3 th:text="#{appointment.YourNewAppointmentSummary}">Your new appointment summary</h3>
                 </td>
             </tr>
             </thead>
 
             <tr>
-                <td><b th:utext="#{appointment.date}">date</b></td>
+                <td><b th:text="#{appointment.date}">date</b></td>
                 <td><span th:text="${#temporals.format(start, 'dd-MM-yyyy')}">10-01-2019</span></td>
             </tr>
             <tr>
-                <td><b th:utext="#{appointment.time}">time</b></td>
+                <td><b th:text="#{appointment.time}">time</b></td>
                 <td><span th:text="${#temporals.format(start, 'HH:mm')+' - '+ #temporals.format(end, 'HH:mm')}">14:00 - 15:00</span>
                 </td>
             </tr>
             <tr>
-                <td><b th:utext="#{appointment.provider}">provider</b></td>
+                <td><b th:text="#{appointment.provider}">provider</b></td>
                 <td><span th:text="${provider}">Marian Nowak</span></td>
             </tr>
 
             <tr>
-                <td><b th:utext="#{appointment.work}">work</b></td>
+                <td><b th:text="#{appointment.work}">work</b></td>
                 <td><span th:text="${work.name}"> english </span></td>
             </tr>
             <tr>
-                <td><b th:utext="#{appointment.description}">description</b></td>
+                <td><b th:text="#{appointment.description}">description</b></td>
                 <td><span th:text="${work.description}">description</span></td>
             </tr>
 
             <tr>
-                <td><b th:utext="#{appointment.price}">price</b></td>
+                <td><b th:text="#{appointment.price}">price</b></td>
                 <td><span th:text="${work.price}"> 50 </span> pln</td>
             </tr>
 
             <tr>
-                <td><b th:utext="#{appointment.cancellableByCustomer}">cancellable by customer?</b></td>
+                <td><b th:text="#{appointment.cancellableByCustomer}">cancellable by customer?</b></td>
                 <td><p th:text="${work.editable ? 'Yes':'No, only by provider'}">Yes</p></td>
             </tr>
             <tr class="text-center">
@@ -56,7 +56,7 @@
                         <input type="hidden" name="start" th:value="${start}">
 
 
-                        <button type="submit" class="btn btn-primary" th:utext="#{button.book}">Book</button>
+                        <button type="submit" class="btn btn-primary" th:text="#{button.book}">Book</button>
                     </form>
 
                 </td>

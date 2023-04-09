@@ -4,12 +4,12 @@
 <head></head>
 
 <body>
-<p><span th:utext="#{email.Hello}">Hello, </span><span th:text="${newAppointment.getCustomer().getFirstName()}"></span></p>
-<p><span th:utext="#{email.SomeoneWantsToExchangeHisAppointmentWithYourAppointment}">Someone want's to exchange his appointment with your appointment. </span></p>
-<p><span th:utext="#{email.YouAppointmentDateIs}">You appointment date is: </span><span th:text="${#temporals.format(newAppointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
-<p><span th:utext="#{email.HisHerAppointmentDateIs}">His/Her appointment date is: </span><span th:text="${#temporals.format(oldAppointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.Hello}">Hello, </span><span th:text="${newAppointment.getCustomer().getFirstName()}"></span></p>
+<p><span th:text="#{email.SomeoneWantsToExchangeHisAppointmentWithYourAppointment}">Someone want's to exchange his appointment with your appointment. </span></p>
+<p><span th:text="#{email.YouAppointmentDateIs}">You appointment date is: </span><span th:text="${#temporals.format(newAppointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
+<p><span th:text="#{email.HisHerAppointmentDateIs}">His/Her appointment date is: </span><span th:text="${#temporals.format(oldAppointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
 
-<p><span th:utext="#{email.Click}">Click </span><a th:href="${url}" th:utext="#{email.here}">here</a> <span th:utext="#{email.toViewItAndTakeAction}">to view it and take action.</span></p>
+<p><span th:text="#{email.Click}">Click </span><a th:href="${url}" th:text="#{email.here}">here</a> <span th:text="#{email.toViewItAndTakeAction}">to view it and take action.</span></p>
 
 </body>
 </html>
