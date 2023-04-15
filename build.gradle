@@ -14,6 +14,10 @@ repositories {
     }
 }
 
+ext {
+    lombokVersion = '1.18.22'
+}
+
 dependencies {
     api 'org.springframework.boot:spring-boot-starter-data-jpa:2.2.5.RELEASE'
     api 'org.springframework.boot:spring-boot-starter-security:2.2.5.RELEASE'
@@ -42,6 +46,9 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test:5.2.2.RELEASE'
     testImplementation 'org.testcontainers:selenium:1.17.6'
     compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 group = 'com.vit-ana'
