@@ -9,7 +9,7 @@
     <!-- Appointment Chat CSS -->
     <link rel="stylesheet" th:href="@{/css/vendor/chat.css}"/>
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css"/>
     <!-- Fullcalendar CSS -->
     <!--<link rel="stylesheet" th:href="@{/css/vendor/fullcalendar.css}"/>-->
     <!-- Site CSS -->
@@ -24,9 +24,9 @@
     <script src="https://kit.fontawesome.com/56438f342e.js"></script>
 
     <!--jQuery-->
-    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/jquery/3.6.4/jquery.min.js"></script>
     <!-- Bootstrap core JavaScript -->
-    <script src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
     <!--Moment-->
     <script type="text/javascript" th:src="@{/js/vendor/moment-with-locales-2.29.4.js}"></script>
     <!--FullCalendar-->
@@ -111,7 +111,7 @@
 
 <!-- Page Content -->
 <div class="container">
-    <th:block th:include="${content}"/>
+    <th:block th:insert="${content}"/>
     <div class="row align-items-center justify-content-center" style="margin-top: 50px">
         <p><span th:text="#{AppointmentScheduler}">AppointmentScheduler v</span><span th:text="${currentVersion}">1.0</span></p>
     </div>
