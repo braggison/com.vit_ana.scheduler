@@ -10,16 +10,16 @@
         <table id="customers" class="table table-striped text-center">
             <thead class="thead-dark">
             <tr>
-                <th> Name</th>
-                <th> Type </th>
-                <th> E-mail</th>
-                <th> Appointments</th>
-                <th> Action</th>
+                <th th:text="#{customer.Name}"> Name</th>
+                <th th:text="#{customer.Type}"> Type </th>
+                <th th:text="#{customer.Email}"> E-mail</th>
+                <th th:text="#{customer.Appointments}"> Appointments</th>
+                <th th:text="#{customer.Action}"> Action</th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${customers == null}">
-                <td colspan="4"> No Providers Available</td>
+                <td colspan="4" th:text="#{customer.NoCustomersAvailable}"> No Providers Available</td>
             </tr>
             <tr th:each="customer : ${customers}" th:classappend="${customer.getType()=='retail' ? 'table-primary' : 'table-info'}">
                 <td><span th:text="${customer.firstName +' ' + customer.lastName}"> Name Lastname </span></td>
@@ -27,10 +27,10 @@
                 <td><span th:text="${customer.email }"> email </span></td>
                 <td><span th:text="${customer.appointments.size() }"> 3 </span></td>
                 <td><a class="btn btn-secondary" th:href="@{'/customers/' + ${customer.id}}"
-                       role="button">Details</a>
+                       role="button" th:text="#{button.Details}">Details</a>
                     <form class="d-inline-block" th:action="@{/customers/delete}" method="POST">
                         <input type="hidden" name="customerId" th:value="${customer.id}" />
-                        <button type="submit" name="submit" value="value" class="btn btn-danger">Delete</button>
+                        <button type="submit" name="submit" value="value" class="btn btn-danger" th:text="#{button.Delete}">Delete</button>
                     </form>
                 </td>
             </tr>
