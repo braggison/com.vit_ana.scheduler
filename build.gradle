@@ -22,29 +22,29 @@ repositories {
 }
 
 dependencies {
-    api "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
-    api "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
-    api "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
-    api "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-    api "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
-    api 'org.postgresql:postgresql:42.6.0'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+    implementation 'org.postgresql:postgresql:42.6.0'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
-    api 'org.webjars:bootstrap:5.2.3'
-    api 'org.webjars:jquery:3.6.4'
-    api 'com.vladmihalcea:hibernate-types-60:2.21.1'
-    api "org.springframework.boot:spring-boot-starter-mail:$springBootVersion"
-    api 'io.jsonwebtoken:jjwt:0.9.1'
-    api 'org.xhtmlrenderer:flying-saucer-pdf-itext5:9.1.22'
-    api 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
-    api 'com.google.guava:guava:31.1-jre'
-    api "org.testcontainers:testcontainers:$testcontainersVersion"
-    api "org.testcontainers:jdbc:$testcontainersVersion"
-    api "org.testcontainers:mysql:$testcontainersVersion"
-    api "org.testcontainers:postgresql:$testcontainersVersion"
-    api 'org.seleniumhq.selenium:selenium-remote-driver:4.8.3'
-    api 'org.seleniumhq.selenium:selenium-chrome-driver:4.8.3'
-    api 'org.flywaydb:flyway-core:9.16.3'
-    api "org.springframework.boot:spring-boot-devtools:$springBootVersion"
+    implementation 'org.webjars:bootstrap:5.2.3'
+    implementation 'org.webjars:jquery:3.6.4'
+    implementation 'com.vladmihalcea:hibernate-types-60:2.21.1'
+    implementation "org.springframework.boot:spring-boot-starter-mail:$springBootVersion"
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.xhtmlrenderer:flying-saucer-pdf-itext5:9.1.22'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation "org.testcontainers:testcontainers:$testcontainersVersion"
+    implementation "org.testcontainers:jdbc:$testcontainersVersion"
+    implementation "org.testcontainers:mysql:$testcontainersVersion"
+    implementation "org.testcontainers:postgresql:$testcontainersVersion"
+    implementation 'org.seleniumhq.selenium:selenium-remote-driver:4.8.3'
+    implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.8.3'
+    implementation 'org.flywaydb:flyway-core:9.16.3'
+    implementation "org.springframework.boot:spring-boot-devtools:$springBootVersion"
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
     testImplementation 'org.springframework.security:spring-security-test:6.0.2'
     testImplementation "org.testcontainers:selenium:$testcontainersVersion"
