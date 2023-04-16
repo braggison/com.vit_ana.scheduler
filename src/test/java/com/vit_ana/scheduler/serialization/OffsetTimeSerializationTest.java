@@ -1,4 +1,4 @@
-package com.example.slabiak.appointmentscheduler.serialization;
+package com.vit_ana.scheduler.serialization;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

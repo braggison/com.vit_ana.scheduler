@@ -1,4 +1,4 @@
-package com.example.slabiak.appointmentscheduler.service.work;
+package com.vit_ana.scheduler.service.work;
 
 import org.junit.Before;
 import org.junit.Test;

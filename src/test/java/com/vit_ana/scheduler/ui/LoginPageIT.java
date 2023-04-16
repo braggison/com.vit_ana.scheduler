@@ -1,4 +1,4 @@
-package com.example.slabiak.appointmentscheduler.ui;
+package com.vit_ana.scheduler.ui;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

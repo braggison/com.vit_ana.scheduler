@@ -1,4 +1,4 @@
-package com.example.slabiak.appointmentscheduler.service.user;
+package com.vit_ana.scheduler.service.user;
 
 import com.vit_ana.scheduler.model.UserForm;
 
