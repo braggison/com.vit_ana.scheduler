@@ -23,13 +23,11 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    http.csrf().disable()
 		.authorizeHttpRequests((authorize) -> authorize
-	            .requestMatchers("/css/**").permitAll()
-	            .requestMatchers("/js/**").permitAll()
-	            .requestMatchers("/img/**").permitAll()
+	            .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**").permitAll()
 	            .requestMatchers("/customers/new/**").permitAll()
+	            .requestMatchers("/customers/all").hasRole("ADMIN")
 	            .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
 	            .requestMatchers("/api/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
-	            .requestMatchers("/customers/all").hasRole("ADMIN")
 	            .requestMatchers("/providers/new").hasRole("ADMIN")
 	            .requestMatchers("/invoices/all").hasRole("ADMIN")
 	            .requestMatchers("/providers/all").hasRole("ADMIN")
@@ -41,6 +39,7 @@ public class SecurityConfig {
 	            .requestMatchers("/appointments/new/**").hasRole("CUSTOMER")
 	            .requestMatchers("/appointments/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
 	            .requestMatchers("/invoices/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
+				.anyRequest().authenticated()
 		)
 	            .formLogin()
 	            .loginPage("/login")
