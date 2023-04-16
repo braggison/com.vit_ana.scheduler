@@ -1,19 +1,19 @@
 package com.vit_ana.scheduler.security;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
 	@Autowired
@@ -22,7 +22,7 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    http.csrf().disable()
-	            .authorizeHttpRequests()
+		.authorizeHttpRequests((authorize) -> authorize
 	            .requestMatchers("/css/**").permitAll()
 	            .requestMatchers("/js/**").permitAll()
 	            .requestMatchers("/img/**").permitAll()
@@ -41,34 +41,19 @@ public class SecurityConfig {
 	            .requestMatchers("/appointments/new/**").hasRole("CUSTOMER")
 	            .requestMatchers("/appointments/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
 	            .requestMatchers("/invoices/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
-	            .and()
+		)
 	            .formLogin()
 	            .loginPage("/login")
 	            .loginProcessingUrl("/perform_login")
-//	            .successHandler(customAuthenticationSuccessHandler)
+	            .successHandler(customAuthenticationSuccessHandler)
 	            .permitAll()
 	            .and()
 	            .logout().logoutUrl("/perform_logout")
 	            .and()
 	            .exceptionHandling().accessDeniedPage("/access-denied");
-	    
 	    return http.build();
 	}
-	
-//	@Bean
-//	public WebSecurityCustomizer webSecurityCustomizer() {
-//	    return (web) -> web
-//	      .ignoring()
-//	}
-	
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-//        auth.setUserDetailsService(customUserDetailsService);
-//        auth.setPasswordEncoder(passwordEncoder);
-//        return auth;
-//    }
-    
+
 	@Bean
 	public AuthenticationManager authenticationManager(
 			HttpSecurity http,
