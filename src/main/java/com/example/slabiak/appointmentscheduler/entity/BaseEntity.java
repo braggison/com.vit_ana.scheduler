@@ -2,8 +2,8 @@ package com.example.slabiak.appointmentscheduler.entity;
 
 import java.util.UUID;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class BaseEntity {

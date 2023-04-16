@@ -1,5 +1,10 @@
 package com.example.slabiak.appointmentscheduler.entity.user.provider;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
 import com.example.slabiak.appointmentscheduler.entity.Appointment;
 import com.example.slabiak.appointmentscheduler.entity.Work;
 import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
@@ -7,11 +12,15 @@ import com.example.slabiak.appointmentscheduler.entity.user.Role;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.model.UserForm;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "providers")

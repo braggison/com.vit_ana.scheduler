@@ -3,12 +3,6 @@ package com.example.slabiak.appointmentscheduler.model;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-
 import com.example.slabiak.appointmentscheduler.entity.Work;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.entity.user.customer.CorporateCustomer;
@@ -22,6 +16,12 @@ import com.example.slabiak.appointmentscheduler.validation.groups.CreateUser;
 import com.example.slabiak.appointmentscheduler.validation.groups.UpdateCorporateCustomer;
 import com.example.slabiak.appointmentscheduler.validation.groups.UpdateProvider;
 import com.example.slabiak.appointmentscheduler.validation.groups.UpdateUser;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @FieldsMatches(field = "password", matchingField = "matchingPassword", groups = {CreateUser.class})
 public class UserForm {

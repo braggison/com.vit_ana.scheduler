@@ -1,11 +1,11 @@
 package com.example.slabiak.appointmentscheduler.validation;
 
-import com.example.slabiak.appointmentscheduler.entity.user.User;
-import com.example.slabiak.appointmentscheduler.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import com.example.slabiak.appointmentscheduler.service.UserService;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, Object> {
 

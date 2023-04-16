@@ -1,5 +1,16 @@
 package com.example.slabiak.appointmentscheduler.service.impl;
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
+
 import com.example.slabiak.appointmentscheduler.entity.Appointment;
 import com.example.slabiak.appointmentscheduler.entity.ChatMessage;
 import com.example.slabiak.appointmentscheduler.entity.ExchangeRequest;
@@ -7,19 +18,10 @@ import com.example.slabiak.appointmentscheduler.entity.Invoice;
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.service.EmailService;
 import com.example.slabiak.appointmentscheduler.util.PdfGeneratorUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

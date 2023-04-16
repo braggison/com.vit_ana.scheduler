@@ -1,10 +1,16 @@
 package com.example.slabiak.appointmentscheduler.entity;
 
-import com.example.slabiak.appointmentscheduler.entity.user.User;
-
-import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
+
+import com.example.slabiak.appointmentscheduler.entity.user.User;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "works")

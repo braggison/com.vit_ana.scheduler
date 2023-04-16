@@ -6,25 +6,22 @@ import java.time.ZoneOffset;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
 import com.example.slabiak.appointmentscheduler.model.DayPlan;
 import com.example.slabiak.appointmentscheduler.model.TimePeroid;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 
-@TypeDefs(@TypeDef(name = "json", typeClass = JsonStringType.class))
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+//@TypeDefs(@TypeDef(name = "json", typeClass = JsonStringType.class))
 @Entity
 @Table(name = "working_plans")
 public class WorkingPlan {
@@ -38,31 +35,31 @@ public class WorkingPlan {
     @JoinColumn(name = "id_provider")
     private Provider provider;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "monday")
     private DayPlan monday;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "tuesday")
     private DayPlan tuesday;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "wednesday")
     private DayPlan wednesday;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "thursday")
     private DayPlan thursday;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "friday")
     private DayPlan friday;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "saturday")
     private DayPlan saturday;
 
-    @Type(type = "json")
+    @Type(JsonType.class)
     @Column(columnDefinition = "json", name = "sunday")
     private DayPlan sunday;
 

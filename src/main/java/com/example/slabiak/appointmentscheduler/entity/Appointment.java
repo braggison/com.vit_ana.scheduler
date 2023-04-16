@@ -1,18 +1,28 @@
 package com.example.slabiak.appointmentscheduler.entity;
 
+import java.time.OffsetDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.example.slabiak.appointmentscheduler.entity.user.User;
 import com.example.slabiak.appointmentscheduler.entity.user.customer.Customer;
 import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
 import com.example.slabiak.appointmentscheduler.model.AppointmentSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 
 @Entity

@@ -1,14 +1,14 @@
 package com.example.slabiak.appointmentscheduler.model;
 
 
+import java.util.UUID;
+
 import com.example.slabiak.appointmentscheduler.validation.CurrentPasswordMatches;
 import com.example.slabiak.appointmentscheduler.validation.FieldsMatches;
 
-import java.util.UUID;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @FieldsMatches(field = "password", matchingField = "matchingPassword")
 @CurrentPasswordMatches()

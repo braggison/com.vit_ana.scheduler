@@ -1,12 +1,13 @@
 package com.example.slabiak.appointmentscheduler.entity.user.customer;
 
+import java.util.Collection;
+
 import com.example.slabiak.appointmentscheduler.entity.user.Role;
 import com.example.slabiak.appointmentscheduler.model.UserForm;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-import java.util.Collection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "retail_customers")

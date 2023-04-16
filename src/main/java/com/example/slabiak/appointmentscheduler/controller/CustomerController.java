@@ -1,5 +1,20 @@
 package com.example.slabiak.appointmentscheduler.controller;
 
+import java.util.UUID;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.example.slabiak.appointmentscheduler.entity.user.customer.Customer;
 import com.example.slabiak.appointmentscheduler.model.ChangePasswordForm;
 import com.example.slabiak.appointmentscheduler.model.UserForm;
@@ -10,17 +25,8 @@ import com.example.slabiak.appointmentscheduler.validation.groups.CreateCorporat
 import com.example.slabiak.appointmentscheduler.validation.groups.CreateUser;
 import com.example.slabiak.appointmentscheduler.validation.groups.UpdateCorporateCustomer;
 import com.example.slabiak.appointmentscheduler.validation.groups.UpdateUser;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.UUID;
-
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/customers")

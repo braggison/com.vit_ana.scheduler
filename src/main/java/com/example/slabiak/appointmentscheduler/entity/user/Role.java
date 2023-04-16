@@ -1,12 +1,12 @@
 package com.example.slabiak.appointmentscheduler.entity.user;
 
-import com.example.slabiak.appointmentscheduler.entity.BaseEntity;
-
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.example.slabiak.appointmentscheduler.entity.BaseEntity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
