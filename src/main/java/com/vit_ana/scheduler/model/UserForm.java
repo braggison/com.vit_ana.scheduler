@@ -22,8 +22,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @FieldsMatches(field = "password", matchingField = "matchingPassword", groups = {CreateUser.class})
+@Getter
+@Setter
 public class UserForm {
 
     @NotNull(groups = {UpdateUser.class})
@@ -44,6 +48,8 @@ public class UserForm {
 
     @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "First name cannot be empty")
     private String firstName;
+
+    private String middleName;
 
     @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "Last name cannot be empty")
     private String lastName;
@@ -91,6 +97,7 @@ public class UserForm {
         this.setId(user.getId());
         this.setUserName(user.getUserName());
         this.setFirstName(user.getFirstName());
+        this.setMiddleName(user.getMiddleName());
         this.setLastName(user.getLastName());
         this.setEmail(user.getEmail());
         this.setCity(user.getCity());

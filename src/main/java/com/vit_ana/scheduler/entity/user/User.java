@@ -19,11 +19,15 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
 public class User extends BaseEntity {
 
     @Column(name = "username")
@@ -34,6 +38,9 @@ public class User extends BaseEntity {
 
     @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "middle_name")
+    private String middleName;
 
     @Column(name = "last_name")
     private String lastName;
@@ -68,6 +75,7 @@ public class User extends BaseEntity {
     	super(UUID.randomUUID());
         this.setUserName(newUserForm.getUserName());
         this.setFirstName(newUserForm.getFirstName());
+        this.setMiddleName(newUserForm.getMiddleName());
         this.setLastName(newUserForm.getLastName());
         this.setEmail(newUserForm.getEmail());
         this.setCity(newUserForm.getCity());
@@ -81,6 +89,7 @@ public class User extends BaseEntity {
     public void update(UserForm updateData) {
         this.setEmail(updateData.getEmail());
         this.setFirstName(updateData.getFirstName());
+        this.setMiddleName(updateData.getMiddleName());
         this.setLastName(updateData.getLastName());
         this.setMobile(updateData.getMobile());
         this.setCity(updateData.getCity());
