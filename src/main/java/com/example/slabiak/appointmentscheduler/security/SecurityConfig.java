@@ -60,6 +60,9 @@ public class SecurityConfig {
 	public WebSecurityCustomizer webSecurityCustomizer() {
 	    return (web) -> web
 	      .ignoring()
+          .requestMatchers("/css/**")
+          .requestMatchers("/js/**")
+          .requestMatchers("/img/**")
 	      .requestMatchers("/customers/new/**");
 	}
 	
@@ -76,7 +79,7 @@ public class SecurityConfig {
       throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
           .userDetailsService(customUserDetailsService)
-          .passwordEncoder(bCryptPasswordEncoder)
+          .passwordEncoder(passwordEncoder)
           .and()
           .build();
     }
