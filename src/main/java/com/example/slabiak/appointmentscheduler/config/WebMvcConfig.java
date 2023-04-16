@@ -10,12 +10,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private VersionInterceptor versionInterceptor;
+//    @Autowired
+//    private VersionInterceptor versionInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(versionInterceptor);
+//        registry.addInterceptor(versionInterceptor);
         registry.addInterceptor(localeInterceptor());
     }
     
