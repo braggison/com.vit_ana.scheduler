@@ -7,10 +7,9 @@
             <li class="nav-item" th:classappend="${activeLink} == 'appointments' ? 'active':''">
                 <a class="nav-link" th:href="@{/appointments/all}" th:text="#{menu.Appointments}">Appointments</a>
             </li>
-            <!--<li class="nav-item" th:classappend="${activeLink} == 'account' ? 'active':''">
-                <a class="nav-link" th:href="@{'/customers/' + ${#authentication.id}}" th:text="#{menu.MyAccount}">My account</a>
+            <li class="nav-item" th:classappend="${activeLink} == 'account' ? 'active':''">
+                <a class="nav-link" th:href="@{'/customers/' + ${#authentication.principal.id}}" th:text="#{menu.MyAccount}">My account</a>
             </li>
-            -->
         </ul>
     </div>
 </th:block>
