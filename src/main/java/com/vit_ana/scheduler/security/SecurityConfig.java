@@ -18,16 +18,15 @@ public class SecurityConfig {
 
 	@Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-	@Autowired
-    private CustomUserDetailsService customUserDetailsService;
-	@Autowired
-    private PasswordEncoder passwordEncoder;
-
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	    http.csrf().disable()
 	            .authorizeHttpRequests()
+	            .requestMatchers("/css/**").permitAll()
+	            .requestMatchers("/js/**").permitAll()
+	            .requestMatchers("/img/**").permitAll()
+	            .requestMatchers("/customers/new/**").permitAll()
 	            .requestMatchers("/").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
 	            .requestMatchers("/api/**").hasAnyRole("CUSTOMER", "PROVIDER", "ADMIN")
 	            .requestMatchers("/customers/all").hasRole("ADMIN")
@@ -46,7 +45,7 @@ public class SecurityConfig {
 	            .formLogin()
 	            .loginPage("/login")
 	            .loginProcessingUrl("/perform_login")
-	            .successHandler(customAuthenticationSuccessHandler)
+//	            .successHandler(customAuthenticationSuccessHandler)
 	            .permitAll()
 	            .and()
 	            .logout().logoutUrl("/perform_logout")
@@ -56,15 +55,11 @@ public class SecurityConfig {
 	    return http.build();
 	}
 	
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-	    return (web) -> web
-	      .ignoring()
-          .requestMatchers("/css/**")
-          .requestMatchers("/js/**")
-          .requestMatchers("/img/**")
-	      .requestMatchers("/customers/new/**");
-	}
+//	@Bean
+//	public WebSecurityCustomizer webSecurityCustomizer() {
+//	    return (web) -> web
+//	      .ignoring()
+//	}
 	
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {
@@ -74,8 +69,11 @@ public class SecurityConfig {
 //        return auth;
 //    }
     
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailService) 
+	@Bean
+	public AuthenticationManager authenticationManager(
+			HttpSecurity http,
+			PasswordEncoder passwordEncoder,
+			CustomUserDetailsService customUserDetailsService)
       throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
           .userDetailsService(customUserDetailsService)
