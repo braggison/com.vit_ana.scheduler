@@ -1,16 +1,5 @@
 package com.example.slabiak.appointmentscheduler.service.appointment;
 
-import com.example.slabiak.appointmentscheduler.dao.AppointmentRepository;
-import com.example.slabiak.appointmentscheduler.entity.Appointment;
-import com.example.slabiak.appointmentscheduler.entity.Work;
-import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
-import com.example.slabiak.appointmentscheduler.entity.user.customer.Customer;
-import com.example.slabiak.appointmentscheduler.entity.user.provider.Provider;
-import com.example.slabiak.appointmentscheduler.service.EmailService;
-import com.example.slabiak.appointmentscheduler.service.NotificationService;
-import com.example.slabiak.appointmentscheduler.service.UserService;
-import com.example.slabiak.appointmentscheduler.service.WorkService;
-import com.example.slabiak.appointmentscheduler.service.impl.AppointmentServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +7,18 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import com.vit_ana.scheduler.dao.AppointmentRepository;
+import com.vit_ana.scheduler.entity.Appointment;
+import com.vit_ana.scheduler.entity.Work;
+import com.vit_ana.scheduler.entity.WorkingPlan;
+import com.vit_ana.scheduler.entity.user.customer.Customer;
+import com.vit_ana.scheduler.entity.user.provider.Provider;
+import com.vit_ana.scheduler.service.EmailService;
+import com.vit_ana.scheduler.service.NotificationService;
+import com.vit_ana.scheduler.service.UserService;
+import com.vit_ana.scheduler.service.WorkService;
+import com.vit_ana.scheduler.service.impl.AppointmentServiceImpl;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;

@@ -1,12 +1,5 @@
 package com.example.slabiak.appointmentscheduler.service.appointment;
 
-import com.example.slabiak.appointmentscheduler.dao.WorkingPlanRepository;
-import com.example.slabiak.appointmentscheduler.entity.Appointment;
-import com.example.slabiak.appointmentscheduler.entity.AppointmentStatus;
-import com.example.slabiak.appointmentscheduler.entity.WorkingPlan;
-import com.example.slabiak.appointmentscheduler.service.AppointmentService;
-import com.example.slabiak.appointmentscheduler.service.WorkingPlanService;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +9,13 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.vit_ana.scheduler.dao.WorkingPlanRepository;
+import com.vit_ana.scheduler.entity.Appointment;
+import com.vit_ana.scheduler.entity.AppointmentStatus;
+import com.vit_ana.scheduler.entity.WorkingPlan;
+import com.vit_ana.scheduler.service.AppointmentService;
+import com.vit_ana.scheduler.service.WorkingPlanService;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;

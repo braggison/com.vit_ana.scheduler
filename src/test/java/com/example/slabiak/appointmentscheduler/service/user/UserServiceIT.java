@@ -1,7 +1,5 @@
 package com.example.slabiak.appointmentscheduler.service.user;
 
-import com.example.slabiak.appointmentscheduler.model.UserForm;
-import com.example.slabiak.appointmentscheduler.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.vit_ana.scheduler.model.UserForm;
+import com.vit_ana.scheduler.service.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

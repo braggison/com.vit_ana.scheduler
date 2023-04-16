@@ -1,6 +1,6 @@
 package com.example.slabiak.appointmentscheduler.service.user;
 
-import com.example.slabiak.appointmentscheduler.model.UserForm;
+import com.vit_ana.scheduler.model.UserForm;
 
 public class UserFactoryTest {
 

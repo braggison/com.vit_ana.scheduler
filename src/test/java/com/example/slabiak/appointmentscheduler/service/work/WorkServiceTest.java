@@ -1,14 +1,15 @@
 package com.example.slabiak.appointmentscheduler.service.work;
 
-import com.example.slabiak.appointmentscheduler.dao.WorkRepository;
-import com.example.slabiak.appointmentscheduler.entity.Work;
-import com.example.slabiak.appointmentscheduler.service.impl.WorkServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import com.vit_ana.scheduler.dao.WorkRepository;
+import com.vit_ana.scheduler.entity.Work;
+import com.vit_ana.scheduler.service.impl.WorkServiceImpl;
 
 import java.util.List;
 import java.util.Optional;

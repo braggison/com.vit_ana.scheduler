@@ -1,11 +1,5 @@
 package com.example.slabiak.appointmentscheduler.service.user;
 
-import com.example.slabiak.appointmentscheduler.dao.RoleRepository;
-import com.example.slabiak.appointmentscheduler.dao.user.customer.RetailCustomerRepository;
-import com.example.slabiak.appointmentscheduler.entity.user.Role;
-import com.example.slabiak.appointmentscheduler.entity.user.customer.RetailCustomer;
-import com.example.slabiak.appointmentscheduler.model.UserForm;
-import com.example.slabiak.appointmentscheduler.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +8,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.vit_ana.scheduler.dao.RoleRepository;
+import com.vit_ana.scheduler.dao.user.customer.RetailCustomerRepository;
+import com.vit_ana.scheduler.entity.user.Role;
+import com.vit_ana.scheduler.entity.user.customer.RetailCustomer;
+import com.vit_ana.scheduler.model.UserForm;
+import com.vit_ana.scheduler.service.impl.UserServiceImpl;
 
 import java.util.Collection;
 import java.util.HashSet;

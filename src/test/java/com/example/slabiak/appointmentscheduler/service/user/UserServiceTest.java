@@ -1,9 +1,5 @@
 package com.example.slabiak.appointmentscheduler.service.user;
 
-import com.example.slabiak.appointmentscheduler.dao.user.UserRepository;
-import com.example.slabiak.appointmentscheduler.entity.user.User;
-import com.example.slabiak.appointmentscheduler.model.ChangePasswordForm;
-import com.example.slabiak.appointmentscheduler.service.impl.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +8,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.vit_ana.scheduler.dao.user.UserRepository;
+import com.vit_ana.scheduler.entity.user.User;
+import com.vit_ana.scheduler.model.ChangePasswordForm;
+import com.vit_ana.scheduler.service.impl.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

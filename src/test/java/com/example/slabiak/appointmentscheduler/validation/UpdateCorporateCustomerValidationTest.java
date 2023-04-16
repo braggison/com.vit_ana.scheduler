@@ -7,9 +7,9 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.example.slabiak.appointmentscheduler.model.UserForm;
-import com.example.slabiak.appointmentscheduler.validation.groups.UpdateCorporateCustomer;
-import com.example.slabiak.appointmentscheduler.validation.groups.UpdateUser;
+import com.vit_ana.scheduler.model.UserForm;
+import com.vit_ana.scheduler.validation.groups.UpdateCorporateCustomer;
+import com.vit_ana.scheduler.validation.groups.UpdateUser;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
