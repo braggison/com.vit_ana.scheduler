@@ -39,7 +39,7 @@ public class WorkController {
 
     @PostMapping("/new")
     public String saveWork(@ModelAttribute("work") Work work) {
-        if (work.getId() != null) {
+        if (work.getId() != null && workService.workExistsById(work.getId())) {
             workService.updateWork(work);
         } else {
             workService.createNewWork(work);

@@ -9,6 +9,8 @@ public interface WorkService {
     void createNewWork(Work work);
 
     Work getWorkById(UUID workId);
+    
+    Boolean workExistsById(UUID workId);
 
     List<Work> getAllWorks();
 

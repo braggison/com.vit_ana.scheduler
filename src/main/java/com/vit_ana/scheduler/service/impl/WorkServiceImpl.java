@@ -49,6 +49,11 @@ public class WorkServiceImpl implements WorkService {
     }
 
     @Override
+    public Boolean workExistsById(UUID workId) {
+    	return workRepository.existsById(workId);
+    }
+    
+    @Override
     public List<Work> getAllWorks() {
         return workRepository.findAll();
     }
