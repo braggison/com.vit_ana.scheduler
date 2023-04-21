@@ -9,8 +9,8 @@
 <p><span th:text="#{email.StartDate}">Start date: </span><span th:text="${#temporals.format(appointment.start, 'dd-MM-yyyy HH:mm')}"></span></p>
 <p><span th:text="#{email.Customer}">Customer: </span><span th:text="${appointment.customer.firstName +' '+ appointment.customer.lastName}"></span></p>
 <p><span th:text="#{email.Work}">Work: </span><span th:text="${appointment.work.name}"></span></p>
-<p><span th:text="#{email.Duration}">Duration: </span><span th:text="${appointment.work.duration}"></span> min</p>
-<p><span th:text="#{email.Price}">Price: </span><span th:text="${appointment.work.price}"></span> PLN</p>
+<p><span th:text="#{email.Duration}">Duration: </span><span th:text="${appointment.work.duration}"></span> <span th:text="#{work.DurationUnit}">min</span></p>
+<p><span th:text="#{email.Price}">Price: </span><span th:text="${appointment.work.price}"></span> <span> </span> <span th:text="#{invoice.Currency}">PLN</span></p>
 
 <p><span th:text="#{email.ContactPhone}">Contact phone: </span><span th:text="${appointment.customer.mobile}"></span></p>
 

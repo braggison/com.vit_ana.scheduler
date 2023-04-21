@@ -33,54 +33,58 @@ public class UserForm {
     @NotNull(groups = {UpdateUser.class})
     private UUID id;
 
-    @UniqueUsername(groups = {CreateUser.class})
-    @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "Username should have 5-15 letters")
+    @UniqueUsername(groups = {CreateUser.class}, message = "{validation.UsernameAlreadyExists}")
+    @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "{validation.UsernameValidation}")
     @NotBlank(groups = {CreateUser.class})
     private String userName;
 
-    @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "Password should have 5-15 letters")
+    @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "{validation.PasswordValidation}")
     @NotBlank(groups = {CreateUser.class})
     private String password;
 
-    @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "Password should have 5-15 letters")
+    @Size(min = 5, max = 15, groups = {CreateUser.class}, message = "{validation.PasswordValidation}")
     @NotBlank(groups = {CreateUser.class})
     private String matchingPassword;
 
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "First name cannot be empty")
+    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "{validation.FirstnameCannotBeEmpty}")
     private String firstName;
 
     private String middleName;
 
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "Last name cannot be empty")
+    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "{validation.LastnameCannotBeEmpty}")
     private String lastName;
 
-    @Email(groups = {CreateUser.class, UpdateUser.class}, message = "Email not valid!")
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "Email cannot be empty")
+    @Email(groups = {CreateUser.class, UpdateUser.class}, message = "{validation.EmailNotValid}")
+    @NotBlank(groups = {CreateUser.class, UpdateUser.class})
     private String email;
 
-    @Pattern(groups = {CreateUser.class, UpdateUser.class}, regexp = "[0-9]{9}", message = "Please enter valid mobile phone")
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "Mobile phone cannot be empty")
+    @Pattern(groups = {CreateUser.class, UpdateUser.class}, regexp = "|8[0-9]{10}|\\+7[0-9]{10}", message = "{validation.PleaseEnterValidMobilePhone}")
+    // Not required
+    //@NotBlank(groups = {CreateUser.class, UpdateUser.class})
     private String mobile;
 
-    @Size(groups = {CreateUser.class, UpdateUser.class}, min = 5, max = 30, message = "Wrong street!")
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "Street cannot be empty")
+    //@Size(groups = {CreateUser.class, UpdateUser.class}, min = 5, max = 30, message = "Wrong street!")
+    // Not required
+    //@NotBlank(groups = {CreateUser.class, UpdateUser.class})
     private String street;
 
-    @Pattern(groups = {CreateUser.class, UpdateUser.class}, regexp = "[0-9]{2}-[0-9]{3}", message = "Please enter valid postcode")
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "Post code cannot be empty")
+    @Pattern(groups = {CreateUser.class, UpdateUser.class}, regexp = "[0-9]{6}", message = "{validation.PleaseEnterValidPostcode}")
+    // Not required
+    //@NotBlank(groups = {CreateUser.class, UpdateUser.class})
     private String postcode;
 
-    @NotBlank(groups = {CreateUser.class, UpdateUser.class}, message = "City cannot be empty")
+    // Not required
+    //@NotBlank(groups = {CreateUser.class, UpdateUser.class})
     private String city;
 
     /*
      * CorporateCustomer only:
      * */
-    @NotBlank(groups = {CreateCorporateCustomer.class, UpdateCorporateCustomer.class}, message = "Company cannot be empty")
+    @NotBlank(groups = {CreateCorporateCustomer.class, UpdateCorporateCustomer.class}, message = "{validation.CompanyCannotBeEmpty}")
     private String companyName;
 
-    @Pattern(groups = {CreateCorporateCustomer.class, UpdateCorporateCustomer.class}, regexp = "[0-9]{10}", message = "Please enter valid Polish VAT number")
-    @NotBlank(groups = {CreateCorporateCustomer.class, UpdateCorporateCustomer.class}, message = "VAT number cannot be empty")
+    @Pattern(groups = {CreateCorporateCustomer.class, UpdateCorporateCustomer.class}, regexp = "[0-9]{10}|[0-9]{12}", message = "{validation.PleaseEnterValidVatNumber}")
+    @NotBlank(groups = {CreateCorporateCustomer.class, UpdateCorporateCustomer.class})
     private String vatNumber;
 
     /*

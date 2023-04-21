@@ -18,11 +18,11 @@ public class ChangePasswordForm {
     @NotNull
     private UUID id;
 
-    @Size(min = 5, max = 10, message = "Password should have 5-15 letters")
+    @Size(min = 5, max = 10, message = "{validation.PasswordValidation}")
     @NotBlank()
     private String password;
 
-    @Size(min = 5, max = 10, message = "Password should have 5-15 letters")
+    @Size(min = 5, max = 10, message = "{validation.PasswordValidation}")
     @NotBlank()
     private String matchingPassword;
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'','Registration form')}"
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'',#{menu.RegistrationForm})}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <body>
@@ -103,7 +103,7 @@
                         <label th:if="${account_type =='customer_retail' or account_type =='provider'}"
                                for="middleName" th:text="#{user.Middlename}">Middle
                             name</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName') ? 'is-invalid' :''}" th:field="*{lastName}" th:placeholder="#{user.Ivanovich}">
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('middleName') ? 'is-invalid' :''}" th:field="*{middleName}" th:placeholder="#{user.Ivanovich}">
                         <div th:if="${#fields.hasErrors('middleName')}" class="invalid-feedback">
                             <p th:errors="*{middleName}"></p>
                         </div>
@@ -128,7 +128,7 @@
                         </div>
 
                     </div>
-
+<!-- hide personal data fields
                     <div class="form-group">
                         <label for="street" th:text="#{user.street}">street</label>
 
@@ -140,7 +140,7 @@
 
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="postcode" th:text="#{user.Postcode}">Postocode</label>
+                            <label for="postcode" th:text="#{user.Postcode}">Postcode</label>
                             <input type="text" class="form-control" th:classappend="${#fields.hasErrors('postcode') ? 'is-invalid' :''}" th:field="*{postcode}" th:placeholder="#{user.postcodeExample}">
                             <div th:if="${#fields.hasErrors('postcode')}" class="invalid-feedback">
                                 <p th:errors="*{postcode}"></p>
@@ -154,7 +154,7 @@
                             </div>
                         </div>
                     </div>
-
+ -->
                     <th:block th:if="${account_type =='provider'}">
                         <div class="form-group">
                             <p class="text-primary" th:text="#{user.retailCustomerTarget}">retail customer target</p>

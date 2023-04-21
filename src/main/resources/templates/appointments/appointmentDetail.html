@@ -94,7 +94,7 @@
 
                     <tr>
                         <td><b th:text="#{appointment.price}">price</b></td>
-                        <td><span th:text="${appointment.work.price}"> 50 </span> pln</td>
+                        <td><span th:text="${appointment.work.price}"> 50 </span> <span th:text="#{invoice.currency}">pln</span></td>
                     </tr>
                     <tr th:if="${appointment.status.name()=='INVOICED'}">
                         <td><b th:text="#{appointment.invoice}">invoice</b></td>

@@ -28,8 +28,8 @@
                 th:classappend="${work.targetCustomer=='retail'} ? table-primary : table-info">
                 <td><span th:text="${work.name}"> english </span></td>
                 <td><span th:text="${work.targetCustomer}"> retail </span></td>
-                <td><span th:text="${work.price + ' PLN'}"> 50 PLN </span></td>
-                <td><span th:text="${work.duration+' min'}"> 30 min </span></td>
+                <td><span th:text="${work.price}"> 50 PLN </span><span> </span><span th:text="#{invoice.Currency}">PLN</span></td>
+                <td><span th:text="${work.duration}"> 30 min </span><span> </span><span th:text="#{work.DurationUnit}">min</span></td>
                 <td><span th:text="${work.providers.size()}"> 2 </span></td>
                 <td><a class="btn btn-secondary" th:href="@{'/works/' + ${work.id}}" role="button" th:text="#{button.Details}">Details</a>
                     <form class="d-inline-block" th:action="@{/works/delete}" method="POST">
