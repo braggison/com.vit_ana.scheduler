@@ -11,9 +11,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "works")
+@Getter
+@Setter
 public class Work extends BaseEntity {
 
     @Column(name = "name")
@@ -31,6 +36,9 @@ public class Work extends BaseEntity {
     @Column(name = "editable")
     private boolean editable;
 
+    @Column(name = "is_use_slots")
+    private Boolean isUseSlots;
+    
     @Column(name = "target")
     private String targetCustomer;
 
@@ -88,6 +96,14 @@ public class Work extends BaseEntity {
 
     public void setEditable(boolean editable) {
         this.editable = editable;
+    }
+    
+    public Boolean getIsUseSlots() {
+    	return Boolean.TRUE.equals(isUseSlots);
+    }
+
+    public void setIsUseSlots(Boolean isUseSlots) {
+    	this.isUseSlots = Boolean.TRUE.equals(isUseSlots);
     }
 
     public String getTargetCustomer() {

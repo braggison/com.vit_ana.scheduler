@@ -39,6 +39,7 @@ public class WorkServiceImpl implements WorkService {
         work.setDuration(workUpdateData.getDuration());
         work.setDescription(workUpdateData.getDescription());
         work.setEditable(workUpdateData.getEditable());
+        work.setIsUseSlots(workUpdateData.getIsUseSlots());
         work.setTargetCustomer(workUpdateData.getTargetCustomer());
         workRepository.save(work);
     }
