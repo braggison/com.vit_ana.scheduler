@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.vit_ana.scheduler.entity.Appointment;
+import com.vit_ana.scheduler.entity.AppointmentStatus;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
@@ -26,6 +27,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     @Query("select a from Appointment a where a.provider.id = :providerId and  a.start >=:dayStart and  a.start <=:dayEnd")
     List<Appointment> findByProviderIdWithStartInPeriod(@Param("providerId") UUID providerId, @Param("dayStart") OffsetDateTime startPeriod, @Param("dayEnd") OffsetDateTime endPeriod);
+
+    @Query("select a from Appointment a where a.work.id = :workId and a.status = :status and a.start >=:dayStart and  a.start <=:dayEnd")
+    List<Appointment> findByWorkIdAndStatusWithStartInPeriod(@Param("workId") UUID workId, @Param("status") AppointmentStatus status, @Param("dayStart") OffsetDateTime startPeriod, @Param("dayEnd") OffsetDateTime endPeriod);
 
     @Query("select a from Appointment a where a.customer.id = :customerId and  a.start >=:dayStart and  a.start <=:dayEnd")
     List<Appointment> findByCustomerIdWithStartInPeriod(@Param("customerId") UUID customerId, @Param("dayStart") OffsetDateTime startPeriod, @Param("dayEnd") OffsetDateTime endPeriod);

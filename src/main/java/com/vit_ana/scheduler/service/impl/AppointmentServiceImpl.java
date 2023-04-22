@@ -105,6 +105,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> getAppointmentsByWorkAndStatusAtDay(UUID workId, AppointmentStatus status, LocalDate day) {
+        return appointmentRepository.findByWorkIdAndStatusWithStartInPeriod(workId, status,
+        		day.atStartOfDay().atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)), 
+        		day.atStartOfDay().plusDays(1).atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)));
+    }
+
+    @Override
     public List<Appointment> getAppointmentsByCustomerAtDay(UUID providerId, LocalDate day) {
         return appointmentRepository.findByCustomerIdWithStartInPeriod(
         		providerId, 
@@ -114,18 +121,27 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<TimePeriod> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime) {
+    	Work work = workService.getWorkById(workId);
         Provider p = userService.getProviderById(providerId);
         WorkingPlan workingPlan = p.getWorkingPlan();
         DayPlan selectedDay = workingPlan.getDay(datetime.getDayOfWeek().toString().toLowerCase());
 
+        List<TimePeriod> availablePeriods;
+        if (work.getIsUseSlots()) {
+        	List<Appointment> availableAppointments = getAppointmentsByWorkAndStatusAtDay(workId, AppointmentStatus.AVAILABLE, datetime.toLocalDate());
+        	availablePeriods = availableAppointments.stream()
+        			.map(a -> new TimePeriod(a.getStart().toOffsetTime(), a.getEnd().toOffsetTime()))
+        			.toList();
+        } else {
+	        availablePeriods = selectedDay.getTimePeriodsWithBreaksExcluded();
+        }
         List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, datetime.toLocalDate());
         List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
 
-        List<TimePeriod> availablePeriods = selectedDay.getTimePeriodsWithBreaksExcluded();
         availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, providerAppointments);
 
         availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, customerAppointments);
-        return calculateAvailableHours(availablePeriods, workService.getWorkById(workId));
+        return calculateAvailableHours(availablePeriods, work);
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.vit_ana.scheduler.entity.Appointment;
+import com.vit_ana.scheduler.entity.AppointmentStatus;
 import com.vit_ana.scheduler.entity.ChatMessage;
 import com.vit_ana.scheduler.entity.Work;
 import com.vit_ana.scheduler.model.TimePeriod;
@@ -34,6 +35,8 @@ public interface AppointmentService {
 	List<Appointment> getAppointmentByProviderId(UUID providerId);
 
 	List<Appointment> getAppointmentsByProviderAtDay(UUID providerId, LocalDate day);
+
+	List<Appointment> getAppointmentsByWorkAndStatusAtDay(UUID workId, AppointmentStatus status, LocalDate day);
 
 	List<Appointment> getAppointmentsByCustomerAtDay(UUID providerId, LocalDate day);
 
