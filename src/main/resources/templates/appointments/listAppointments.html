@@ -76,10 +76,10 @@
                 ],
                 "initComplete": function () {
                     this.api().columns([1]).every(function () {
-                        $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px" th:text="#{appointment.StatusFilter}">Status filter: </div>');
+                        $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px">[[#{appointment.StatusFilter}]]: </div>');
                         var column = this;
                         column.search('^SCHEDULED$', true, false).draw();
-                        var select = $('<select name="statuses"><option value="SCHEDULED">SCHEDULED</option></select>')
+                        var select = $('<select name="statuses"><option value="SCHEDULED">[[#{status.SCHEDULED}]]</option></select>')
                             .appendTo('#my_filter')
                             .on('change', function () {
                                 var searchString = $(this).val();
@@ -88,9 +88,16 @@
                                 var val = $.fn.dataTable.util.escapeRegex(searchString);
                                 column.search(val ? '^' + val + '$' : '', true, false).draw();
                             });
-                        statuses.forEach(function (d) {
-                            select.append('<option value="' + d + '">' + d + '</option>')
-                        });
+                        /*statuses.forEach(function (d) {*/
+                        select.append('<option value="FINISHED">[[#{status.FINISHED}]]</option>')
+                        select.append('<option value="CONFIRMED">[[#{status.CONFIRMED}]]</option>')
+                        select.append('<option value="INVOICED">[[#{status.INVOICED}]]</option>')
+                        select.append('<option value="CANCELED">[[#{status.CANCELED}]]</option>')
+                        select.append('<option value="DENIED">[[#{status.DENIED}]]</option>')
+                        select.append('<option value="REJECTION_REQUESTED">[[#{status.REJECTION_REQUESTED}]]</option>')
+                        select.append('<option value="REJECTED">[[#{status.REJECTED}]]</option>')
+                        select.append('<option value="EXCHANGE_REQUESTED">[[#{status.EXCHANGE_REQUESTED}]]</option>')
+                        /*});*/
                     });
                 }
             });

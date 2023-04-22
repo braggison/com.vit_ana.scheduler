@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home',#{Home})}"
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body},'home',#{menu.Home})}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <body>
@@ -38,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
             	  //TODO check ISO string minus 1 day
                   //var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.start.toISOString().split('T')[0];
                   //var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.startStr.slice(0,10);
-                  var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + fetchInfo.startStr;
+                  var url = /*[[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]]*/ 'someUrl';
+                  url = url + fetchInfo.startStr
                   console.log(url);
                   $.ajax({
                       url: url,
@@ -46,7 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
                       success: function (doc) {
 
                           var x = doc.map(function (entry) {
-                              var URL = [[${ '/appointments/new/'+providerId + '/' + workId + '/' }]] + entry.start;
+                              var URL = /*[[${ '/appointments/new/'+providerId + '/' + workId + '/' }]]*/ '';
+                              URL = URL + entry.start
                               entry.url = URL;
                               return entry;
                           });
