@@ -73,6 +73,22 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <legend class="col-form-label col-md-3 pt-0" th:text="#{work.IsUseSlots}">Use slots?</legend>
+                        <div class="col-md-9">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="isUseSlots" id="option3" value=true
+                                       th:checked="*{isUseSlots}">
+                                <label class="form-check-label" for="option3" th:text="#{button.Yes}">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="isUseSlots" id="option4" value=false
+                                       th:checked="*{isUseSlots == false}">
+                                <label class="form-check-label" for="option4" th:text="#{button.No}">No</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group text-center">
 
                         <button type="submit" class="btn btn-primary" th:text="#{button.Save}">Save</button>
