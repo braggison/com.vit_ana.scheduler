@@ -134,14 +134,17 @@ public class AppointmentServiceImpl implements AppointmentService {
         			.toList();
         } else {
 	        availablePeriods = selectedDay.getTimePeriodsWithBreaksExcluded();
+
+	        List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, datetime.toLocalDate());
+	        List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
+
+	        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, providerAppointments);
+
+	        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, customerAppointments);
+	        
+	        availablePeriods = calculateAvailableHours(availablePeriods, work);
         }
-        List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, datetime.toLocalDate());
-        List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
-
-        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, providerAppointments);
-
-        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, customerAppointments);
-        return calculateAvailableHours(availablePeriods, work);
+        return availablePeriods;
     }
 
     @Override
@@ -270,7 +273,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void cancelUserAppointmentById(UUID appointmentId, UUID userId) {
-        Appointment appointment = appointmentRepository.getOne(appointmentId);
+        Appointment appointment = appointmentRepository.getReferenceById(appointmentId);
         if (appointment.getCustomer().getId().equals(userId) || appointment.getProvider().getId().equals(userId)) {
             appointment.setStatus(AppointmentStatus.CANCELED);
             User canceler = userService.getUserById(userId);
