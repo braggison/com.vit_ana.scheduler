@@ -29,7 +29,7 @@ import com.vit_ana.scheduler.entity.user.User;
 import com.vit_ana.scheduler.entity.user.provider.Provider;
 import com.vit_ana.scheduler.exception.AppointmentNotFoundException;
 import com.vit_ana.scheduler.model.DayPlan;
-import com.vit_ana.scheduler.model.TimePeroid;
+import com.vit_ana.scheduler.model.TimePeriod;
 import com.vit_ana.scheduler.service.AppointmentService;
 import com.vit_ana.scheduler.service.NotificationService;
 import com.vit_ana.scheduler.service.UserService;
@@ -99,21 +99,21 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsByProviderAtDay(UUID providerId, LocalDate day) {
-        return appointmentRepository.findByProviderIdWithStartInPeroid(providerId, 
+        return appointmentRepository.findByProviderIdWithStartInPeriod(providerId, 
         		day.atStartOfDay().atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)), 
         		day.atStartOfDay().plusDays(1).atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)));
     }
 
     @Override
     public List<Appointment> getAppointmentsByCustomerAtDay(UUID providerId, LocalDate day) {
-        return appointmentRepository.findByCustomerIdWithStartInPeroid(
+        return appointmentRepository.findByCustomerIdWithStartInPeriod(
         		providerId, 
         		day.atStartOfDay().atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)), 
         		day.atStartOfDay().plusDays(1).atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000)));
     }
 
     @Override
-    public List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime) {
+    public List<TimePeriod> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime) {
         Provider p = userService.getProviderById(providerId);
         WorkingPlan workingPlan = p.getWorkingPlan();
         DayPlan selectedDay = workingPlan.getDay(datetime.getDayOfWeek().toString().toLowerCase());
@@ -121,11 +121,11 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, datetime.toLocalDate());
         List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
 
-        List<TimePeroid> availablePeroids = selectedDay.getTimePeroidsWithBreaksExcluded();
-        availablePeroids = excludeAppointmentsFromTimePeroids(availablePeroids, providerAppointments);
+        List<TimePeriod> availablePeriods = selectedDay.getTimePeriodsWithBreaksExcluded();
+        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, providerAppointments);
 
-        availablePeroids = excludeAppointmentsFromTimePeroids(availablePeroids, customerAppointments);
-        return calculateAvailableHours(availablePeroids, workService.getWorkById(workId));
+        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, customerAppointments);
+        return calculateAvailableHours(availablePeriods, workService.getWorkById(workId));
     }
 
     @Override
@@ -162,48 +162,48 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<TimePeroid> calculateAvailableHours(List<TimePeroid> availableTimePeroids, Work work) {
-        ArrayList<TimePeroid> availableHours = new ArrayList<>();
-        for (TimePeroid peroid : availableTimePeroids) {
-            TimePeroid workPeroid = new TimePeroid(peroid.getStart(), peroid.getStart().plusMinutes(work.getDuration()));
-            while (workPeroid.getEnd().isBefore(peroid.getEnd()) || workPeroid.getEnd().equals(peroid.getEnd())) {
-                availableHours.add(new TimePeroid(workPeroid.getStart(), workPeroid.getStart().plusMinutes(work.getDuration())));
-                workPeroid.setStart(workPeroid.getStart().plusMinutes(work.getDuration()));
-                workPeroid.setEnd(workPeroid.getEnd().plusMinutes(work.getDuration()));
+    public List<TimePeriod> calculateAvailableHours(List<TimePeriod> availableTimePeriods, Work work) {
+        ArrayList<TimePeriod> availableHours = new ArrayList<>();
+        for (TimePeriod period : availableTimePeriods) {
+            TimePeriod workPeriod = new TimePeriod(period.getStart(), period.getStart().plusMinutes(work.getDuration()));
+            while (workPeriod.getEnd().isBefore(period.getEnd()) || workPeriod.getEnd().equals(period.getEnd())) {
+                availableHours.add(new TimePeriod(workPeriod.getStart(), workPeriod.getStart().plusMinutes(work.getDuration())));
+                workPeriod.setStart(workPeriod.getStart().plusMinutes(work.getDuration()));
+                workPeriod.setEnd(workPeriod.getEnd().plusMinutes(work.getDuration()));
             }
         }
         return availableHours;
     }
 
     @Override
-    public List<TimePeroid> excludeAppointmentsFromTimePeroids(List<TimePeroid> peroids, List<Appointment> appointments) {
+    public List<TimePeriod> excludeAppointmentsFromTimePeriods(List<TimePeriod> periods, List<Appointment> appointments) {
 
-        List<TimePeroid> toAdd = new ArrayList<>();
+        List<TimePeriod> toAdd = new ArrayList<>();
         Collections.sort(appointments);
         for (Appointment appointment : appointments) {
-            for (TimePeroid peroid : peroids) {
-                if ((appointment.getStart().toOffsetTime().isBefore(peroid.getStart()) 
-                		|| appointment.getStart().toOffsetTime().equals(peroid.getStart())) 
-                		&& appointment.getEnd().toOffsetTime().isAfter(peroid.getStart()) 
-                		&& appointment.getEnd().toOffsetTime().isBefore(peroid.getEnd())) {
-                    peroid.setStart(appointment.getEnd().toOffsetTime());
+            for (TimePeriod period : periods) {
+                if ((appointment.getStart().toOffsetTime().isBefore(period.getStart()) 
+                		|| appointment.getStart().toOffsetTime().equals(period.getStart())) 
+                		&& appointment.getEnd().toOffsetTime().isAfter(period.getStart()) 
+                		&& appointment.getEnd().toOffsetTime().isBefore(period.getEnd())) {
+                    period.setStart(appointment.getEnd().toOffsetTime());
                 }
-                if (appointment.getStart().toOffsetTime().isAfter(peroid.getStart()) 
-                		&& appointment.getStart().toOffsetTime().isBefore(peroid.getEnd()) 
-                		&& appointment.getEnd().toOffsetTime().isAfter(peroid.getEnd()) 
-                		|| appointment.getEnd().toOffsetTime().equals(peroid.getEnd())) {
-                    peroid.setEnd(appointment.getStart().toOffsetTime());
+                if (appointment.getStart().toOffsetTime().isAfter(period.getStart()) 
+                		&& appointment.getStart().toOffsetTime().isBefore(period.getEnd()) 
+                		&& appointment.getEnd().toOffsetTime().isAfter(period.getEnd()) 
+                		|| appointment.getEnd().toOffsetTime().equals(period.getEnd())) {
+                    period.setEnd(appointment.getStart().toOffsetTime());
                 }
-                if (appointment.getStart().toOffsetTime().isAfter(peroid.getStart()) 
-                		&& appointment.getEnd().toOffsetTime().isBefore(peroid.getEnd())) {
-                    toAdd.add(new TimePeroid(peroid.getStart(), appointment.getStart().toOffsetTime()));
-                    peroid.setStart(appointment.getEnd().toOffsetTime());
+                if (appointment.getStart().toOffsetTime().isAfter(period.getStart()) 
+                		&& appointment.getEnd().toOffsetTime().isBefore(period.getEnd())) {
+                    toAdd.add(new TimePeriod(period.getStart(), appointment.getStart().toOffsetTime()));
+                    period.setStart(appointment.getEnd().toOffsetTime());
                 }
             }
         }
-        peroids.addAll(toAdd);
-        Collections.sort(peroids);
-        return peroids;
+        periods.addAll(toAdd);
+        Collections.sort(periods);
+        return periods;
     }
 
     @Override
@@ -388,8 +388,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             return false;
         }
         Work work = workService.getWorkById(workId);
-        TimePeroid timePeroid = new TimePeroid(start.toOffsetTime(), start.toOffsetTime().plusMinutes(work.getDuration()));
-        return getAvailableHours(providerId, customerId, workId, start).contains(timePeroid);
+        TimePeriod timePeriod = new TimePeriod(start.toOffsetTime(), start.toOffsetTime().plusMinutes(work.getDuration()));
+        return getAvailableHours(providerId, customerId, workId, start).contains(timePeriod);
     }
 
     @Override

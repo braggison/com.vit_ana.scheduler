@@ -3,16 +3,16 @@ package com.vit_ana.scheduler.model;
 import java.time.OffsetTime;
 import java.util.Objects;
 
-public class TimePeroid implements Comparable<TimePeroid> {
+public class TimePeriod implements Comparable<TimePeriod> {
 
     private OffsetTime start;
     private OffsetTime end;
 
-    public TimePeroid() {
+    public TimePeriod() {
 
     }
 
-    public TimePeroid(OffsetTime start, OffsetTime end) {
+    public TimePeriod(OffsetTime start, OffsetTime end) {
         this.start = start;
         this.end = end;
     }
@@ -34,7 +34,7 @@ public class TimePeroid implements Comparable<TimePeroid> {
     }
 
     @Override
-    public int compareTo(TimePeroid o) {
+    public int compareTo(TimePeriod o) {
         return this.getStart().compareTo(o.getStart());
     }
 
@@ -42,10 +42,10 @@ public class TimePeroid implements Comparable<TimePeroid> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TimePeroid peroid = (TimePeroid) o;
-        return this.start.equals(peroid.getStart()) &&
+        TimePeriod period = (TimePeriod) o;
+        return this.start.equals(period.getStart()) &&
 
-                this.end.equals(peroid.getEnd());
+                this.end.equals(period.getEnd());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class TimePeroid implements Comparable<TimePeroid> {
 
     @Override
     public String toString() {
-        return "TimePeroid{" +
+        return "TimePeriod{" +
                 "start=" + start +
                 ", end=" + end +
                 '}';

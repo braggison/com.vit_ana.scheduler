@@ -132,7 +132,7 @@ public class AppointmentServiceTest {
         providerBookedAppointments.add(existingAppointment);
 
         when(workService.isWorkForCustomer(workId, customerId)).thenReturn(true);
-        when(appointmentRepository.findByProviderIdWithStartInPeroid(providerId, startOfNewAppointment, startOfNewAppointment.plusDays(1))).thenReturn(providerBookedAppointments);
+        when(appointmentRepository.findByProviderIdWithStartInPeriod(providerId, startOfNewAppointment, startOfNewAppointment.plusDays(1))).thenReturn(providerBookedAppointments);
         when(workService.getWorkById(workId)).thenReturn(work);
         when(userService.getProviderById(providerId)).thenReturn(provider);
 
@@ -155,7 +155,7 @@ public class AppointmentServiceTest {
         customerBookedAppointments.add(existingAppointment);
 
         when(workService.isWorkForCustomer(workId, customerId)).thenReturn(true);
-        when(appointmentRepository.findByCustomerIdWithStartInPeroid(customerId, startOfNewAppointment, startOfNewAppointment.plusDays(1))).thenReturn(customerBookedAppointments);
+        when(appointmentRepository.findByCustomerIdWithStartInPeriod(customerId, startOfNewAppointment, startOfNewAppointment.plusDays(1))).thenReturn(customerBookedAppointments);
         when(workService.getWorkById(workId)).thenReturn(work);
         when(userService.getProviderById(providerId)).thenReturn(provider);
 

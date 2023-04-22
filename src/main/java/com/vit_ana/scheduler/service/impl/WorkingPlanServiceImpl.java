@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.vit_ana.scheduler.dao.WorkingPlanRepository;
 import com.vit_ana.scheduler.entity.WorkingPlan;
-import com.vit_ana.scheduler.model.TimePeroid;
+import com.vit_ana.scheduler.model.TimePeriod;
 import com.vit_ana.scheduler.security.CustomUserDetails;
 import com.vit_ana.scheduler.service.WorkingPlanService;
 
@@ -41,7 +41,7 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
     }
 
     @Override
-    public void addBreakToWorkingPlan(TimePeroid breakToAdd, UUID planId, String dayOfWeek) {
+    public void addBreakToWorkingPlan(TimePeriod breakToAdd, UUID planId, String dayOfWeek) {
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         WorkingPlan workingPlan = workingPlanRepository.getOne(planId);
         if (workingPlan.getProvider().getId().equals(currentUser.getId())) {
@@ -52,7 +52,7 @@ public class WorkingPlanServiceImpl implements WorkingPlanService {
     }
 
     @Override
-    public void deleteBreakFromWorkingPlan(TimePeroid breakToDelete, UUID planId, String dayOfWeek) {
+    public void deleteBreakFromWorkingPlan(TimePeriod breakToDelete, UUID planId, String dayOfWeek) {
         CustomUserDetails currentUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         WorkingPlan workingPlan = workingPlanRepository.getOne(planId);
         if (workingPlan.getProvider().getId().equals(currentUser.getId())) {

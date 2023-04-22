@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vit_ana.scheduler.entity.WorkingPlan;
 import com.vit_ana.scheduler.model.ChangePasswordForm;
-import com.vit_ana.scheduler.model.TimePeroid;
+import com.vit_ana.scheduler.model.TimePeriod;
 import com.vit_ana.scheduler.model.UserForm;
 import com.vit_ana.scheduler.security.CustomUserDetails;
 import com.vit_ana.scheduler.service.AppointmentService;
@@ -117,7 +117,7 @@ public class ProviderController {
     @GetMapping("/availability")
     public String showProviderAvailability(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
         model.addAttribute("plan", workingPlanService.getWorkingPlanByProviderId(currentUser.getId()));
-        model.addAttribute("breakModel", new TimePeroid());
+        model.addAttribute("breakModel", new TimePeriod());
         return "users/showOrUpdateProviderAvailability";
     }
 
@@ -128,13 +128,13 @@ public class ProviderController {
     }
 
     @PostMapping("/availability/breakes/add")
-    public String processProviderAddBreak(@ModelAttribute("breakModel") TimePeroid breakToAdd, @RequestParam("planId") UUID planId, @RequestParam("dayOfWeek") String dayOfWeek) {
+    public String processProviderAddBreak(@ModelAttribute("breakModel") TimePeriod breakToAdd, @RequestParam("planId") UUID planId, @RequestParam("dayOfWeek") String dayOfWeek) {
         workingPlanService.addBreakToWorkingPlan(breakToAdd, planId, dayOfWeek);
         return "redirect:/providers/availability";
     }
 
     @PostMapping("/availability/breakes/delete")
-    public String processProviderDeleteBreak(@ModelAttribute("breakModel") TimePeroid breakToDelete, @RequestParam("planId") UUID planId, @RequestParam("dayOfWeek") String dayOfWeek) {
+    public String processProviderDeleteBreak(@ModelAttribute("breakModel") TimePeriod breakToDelete, @RequestParam("planId") UUID planId, @RequestParam("dayOfWeek") String dayOfWeek) {
         workingPlanService.deleteBreakFromWorkingPlan(breakToDelete, planId, dayOfWeek);
         return "redirect:/providers/availability";
     }

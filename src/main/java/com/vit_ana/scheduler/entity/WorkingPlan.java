@@ -11,7 +11,7 @@ import org.hibernate.annotations.Type;
 import com.vit_ana.scheduler.entity.user.User;
 import com.vit_ana.scheduler.entity.user.provider.Provider;
 import com.vit_ana.scheduler.model.DayPlan;
-import com.vit_ana.scheduler.model.TimePeroid;
+import com.vit_ana.scheduler.model.TimePeriod;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import jakarta.persistence.Column;
@@ -174,8 +174,8 @@ public class WorkingPlan {
         WorkingPlan wp = new WorkingPlan();
         OffsetTime defaultStartHour = LocalTime.parse("06:00").atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
         OffsetTime defaultEndHour = LocalTime.parse("18:00").atOffset(ZoneOffset.ofTotalSeconds(TimeZone.getDefault().getRawOffset()/1000));
-        TimePeroid defaultWorkingPeroid = new TimePeroid(defaultStartHour, defaultEndHour);
-        DayPlan defaultDayPlan = new DayPlan(defaultWorkingPeroid);
+        TimePeriod defaultWorkingPeriod = new TimePeriod(defaultStartHour, defaultEndHour);
+        DayPlan defaultDayPlan = new DayPlan(defaultWorkingPeriod);
         wp.setMonday(defaultDayPlan);
         wp.setTuesday(defaultDayPlan);
         wp.setWednesday(defaultDayPlan);

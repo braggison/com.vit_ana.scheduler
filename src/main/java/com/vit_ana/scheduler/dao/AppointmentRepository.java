@@ -25,10 +25,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     List<Appointment> findScheduledByUserId(@Param("userId") UUID userId);
 
     @Query("select a from Appointment a where a.provider.id = :providerId and  a.start >=:dayStart and  a.start <=:dayEnd")
-    List<Appointment> findByProviderIdWithStartInPeroid(@Param("providerId") UUID providerId, @Param("dayStart") OffsetDateTime startPeroid, @Param("dayEnd") OffsetDateTime endPeroid);
+    List<Appointment> findByProviderIdWithStartInPeriod(@Param("providerId") UUID providerId, @Param("dayStart") OffsetDateTime startPeriod, @Param("dayEnd") OffsetDateTime endPeriod);
 
     @Query("select a from Appointment a where a.customer.id = :customerId and  a.start >=:dayStart and  a.start <=:dayEnd")
-    List<Appointment> findByCustomerIdWithStartInPeroid(@Param("customerId") UUID customerId, @Param("dayStart") OffsetDateTime startPeroid, @Param("dayEnd") OffsetDateTime endPeroid);
+    List<Appointment> findByCustomerIdWithStartInPeriod(@Param("customerId") UUID customerId, @Param("dayStart") OffsetDateTime startPeriod, @Param("dayEnd") OffsetDateTime endPeriod);
 
     @Query("select a from Appointment a where a.customer.id = :customerId and a.canceler.id =:customerId and a.canceledAt >=:date")
     List<Appointment> findByCustomerIdCanceledAfterDate(@Param("customerId") UUID customerId, @Param("date") OffsetDateTime date);

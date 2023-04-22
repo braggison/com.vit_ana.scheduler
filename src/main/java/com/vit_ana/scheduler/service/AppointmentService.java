@@ -8,7 +8,7 @@ import java.util.UUID;
 import com.vit_ana.scheduler.entity.Appointment;
 import com.vit_ana.scheduler.entity.ChatMessage;
 import com.vit_ana.scheduler.entity.Work;
-import com.vit_ana.scheduler.model.TimePeroid;
+import com.vit_ana.scheduler.model.TimePeriod;
 
 public interface AppointmentService {
 	void createNewAppointment(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start);
@@ -41,11 +41,11 @@ public interface AppointmentService {
 
 	List<Appointment> getCanceledAppointmentsByCustomerIdForCurrentMonth(UUID userId);
 
-	List<TimePeroid> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime);
+	List<TimePeriod> getAvailableHours(UUID providerId, UUID customerId, UUID workId, OffsetDateTime datetime);
 
-	List<TimePeroid> calculateAvailableHours(List<TimePeroid> availableTimePeroids, Work work);
+	List<TimePeriod> calculateAvailableHours(List<TimePeriod> availableTimePeriods, Work work);
 
-	List<TimePeroid> excludeAppointmentsFromTimePeroids(List<TimePeroid> peroids, List<Appointment> appointments);
+	List<TimePeriod> excludeAppointmentsFromTimePeriods(List<TimePeriod> periods, List<Appointment> appointments);
 
 	String getCancelNotAllowedReason(UUID userId, UUID appointmentId);
 
