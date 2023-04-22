@@ -28,7 +28,7 @@
             <tr th:each="appointment : ${appointments}"
                 th:classappend="${appointment.status.name() == 'CANCELED' || appointment.status.name()  == 'FINISHED' || appointment.status.name()  == 'INVOICED' || appointment.status.name()  == 'REJECTION_REQUESTED' || appointment.status.name()  == 'REJECTED'} ? table-secondary : table-success">
                 <td><span th:text="${appointment.work.name}"> Work </span></td>
-                <td><span th:text="${appointment.status}"> scheduled </span></td>
+                <td><span th:text="${#messages.msg('status.' + appointment.status)}"> scheduled </span></td>
                 <td><span th:text="${#temporals.format(appointment.start, 'yyyy-MM-dd HH:mm')}"> 21-01-2019 15:00</span>
                 </td>
                 <td sec:authorize="!hasRole('ROLE_PROVIDER')"><span
@@ -39,7 +39,7 @@
                         th:text="${appointment.customer.firstName + ' ' + appointment.customer.lastName}">
                                 Customer </span>
                 </td>
-                <td><span th:text="${appointment.work.duration}">60</span><span th:text="#{appointment.min}">min</span></td>
+                <td><span th:text="${appointment.work.duration}">60</span><span> </span><span th:text="#{appointment.min}">min</span></td>
                 <td><a class="btn btn-secondary" th:href="@{'/appointments/' + ${appointment.id}}"
                        role="button" th:text="#{button.Details}">Details</a></td>
             </tr>
@@ -79,7 +79,7 @@
                         $("div.toolbar").html('<div id="my_filter" style="margin-bottom: 10px">[[#{appointment.StatusFilter}]]: </div>');
                         var column = this;
                         column.search('^SCHEDULED$', true, false).draw();
-                        var select = $('<select name="statuses"><option value="SCHEDULED">[[#{status.SCHEDULED}]]</option></select>')
+                        var select = $('<select name="statuses"><option value="[[#{status.SCHEDULED}]]">[[#{status.SCHEDULED}]]</option></select>')
                             .appendTo('#my_filter')
                             .on('change', function () {
                                 var searchString = $(this).val();
@@ -89,14 +89,14 @@
                                 column.search(val ? '^' + val + '$' : '', true, false).draw();
                             });
                         /*statuses.forEach(function (d) {*/
-                        select.append('<option value="FINISHED">[[#{status.FINISHED}]]</option>')
-                        select.append('<option value="CONFIRMED">[[#{status.CONFIRMED}]]</option>')
-                        select.append('<option value="INVOICED">[[#{status.INVOICED}]]</option>')
-                        select.append('<option value="CANCELED">[[#{status.CANCELED}]]</option>')
-                        select.append('<option value="DENIED">[[#{status.DENIED}]]</option>')
-                        select.append('<option value="REJECTION_REQUESTED">[[#{status.REJECTION_REQUESTED}]]</option>')
-                        select.append('<option value="REJECTED">[[#{status.REJECTED}]]</option>')
-                        select.append('<option value="EXCHANGE_REQUESTED">[[#{status.EXCHANGE_REQUESTED}]]</option>')
+                        select.append('<option value="[[#{status.FINISHED}]]">[[#{status.FINISHED}]]</option>')
+                        select.append('<option value="[[#{status.CONFIRMED}]]">[[#{status.CONFIRMED}]]</option>')
+                        select.append('<option value="[[#{status.INVOICED}]]">[[#{status.INVOICED}]]</option>')
+                        select.append('<option value="[[#{status.CANCELED}]]">[[#{status.CANCELED}]]</option>')
+                        select.append('<option value="[[#{status.DENIED}]]">[[#{status.DENIED}]]</option>')
+                        select.append('<option value="[[#{status.REJECTION_REQUESTED}]]">[[#{status.REJECTION_REQUESTED}]]</option>')
+                        select.append('<option value="[[#{status.REJECTED}]]">[[#{status.REJECTED}]]</option>')
+                        select.append('<option value="[[#{status.EXCHANGE_REQUESTED}]]">[[#{status.EXCHANGE_REQUESTED}]]</option>')
                         /*});*/
                     });
                 }
