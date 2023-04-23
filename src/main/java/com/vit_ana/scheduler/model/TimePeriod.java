@@ -2,11 +2,18 @@ package com.vit_ana.scheduler.model;
 
 import java.time.OffsetTime;
 import java.util.Objects;
+import java.util.UUID;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class TimePeriod implements Comparable<TimePeriod> {
 
     private OffsetTime start;
     private OffsetTime end;
+    private UUID availableAppointmentId;
 
     public TimePeriod() {
 
@@ -17,6 +24,12 @@ public class TimePeriod implements Comparable<TimePeriod> {
         this.end = end;
     }
 
+    public TimePeriod(OffsetTime start, OffsetTime end, UUID availableAppointmentId) {
+        this.start = start;
+        this.end = end;
+        this.availableAppointmentId = availableAppointmentId;
+    }
+    
     public OffsetTime getStart() {
         return start;
     }

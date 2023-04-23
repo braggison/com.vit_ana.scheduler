@@ -36,7 +36,7 @@
                                 Provider </span>
                 </td>
                 <td sec:authorize="!hasRole('ROLE_CUSTOMER')"><span
-                        th:text="${appointment.customer.firstName + ' ' + appointment.customer.lastName}">
+                        th:text="${appointment.customer?.firstName + ' ' + appointment.customer?.lastName}">
                                 Customer </span>
                 </td>
                 <td><span th:text="${appointment.work.duration}">60</span><span> </span><span th:text="#{appointment.min}">min</span></td>
@@ -58,6 +58,9 @@
         </table>
         <div sec:authorize="hasRole('ROLE_CUSTOMER')" class="text-center">
             <a class="btn btn-primary mt-2" th:href="@{/appointments/new}" role="button" th:text="#{button.NewAppointment}">New appointment</a>
+        </div>
+        <div sec:authorize="hasRole('ROLE_PROVIDER')" class="text-center">
+            <a class="btn btn-primary mt-2" th:href="@{/appointments/add-slot}" role="button" th:text="#{button.AddSlot}">Add slot</a>
         </div>
 
     </div>
@@ -89,6 +92,7 @@
                                 column.search(val ? '^' + val + '$' : '', true, false).draw();
                             });
                         /*statuses.forEach(function (d) {*/
+                        select.append('<option value="[[#{status.AVAILABLE}]]">[[#{status.AVAILABLE}]]</option>')
                         select.append('<option value="[[#{status.FINISHED}]]">[[#{status.FINISHED}]]</option>')
                         select.append('<option value="[[#{status.CONFIRMED}]]">[[#{status.CONFIRMED}]]</option>')
                         select.append('<option value="[[#{status.INVOICED}]]">[[#{status.INVOICED}]]</option>')

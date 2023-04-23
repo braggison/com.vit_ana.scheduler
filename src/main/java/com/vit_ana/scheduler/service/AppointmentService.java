@@ -13,6 +13,8 @@ import com.vit_ana.scheduler.model.TimePeriod;
 
 public interface AppointmentService {
 	void createNewAppointment(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start);
+	
+	void takeAvailableAppointment(UUID appointmentId, UUID customerId);
 
 	void updateAppointment(Appointment appointment);
 

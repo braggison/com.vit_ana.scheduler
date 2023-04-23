@@ -47,8 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
                       success: function (doc) {
 
                           var x = doc.map(function (entry) {
-                              var URL = /*[[${ '/appointments/new/'+providerId + '/' + workId + '/' }]]*/ '';
-                              URL = URL + entry.start
+                              var URL = /*[[${#authorization.expression('hasRole(''ROLE_PROVIDER'')') ? ('/appointments/add-slot/' + workId + '/') : ('/appointments/new/'+providerId + '/' + workId + '/') }]]*/ '';
+                              if (entry.availableAppointmentId) {
+                                  URL = '/appointments/get-slot/' + entry.availableAppointmentId
+                              } else {
+                                  URL = URL + entry.start
+                              }
                               entry.url = URL;
                               return entry;
                           });
@@ -64,59 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.render();
   });
 
-	/*
-
-    $(function () {
-        $('#calendar').fullCalendar({
-            defaultView: 'listDay',
-            contentHeight: "auto",
-            noEventsMessage: 'Unavailable',
-            validRange: function (nowDate) {
-                return {
-                    start: nowDate.clone().add(1, 'days')
-                };
-            },
-            header: {
-                left: 'title',
-                center: '',
-                right: 'today prev,next'
-            },
-            allDaySlot: false,
-            minTime: "06:00:00",
-            maxTime: "21:00:00",
-            firstDay: 2,
-            timeFormat: 'H:mm', // uppercase H for 24-hour clock
-            eventSources: [
-
-                // your event source
-                {
-                    events: function (start, end, timezone, callback) {
-                        var url = [[${ '/api/availableHours/'+providerId + '/' + workId + '/' }]] + start.format('YYYY-MM-DD').toString();
-                        console.log(url);
-                        $.ajax({
-                            url: url,
-                            data: {},
-                            success: function (doc) {
-
-                                var x = doc.map(function (entry) {
-                                    var URL = [[${ '/appointments/new/'+providerId + '/' + workId + '/' }]] + entry.start;
-                                    entry.url = URL;
-                                    return entry;
-                                });
-                                callback(x);
-                            }
-                        });
-                    },
-                    color: 'white',   // an option!
-                    textColor: 'black' // an option!
-                }
-            ]
-
-        })
-
-    });
-
-*/
 </script>
 </body>
 

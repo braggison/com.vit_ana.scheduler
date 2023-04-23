@@ -158,11 +158,75 @@ public class AppointmentController {
     }
 
     @PostMapping("/new")
-    public String bookAppointment(@RequestParam("workId") UUID workId, @RequestParam("providerId") UUID providerId, @RequestParam("start") String start, @AuthenticationPrincipal CustomUserDetails currentUser) {
+    public String bookAppointment(@RequestParam("workId") UUID workId, @RequestParam("providerId") UUID providerId, @RequestParam("start") String start, @RequestParam("availableAppointmentId") String appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         appointmentService.createNewAppointment(workId, providerId, currentUser.getId(), OffsetDateTime.parse(start));
         return "redirect:/appointments/all";
     }
 
+    @GetMapping("/add-slot")
+    public String selectSlotService(Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        if (currentUser.hasRole("ROLE_PROVIDER")) {
+            model.addAttribute("works", workService.getWorksByProviderId(currentUser.getId()));
+	        model.addAttribute("providerId", currentUser.getId());
+        return "appointments/selectService";
+        } else {
+        	return "redirect:/appointments/all";
+        }
+    }
+
+    @GetMapping("/add-slot/{workId}")
+    public String selectSlotDate(@PathVariable("workId") UUID workId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        if (currentUser.hasRole("ROLE_PROVIDER")) {
+	        model.addAttribute("providerId", currentUser.getId());
+	        model.addAttribute("workId", workId);
+	        return "appointments/selectDate";
+        } else {
+        	return "redirect:/appointments/all";
+        }
+    }
+
+    @GetMapping("/add-slot/{workId}/{dateTime}")
+    public String showAppointmentSlotSummary(@PathVariable("workId") UUID workId, @PathVariable("dateTime") String start, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        if (currentUser.hasRole("ROLE_PROVIDER")) {
+	        model.addAttribute("work", workService.getWorkById(workId));
+	        model.addAttribute("provider", userService.getProviderById(currentUser.getId()).getFirstName() + " " + userService.getProviderById(currentUser.getId()).getLastName());
+	        model.addAttribute("providerId", currentUser.getId());
+	        model.addAttribute("start", OffsetDateTime.parse(start));
+	        model.addAttribute("end", OffsetDateTime.parse(start).plusMinutes(workService.getWorkById(workId).getDuration()));
+	        return "appointments/newAppointmentSummary";
+        } else {
+        	return "redirect:/appointments/all";
+        }
+    }
+    
+    @PostMapping("/add-slot")
+    public String bookAppointmentSlot(@RequestParam("workId") UUID workId, @RequestParam("providerId") UUID providerId, @RequestParam("start") String start, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        appointmentService.createNewAppointment(workId, providerId, null, OffsetDateTime.parse(start));
+        return "redirect:/appointments/all";
+    }
+    
+    @GetMapping("/get-slot/{availableAppointmentId}")
+    public String showAvailableAppointmentSlotSummary(@PathVariable("availableAppointmentId") UUID appointmentId, Model model, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        if (currentUser.hasRole("ROLE_CUSTOMER") && appointmentId != null) {
+        	model.addAttribute("appointmentId", appointmentId);
+        	Appointment appointment = appointmentService.getAppointmentById(appointmentId);
+	        model.addAttribute("work", workService.getWorkById(appointment.getWork().getId()));
+	        model.addAttribute("provider", appointment.getProvider().getFirstName() + " " + appointment.getProvider().getLastName());
+	        model.addAttribute("providerId", appointment.getProvider().getId());
+	        model.addAttribute("start", appointment.getStart());
+	        model.addAttribute("end", appointment.getEnd());
+	        return "appointments/newAppointmentSummary";
+        } else {
+        	return "redirect:/appointments/all";
+        }
+    }
+
+    @PostMapping("/get-slot")
+    public String getAppointmentSlot(@RequestParam("availableAppointmentId") UUID appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
+        appointmentService.takeAvailableAppointment(appointmentId, currentUser.getId());
+        return "redirect:/appointments/all";
+    }
+    
     @PostMapping("/cancel")
     public String cancelAppointment(@RequestParam("appointmentId") UUID appointmentId, @AuthenticationPrincipal CustomUserDetails currentUser) {
         appointmentService.cancelUserAppointmentById(appointmentId, currentUser.getId());

@@ -50,11 +50,18 @@
             </tr>
             <tr class="text-center">
                 <td colspan="2">
-                    <form th:action="@{/appointments/new}" method="POST">
+                    <form th:action="@{
+                    	${#authorization.expression(
+                    		'hasRole(''ROLE_PROVIDER'')') ? 
+                    			'/appointments/add-slot' : 
+                    			appointmentId != null ? 
+                    				('/appointments/get-slot') : 
+                    				'/appointments/new'}}" 
+           				method="POST">
                         <input type="hidden" name="workId" th:value="${work.id}">
                         <input type="hidden" name="providerId" th:value="${providerId}">
                         <input type="hidden" name="start" th:value="${start}">
-
+                        <input type="hidden" name="availableAppointmentId" th:value="${availableAppointmentId}">
 
                         <button type="submit" class="btn btn-primary" th:text="#{button.Book}">Book</button>
                     </form>

@@ -9,6 +9,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -127,21 +128,24 @@ public class AppointmentServiceImpl implements AppointmentService {
         DayPlan selectedDay = workingPlan.getDay(datetime.getDayOfWeek().toString().toLowerCase());
 
         List<TimePeriod> availablePeriods;
-        if (work.getIsUseSlots()) {
+        if (work.getIsUseSlots() && !Objects.equals(providerId, customerId)) {
         	List<Appointment> availableAppointments = getAppointmentsByWorkAndStatusAtDay(workId, AppointmentStatus.AVAILABLE, datetime.toLocalDate());
         	availablePeriods = availableAppointments.stream()
-        			.map(a -> new TimePeriod(a.getStart().toOffsetTime(), a.getEnd().toOffsetTime()))
+        			.map(a -> new TimePeriod(a.getStart().toOffsetTime(), a.getEnd().toOffsetTime(), a.getId()))
         			.toList();
         } else {
 	        availablePeriods = selectedDay.getTimePeriodsWithBreaksExcluded();
 
 	        List<Appointment> providerAppointments = getAppointmentsByProviderAtDay(providerId, datetime.toLocalDate());
-	        List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
 
 	        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, providerAppointments);
 
-	        availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, customerAppointments);
-	        
+	        if (!Objects.equals(providerId, customerId)) {
+	        	List<Appointment> customerAppointments = getAppointmentsByCustomerAtDay(customerId, datetime.toLocalDate());
+
+	        	availablePeriods = excludeAppointmentsFromTimePeriods(availablePeriods, customerAppointments);
+	        }
+
 	        availablePeriods = calculateAvailableHours(availablePeriods, work);
         }
         return availablePeriods;
@@ -149,7 +153,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void createNewAppointment(UUID workId, UUID providerId, UUID customerId, OffsetDateTime start) {
-        if (isAvailable(workId, providerId, customerId, start)) {
+    	if (customerId == null){
+            Appointment appointment = new Appointment();
+            appointment.setStatus(AppointmentStatus.AVAILABLE);
+            appointment.setProvider(userService.getProviderById(providerId));
+            Work work = workService.getWorkById(workId);
+            appointment.setWork(work);
+            appointment.setStart(start);
+            appointment.setEnd(start.plusMinutes(work.getDuration()));
+            appointmentRepository.save(appointment);
+    	} else if (isAvailable(workId, providerId, customerId, start)) {
             Appointment appointment = new Appointment();
             appointment.setStatus(AppointmentStatus.SCHEDULED);
             appointment.setCustomer(userService.getCustomerById(customerId));
@@ -161,6 +174,24 @@ public class AppointmentServiceImpl implements AppointmentService {
             appointmentRepository.save(appointment);
             notificationService.newNewAppointmentScheduledNotification(appointment, true);
         } else {
+            throw new RuntimeException();
+        }
+
+    }
+
+    @Override
+    public void takeAvailableAppointment(UUID appointmentId, UUID customerId) {
+    	if (appointmentId != null && customerId != null) {
+    		Appointment appointment = getAppointmentById(appointmentId);
+    		if (appointment != null && AppointmentStatus.AVAILABLE.equals(appointment.getStatus())) {
+    			appointment.setStatus(AppointmentStatus.SCHEDULED);
+    			appointment.setCustomer(userService.getCustomerById(customerId));
+    			updateAppointment(appointment);
+                notificationService.newNewAppointmentScheduledNotification(appointment, true);
+    		} else {
+    			throw new RuntimeException();
+    		}
+    	} else {
             throw new RuntimeException();
         }
 

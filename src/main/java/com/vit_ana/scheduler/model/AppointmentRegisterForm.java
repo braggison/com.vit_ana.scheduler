@@ -5,11 +5,17 @@ import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class AppointmentRegisterForm {
 
     private UUID workId;
     private UUID providerId;
     private UUID customerId;
+    private UUID availableAppointmentId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private OffsetDateTime start;
@@ -20,7 +26,8 @@ public class AppointmentRegisterForm {
     public AppointmentRegisterForm() {
     }
 
-    public AppointmentRegisterForm(UUID workId, UUID providerId, OffsetDateTime start, OffsetDateTime end) {
+    public AppointmentRegisterForm(UUID availableAppointmentId, UUID workId, UUID providerId, OffsetDateTime start, OffsetDateTime end) {
+    	this.availableAppointmentId = availableAppointmentId;
         this.workId = workId;
         this.providerId = providerId;
         this.start = start;

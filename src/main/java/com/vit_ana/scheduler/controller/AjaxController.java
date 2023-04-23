@@ -48,7 +48,12 @@ public class AjaxController {
     	OffsetDateTime offsetDateTime = OffsetDateTime.parse(date);
         return appointmentService.getAvailableHours(providerId, currentUser.getId(), workId, offsetDateTime)
                 .stream()
-                .map(timePeriod -> new AppointmentRegisterForm(workId, providerId, timePeriod.getStart().atDate(offsetDateTime.toLocalDate()), timePeriod.getEnd().atDate(offsetDateTime.toLocalDate())))
+                .map(timePeriod -> new AppointmentRegisterForm(
+                		timePeriod.getAvailableAppointmentId(), 
+                		workId, 
+                		providerId, 
+                		timePeriod.getStart().atDate(offsetDateTime.toLocalDate()), 
+                		timePeriod.getEnd().atDate(offsetDateTime.toLocalDate())))
                 .collect(Collectors.toList());
     }
 

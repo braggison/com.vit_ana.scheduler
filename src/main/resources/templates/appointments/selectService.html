@@ -23,10 +23,15 @@
                     <td><span th:text="${work.name}"> work name </span></td>
                     <td><span th:text="${work.duration }"> 30 min </span></td>
                     <td><span th:text="${work.price}"> 3 </span></td>
-                    <td><a class="btn btn-primary"
+                    <td sec:authorize="hasRole('ROLE_CUSTOMER')"><a class="btn btn-primary"
                            th:href="@{'/appointments/new/'+${providerId} +'/'+ ${work.id}}"
                            role="button" th:text="#{button.Select}">Select</a>
                     </td>
+                    <td sec:authorize="hasRole('ROLE_PROVIDER')"><a class="btn btn-primary"
+                           th:href="@{'/appointments/add-slot/'+ ${work.id}}"
+                           role="button" th:text="#{button.Select}">Select</a>
+                    </td>
+                    
                 </tr>
                 </tbody>
             </table>
